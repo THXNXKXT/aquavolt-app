@@ -357,6 +357,14 @@
     "year": "Year",
     "saving": "Saving..."
   },
+  "search": {
+    "placeholder": "Search rooms, tenants, invoices...",
+    "empty": "Type to search rooms, tenants, or invoices",
+    "noResults": "No results for \"{query}\"",
+    "typeRoom": "Room",
+    "typeTenant": "Tenant",
+    "typeInvoice": "Invoice"
+  },
   "months": {
     "1": "January",
     "2": "February",

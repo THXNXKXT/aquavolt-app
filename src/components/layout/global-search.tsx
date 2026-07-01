@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { Search, DoorOpen, Users, FileText, X } from "lucide-react";
 import { fetchRooms, fetchTenants, fetchInvoices } from "@/lib/api";
 import { formatCurrency } from "@/lib/formatters";
-import type { Room, Tenant, Invoice } from "@/types";
+import type { Room, Tenant, Invoice } from "@//types";
 
 interface SearchResult {
   type: "room" | "tenant" | "invoice";
@@ -18,6 +18,7 @@ interface SearchResult {
 }
 
 export function GlobalSearch() {
+  const t = useTranslations();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -62,6 +63,23 @@ export function GlobalSearch() {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
+  const roomStatusLabel = (status: string) => {
+    switch (status) {
+      case "occupied": return t("rooms.occupied");
+      case "vacant": return t("rooms.vacant");
+      case "maintenance": return t("rooms.maintenance");
+      default: return status;
+    }
+  };
+
+  const typeLabel = (type: SearchResult["type"]) => {
+    switch (type) {
+      case "room": return t("search.typeRoom");
+      case "tenant": return t("search.typeTenant");
+      case "invoice": return t("search.typeInvoice");
+    }
+  };
+
   const q = query.toLowerCase().trim();
 
   const results: SearchResult[] = (() => {
@@ -71,7 +89,7 @@ export function GlobalSearch() {
     searchData.rooms.forEach((room) => {
       if (room.roomNumber.toLowerCase().includes(q) || room.buildingName?.toLowerCase().includes(q)) {
         r.push({
-          type: "room", label: room.roomNumber, sublabel: `${room.buildingName} · ${room.status}`,
+          type: "room", label: room.roomNumber, sublabel: `${room.buildingName ?? ""} · ${roomStatusLabel(room.status)}`,
           href: "/rooms", icon: <DoorOpen className="w-3.5 h-3.5 text-primary" />,
         });
       }
@@ -80,7 +98,7 @@ export function GlobalSearch() {
     searchData.tenants.forEach((ten) => {
       if (ten.name.toLowerCase().includes(q) || ten.phone.includes(q) || ten.lineId?.toLowerCase().includes(q)) {
         r.push({
-          type: "tenant", label: ten.name, sublabel: `${ten.roomNumber} · ${ten.phone}`,
+          type: "tenant", label: ten.name, sublabel: `${ten.roomNumber ?? ""} · ${ten.phone}`,
           href: "/tenants", icon: <Users className="w-3.5 h-3.5 text-green-600" />,
         });
       }
@@ -89,7 +107,7 @@ export function GlobalSearch() {
     searchData.invoices.forEach((inv) => {
       if (inv.invoiceNumber.toLowerCase().includes(q) || inv.tenantName?.toLowerCase().includes(q) || inv.roomNumber?.toLowerCase().includes(q)) {
         r.push({
-          type: "invoice", label: inv.invoiceNumber, sublabel: `${inv.roomNumber} · ${inv.tenantName} · ${formatCurrency(inv.totalAmount)}`,
+          type: "invoice", label: inv.invoiceNumber, sublabel: `${inv.roomNumber ?? ""} · ${inv.tenantName ?? ""} · ${formatCurrency(inv.totalAmount)}`,
           href: `/invoices/${inv.id}`, icon: <FileText className="w-3.5 h-3.5 text-amber-600" />,
         });
       }
@@ -112,7 +130,7 @@ export function GlobalSearch() {
         className="flex items-center gap-1.5 text-[11px] text-[#86868b] bg-canvas-parchment rounded-full px-3 py-1.5 hover:bg-[#e8e8ed] transition-colors"
       >
         <Search className="w-3 h-3" />
-        <span className="hidden sm:inline">ค้นหา</span>
+        <span className="hidden sm:inline">{t("common.search")}</span>
         <kbd className="hidden sm:inline text-[9px] text-[#a1a1a6] border border-surface-chip rounded px-1">⌘K</kbd>
       </button>
 
@@ -141,7 +159,7 @@ export function GlobalSearch() {
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="ค้นหาห้อง, ผู้เช่า, ใบแจ้งหนี้..."
+                placeholder={t("search.placeholder")}
                 className="flex-1 text-sm text-ink outline-none placeholder:text-[#a1a1a6]"
               />
               {query && (
@@ -156,12 +174,12 @@ export function GlobalSearch() {
             <div className="max-h-[50vh] overflow-y-auto">
               {results.length === 0 && query && (
                 <div className="px-4 py-8 text-center text-[13px] text-[#86868b]">
-                  ไม่พบผลลัพธ์สำหรับ &ldquo;{query}&rdquo;
+                  {t("search.noResults", { query })}
                 </div>
               )}
               {results.length === 0 && !query && (
                 <div className="px-4 py-8 text-center text-[13px] text-[#86868b]">
-                  พิมพ์เพื่อค้นหาห้องพัก ผู้เช่า หรือใบแจ้งหนี้
+                  {t("search.empty")}
                 </div>
               )}
               {results.map((r, i) => (
@@ -180,7 +198,7 @@ export function GlobalSearch() {
                   <span className={`text-[9px] font-medium uppercase ${
                     r.type === "room" ? "text-primary" : r.type === "tenant" ? "text-green-600" : "text-amber-600"
                   }`}>
-                    {r.type === "room" ? "ห้อง" : r.type === "tenant" ? "ผู้เช่า" : "บิล"}
+                    {typeLabel(r.type)}
                   </span>
                 </button>
               ))}
