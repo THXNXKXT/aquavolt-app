@@ -1,8 +1,8 @@
 ﻿import * as XLSX from "xlsx";
 
-export function exportToExcel<T extends Record<string, any>>(
+export function exportToExcel<T extends Record<string, unknown>>(
   data: T[],
-  columns: { key: keyof T; label: string; format?: (value: any) => string }[],
+  columns: { key: keyof T; label: string; format?: (value: unknown) => string }[],
   filename: string
 ) {
   const rows = data.map((item) => {
@@ -32,17 +32,17 @@ export function printReport(title: string) {
   window.print();
 }
 
-export function formatExportDate(dateStr: string | null | undefined): string {
-  if (!dateStr) return "-";
+export function formatExportDate(value: unknown): string {
+  if (!value) return "-";
   try {
-    const d = new Date(dateStr);
+    const d = new Date(value as string);
     return d.toLocaleDateString("th-TH", { day: "2-digit", month: "2-digit", year: "numeric" });
   } catch {
-    return String(dateStr);
+    return String(value);
   }
 }
 
-export function formatExportCurrency(amount: number | string | null | undefined): string {
-  const num = Number(amount ?? 0);
+export function formatExportCurrency(value: unknown): string {
+  const num = Number(value ?? 0);
   return num.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }

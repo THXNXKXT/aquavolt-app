@@ -49,8 +49,8 @@ async function fetchApiSettings(): Promise<Partial<AppSettings> | null> {
   try {
     const res = await fetch("/api/settings");
     if (!res.ok) return null;
-    const data = await res.json();
-    const result: Record<string, any> = {};
+    const data: Record<string, string> = await res.json();
+    const result: Record<string, string | number> = {};
     // Parse numeric fields
     for (const [key, value] of Object.entries(data)) {
       if (["waterRate", "electricRate", "serviceCharge", "wifiRate"].includes(key)) {

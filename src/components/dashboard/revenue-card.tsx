@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import { formatCurrency } from "@/lib/formatters";
 import { AnimatedNumber } from "@/components/shared/animated-number";
+import type { Invoice } from "@/types";
 
 interface RevenueBreakdownItem {
   label: string;
@@ -22,7 +23,7 @@ interface RevenueBreakdownItem {
 }
 
 interface RevenueCardProps {
-  invoicesData: any[];
+  invoicesData: Invoice[];
   revenueByMonth: { month: number; year: number; label: string; total: number; count: number }[];
   maxRevenue: number;
   currentMonth: number;
@@ -47,7 +48,7 @@ export function RevenueCard({
 
   // All paid invoices across all time (total revenue)
   const allPaidInvs = useMemo(
-    () => invoicesData.filter((inv: any) => inv.status === "paid"),
+    () => invoicesData.filter((inv) => inv.status === "paid"),
     [invoicesData]
   );
 
@@ -55,27 +56,27 @@ export function RevenueCard({
     () => [
       {
         label: t("dashboard.revenueRent"),
-        value: allPaidInvs.reduce((s: number, inv: any) => s + Number(inv.rentalCost || 0), 0),
+        value: allPaidInvs.reduce((s, inv) => s + Number(inv.rentalCost || 0), 0),
         color: "#1d1d1f",
       },
       {
         label: t("dashboard.revenueWater"),
-        value: allPaidInvs.reduce((s: number, inv: any) => s + Number(inv.waterCost || 0), 0),
+        value: allPaidInvs.reduce((s, inv) => s + Number(inv.waterCost || 0), 0),
         color: "#0066cc",
       },
       {
         label: t("dashboard.revenueElectric"),
-        value: allPaidInvs.reduce((s: number, inv: any) => s + Number(inv.electricCost || 0), 0),
+        value: allPaidInvs.reduce((s, inv) => s + Number(inv.electricCost || 0), 0),
         color: "#d97706",
       },
       {
         label: t("dashboard.revenueService"),
-        value: allPaidInvs.reduce((s: number, inv: any) => s + Number(inv.serviceCharge || 0), 0),
+        value: allPaidInvs.reduce((s, inv) => s + Number(inv.serviceCharge || 0), 0),
         color: "#a1a1a6",
       },
       {
         label: t("dashboard.revenueWiFi"),
-        value: allPaidInvs.reduce((s: number, inv: any) => s + Number(inv.wifiCost || 0), 0),
+        value: allPaidInvs.reduce((s, inv) => s + Number(inv.wifiCost || 0), 0),
         color: "#8b5cf6",
       },
     ],
@@ -133,7 +134,7 @@ export function RevenueCard({
               style={{ outline: "none" }}
             >
               <Bar dataKey="total" radius={[2, 2, 0, 0]}>
-                {revenueByMonth.map((m: any, idx: number) => (
+                {revenueByMonth.map((m, idx) => (
                   <Cell
                     key={idx}
                     fill={
@@ -146,7 +147,7 @@ export function RevenueCard({
                 ))}
               </Bar>
               <Tooltip
-                formatter={(value: any) => [`${Number(value).toLocaleString()} ฿`, "รายได้"]}
+                formatter={(value) => [`${Number(value).toLocaleString()} ฿`, "รายได้"]}
                 contentStyle={{ fontSize: 11, borderRadius: 8, border: "1px solid #e0e0e0" }}
               />
               <XAxis
@@ -174,7 +175,7 @@ export function RevenueCard({
               ))}
             </Pie>
             <Tooltip
-              formatter={(value: any) => [`${Number(value).toLocaleString()} ฿`, ""]}
+              formatter={(value) => [`${Number(value).toLocaleString()} ฿`, ""]}
               contentStyle={{ fontSize: 11, borderRadius: 8, border: "1px solid #e0e0e0" }}
             />
           </PieChart>

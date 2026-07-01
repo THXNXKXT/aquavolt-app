@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { Search, DoorOpen, Users, FileText, X } from "lucide-react";
 import { fetchRooms, fetchTenants, fetchInvoices } from "@/lib/api";
 import { formatCurrency } from "@/lib/formatters";
+import type { Room, Tenant, Invoice } from "@/types";
 
 interface SearchResult {
   type: "room" | "tenant" | "invoice";
@@ -17,11 +18,10 @@ interface SearchResult {
 }
 
 export function GlobalSearch() {
-  const t = useTranslations();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [searchData, setSearchData] = useState<{ rooms: any[]; tenants: any[]; invoices: any[] }>({ rooms: [], tenants: [], invoices: [] });
+  const [searchData, setSearchData] = useState<{ rooms: Room[]; tenants: Tenant[]; invoices: Invoice[] }>({ rooms: [], tenants: [], invoices: [] });
 
   useEffect(() => {
     Promise.all([fetchRooms(), fetchTenants(), fetchInvoices()])
@@ -156,7 +156,7 @@ export function GlobalSearch() {
             <div className="max-h-[50vh] overflow-y-auto">
               {results.length === 0 && query && (
                 <div className="px-4 py-8 text-center text-[13px] text-[#86868b]">
-                  ไม่พบผลลัพธ์สำหรับ "{query}"
+                  ไม่พบผลลัพธ์สำหรับ &ldquo;{query}&rdquo;
                 </div>
               )}
               {results.length === 0 && !query && (

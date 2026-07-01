@@ -4,9 +4,10 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { AlertTriangle, ArrowRight } from "lucide-react";
 import { formatCurrency } from "@/lib/formatters";
+import type { Invoice } from "@/types";
 
 interface OverdueAlertProps {
-  overdueInvoices: any[];
+  overdueInvoices: Invoice[];
   maxDaysOverdue: number;
 }
 
@@ -17,7 +18,7 @@ export function OverdueAlert({ overdueInvoices, maxDaysOverdue }: OverdueAlertPr
   if (overdueInvoices.length === 0) return null;
 
   const totalOverdueAmount = overdueInvoices.reduce(
-    (sum: number, inv: any) =>
+    (sum: number, inv: Invoice) =>
       sum +
       Number(inv.rentalCost || 0) +
       Number(inv.waterCost || 0) +

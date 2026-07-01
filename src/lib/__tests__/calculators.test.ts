@@ -1,4 +1,4 @@
-import { calculateUtilityCosts, CalculationInput, CalculationResult } from "@/lib/calculators";
+import { calculateUtilityCosts, CalculationInput } from "@/lib/calculators";
 
 describe("calculateUtilityCosts", () => {
   const baseInput: CalculationInput = {
@@ -37,7 +37,7 @@ describe("calculateUtilityCosts", () => {
   });
 
   it("defaults WiFi to 0 when not provided", () => {
-    const { wifiCost, ...inputWithoutWifi } = baseInput;
+    const { wifiCost: _omit, ...inputWithoutWifi } = baseInput;
     const result = calculateUtilityCosts(inputWithoutWifi as CalculationInput);
     expect(result.wifiCost).toBe(0);
   });

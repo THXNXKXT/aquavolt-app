@@ -22,7 +22,9 @@ export function PromptPayQR({ phoneNumber, amount, size = 120, className = "" }:
           import("promptpay-qr"),
           import("qrcode"),
         ]);
-        const generatePayload = (promptpayMod as any).default ?? promptpayMod;
+        const generatePayload = typeof promptpayMod === "function"
+          ? promptpayMod
+          : promptpayMod.default;
 
         if (cancelled) return;
 

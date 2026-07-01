@@ -32,7 +32,6 @@ export default function SettingsPage() {
   const { settings, updateSettings } = useSettings();
 
   const [activeTab, setActiveTab] = useState<Tab>("general");
-  const [savedTab, setSavedTab] = useState<Tab | null>(null);
 
   const [dormName, setDormName] = useState(settings.dormitoryName);
   const [address, setAddress] = useState(settings.dormitoryAddress);

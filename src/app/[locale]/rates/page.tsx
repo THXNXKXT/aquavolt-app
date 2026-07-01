@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
-import { PageHeader } from "@/components/layout/page-header";
 import { SubNav } from "@/components/layout/sub-nav";
 import { useSettings } from "@/hooks/use-settings";
 import { formatCurrency } from "@/lib/formatters";

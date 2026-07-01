@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { useState, useMemo, useEffect } from "react";
-import { PageHeader } from "@/components/layout/page-header";
 import { SubNav } from "@/components/layout/sub-nav";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -12,7 +11,6 @@ import { FieldError } from "@/components/shared/field-error";
 import { Modal } from "@/components/shared/modal";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { generateId } from "@/lib/formatters";
 import { Pagination } from "@/components/shared/pagination";
 import { Loader2, Check } from "lucide-react";
 import { fetchRooms, fetchBuildings, fetchTenants, createRoom, updateRoom, deleteRoom, createActivity } from "@/lib/api";
@@ -25,13 +23,14 @@ export default function RoomsPage() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [buildingsList, setBuildingsList] = useState<Building[]>([]);
   const [tenantsMap, setTenantsMap] = useState<Record<string, string>>({});
+  const [firstLoad, setFirstLoad] = useState(true);
 
   useEffect(() => {
     fetchRooms().then((d) => { setRooms(d); setFirstLoad(false); }).catch((e) => console.warn("API:", e));
     fetchBuildings().then(setBuildingsList).catch((e) => console.warn("API:", e));
-    fetchTenants().then((data: any[]) => {
+    fetchTenants().then((data) => {
       const map: Record<string, string> = {};
-      data.forEach((t: any) => { if (t.isActive) map[t.roomId] = t.name; });
+      data.forEach((tn) => { if (tn.isActive) map[tn.roomId] = tn.name; });
       setTenantsMap(map);
     }).catch((e) => console.warn("API:", e));
   }, []);
@@ -39,7 +38,6 @@ export default function RoomsPage() {
   const [filterBuilding, setFilterBuilding] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [search, setSearch] = useState("");
-  const [firstLoad, setFirstLoad] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
   const [editRoom, setEditRoom] = useState<Room | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -77,6 +75,8 @@ export default function RoomsPage() {
     return filteredRooms.slice(start, start + PAGE_SIZE);
   }, [filteredRooms, page]);
 
+  // Reset page when filters change — standard derived-state reset pattern
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setPage(1); }, [filterBuilding, filterStatus, search]);
 
   const openCreate = () => {

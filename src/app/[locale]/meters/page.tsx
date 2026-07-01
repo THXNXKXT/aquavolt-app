@@ -2,28 +2,24 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import { useState, useMemo, useEffect } from "react";
-import { PageHeader } from "@/components/layout/page-header";
 import { SubNav } from "@/components/layout/sub-nav";
 import { SelectApple } from "@/components/shared/select-apple";
 import { Pagination } from "@/components/shared/pagination";
-import { generateId, formatCurrency } from "@/lib/formatters";
+import { formatCurrency } from "@/lib/formatters";
 import { calculateUtilityCosts } from "@/lib/calculators";
 import { useSettings } from "@/hooks/use-settings";
 import toast from "react-hot-toast";
 import { Modal } from "@/components/shared/modal";
 import { fetchMeters, fetchRooms, createMeterReading, createActivity } from "@/lib/api";
-import type { MeterReading } from "@/types";
+import type { MeterReading, Room } from "@/types";
 import {
-  Gauge,
   Plus,
-  Search,
   Droplets,
   Zap,
   ClipboardList,
   DollarSign,
   Building2,
   Home,
-  Save,
   Inbox,
 } from "lucide-react";
 
@@ -32,7 +28,7 @@ export default function MetersPage() {
   const locale = useLocale();
   const [readings, setReadings] = useState<MeterReading[]>([]);
   const [loaded, setLoaded] = useState(false);
-  const [roomsForDropdown, setRoomsForDropdown] = useState<any[]>([]);
+  const [roomsForDropdown, setRoomsForDropdown] = useState<Room[]>([]);
 
   useEffect(() => {
     Promise.all([fetchMeters(), fetchRooms()])
@@ -117,6 +113,8 @@ export default function MetersPage() {
       });
   }, [readings, selectedRoom, filterMonth]);
 
+  // Reset page when filters change
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setPage(1); }, [selectedRoom, filterMonth]);
 
   const paginatedReadings = useMemo(() => {

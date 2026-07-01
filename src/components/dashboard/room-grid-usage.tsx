@@ -5,16 +5,17 @@ import { useRouter } from "@/i18n/routing";
 import { Droplets, Zap } from "lucide-react";
 import { TopUsageCard } from "@/components/dashboard/top-usage-card";
 import { AnimatedProgressBar } from "@/components/shared/animated-progress-bar";
+import type { Room, MeterReading } from "@/types";
 
 interface RoomGridUsageProps {
-  roomsData: any[];
+  roomsData: Room[];
   occupiedRooms: number;
   vacantRooms: number;
   maintenanceRooms: number;
   avgWater: number;
   avgElectric: number;
-  topElectric: any[];
-  topWater: any[];
+  topElectric: MeterReading[];
+  topWater: MeterReading[];
   currentMonth: number;
 }
 
@@ -49,7 +50,7 @@ export function RoomGridUsage({
 
         {/* Room Grid */}
         <div className="flex flex-wrap gap-1.5 mb-3">
-          {roomsData.slice(0, 12).map((room: any) => (
+          {roomsData.slice(0, 12).map((room: Room) => (
             <div
               key={room.id}
               onClick={() => router.push("/rooms")}

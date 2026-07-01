@@ -15,7 +15,7 @@ import { fetchInvoices, createInvoice, fetchRooms, fetchTenants, fetchMeters, cr
 import { formatCurrency, formatDateShort } from "@/lib/formatters";
 import { calculateUtilityCosts } from "@/lib/calculators";
 import { useSettings } from "@/hooks/use-settings";
-import type { Invoice } from "@/types";
+import type { Invoice, Room, Tenant, MeterReading } from "@/types";
 import { FileText, Search, Plus, X, Droplets, Zap, Home, Building2, Gauge, DollarSign } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -35,9 +35,9 @@ export default function InvoicesPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [createForm, setCreateForm] = useState({ roomId: "", month: new Date().getMonth() + 1, year: new Date().getFullYear() });
   const [creating, setCreating] = useState(false);
-  const [roomsForDropdown, setRoomsForDropdown] = useState<any[]>([]);
-  const [tenantsForDropdown, setTenantsForDropdown] = useState<any[]>([]);
-  const [metersForDropdown, setMetersForDropdown] = useState<any[]>([]);
+  const [roomsForDropdown, setRoomsForDropdown] = useState<Room[]>([]);
+  const [tenantsForDropdown, setTenantsForDropdown] = useState<Tenant[]>([]);
+  const [metersForDropdown, setMetersForDropdown] = useState<MeterReading[]>([]);
 
   const currentMonth = new Date().getMonth() + 1;
   const currentYear = new Date().getFullYear();
@@ -56,6 +56,8 @@ export default function InvoicesPage() {
     }).sort((a, b) => new Date(b.issuedDate).getTime() - new Date(a.issuedDate).getTime());
   }, [invoices, filterMonth, filterStatus, search]);
 
+  // Reset page when filters change
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setPage(1); }, [filterMonth, filterStatus, search]);
 
   useEffect(() => {
@@ -109,16 +111,16 @@ export default function InvoicesPage() {
       return b.month - a.month;
     })[0];
 
-    const estWater = lastReading ? Math.max(1, lastReading.waterUsage) : 10;
-    const estElectric = lastReading ? Math.max(1, lastReading.electricUsage) : 80;
+    const estWater = lastReading ? Math.max(1, Number(lastReading.waterUsage)) : 10;
+    const estElectric = lastReading ? Math.max(1, Number(lastReading.electricUsage)) : 80;
 
     const actualReading = metersForDropdown.find((m) => m.roomId === selectedRoom.id && m.month === createForm.month && m.year === createForm.year);
 
     return calculateUtilityCosts({
-      waterPrevious: actualReading?.waterPrevious || 0,
-      waterCurrent: actualReading?.waterCurrent || estWater,
-      electricPrevious: actualReading?.electricPrevious || 0,
-      electricCurrent: actualReading?.electricCurrent || estElectric,
+      waterPrevious: Number(actualReading?.waterPrevious || 0),
+      waterCurrent: Number(actualReading?.waterCurrent || estWater),
+      electricPrevious: Number(actualReading?.electricPrevious || 0),
+      electricCurrent: Number(actualReading?.electricCurrent || estElectric),
       waterRate: settings.waterRate,
       electricRate: settings.electricRate,
       serviceCharge: settings.serviceCharge,

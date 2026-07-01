@@ -15,15 +15,16 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const isPublic = PUBLIC_ROUTES.some((r) => pathname.endsWith(r));
 
   useEffect(() => {
-    // Auth state is already determined by useState sync (loadUser from localStorage)
-    // No need for loading state since it's sync
+    // Auth guard: set checked flag after determining route access
     if (isPublic) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setChecked(true);
       return;
     }
     if (!isAuthenticated) {
       router.replace("/login");
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setChecked(true);
     }
   }, [isAuthenticated, pathname, router, isPublic]);

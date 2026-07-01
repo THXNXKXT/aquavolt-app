@@ -1,10 +1,10 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import { useRouter } from "@/i18n/routing";
 import { useSettings } from "@/hooks/use-settings";
 import { useMemo, useState, useEffect, useCallback } from "react";
-import { fetchDashboard, fetchRooms, fetchInvoices, fetchMeters, fetchTenants } from "@/lib/api";
+import { fetchDashboard, fetchRooms, fetchInvoices, fetchMeters, fetchTenants, type DashboardData } from "@/lib/api";
+import type { Room, Tenant, Invoice, MeterReading } from "@/types";
 import { MetricCards } from "@/components/dashboard/metric-cards";
 import { RevenueCard } from "@/components/dashboard/revenue-card";
 import { ContractStatusCard } from "@/components/dashboard/contract-status-card";
@@ -20,17 +20,18 @@ import toast from "react-hot-toast";
 import { ErrorBoundary } from "@/components/shared/error-boundary";
 import { Reveal } from "@/components/shared/reveal";
 
+type RevenuePoint = { month: number; year: number; label: string; total: number; count: number };
+
 export default function DashboardPage() {
   const t = useTranslations();
   const locale = useLocale();
-  const router = useRouter();
   const { settings } = useSettings();
 
-  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
-  const [roomsData, setRoomsData] = useState<any[]>([]);
-  const [invoicesData, setInvoicesData] = useState<any[]>([]);
-  const [metersData, setMetersData] = useState<any[]>([]);
-  const [tenantsData, setTenantsData] = useState<any[]>([]);
+  const [apiData, setApiData] = useState<DashboardData | null>(null);
+  const [roomsData, setRoomsData] = useState<Room[]>([]);
+  const [invoicesData, setInvoicesData] = useState<Invoice[]>([]);
+  const [metersData, setMetersData] = useState<MeterReading[]>([]);
+  const [tenantsData, setTenantsData] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -55,6 +56,7 @@ export default function DashboardPage() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadData();
   }, [loadData, refreshKey]);
 
@@ -77,48 +79,49 @@ export default function DashboardPage() {
 
   // ── Stats ──
   const totalRooms = roomsData.length || 0;
-  const occupiedRooms = roomsData.filter((r: any) => r.status === "occupied").length;
-  const vacantRooms = roomsData.filter((r: any) => r.status === "vacant").length;
-  const maintenanceRooms = roomsData.filter((r: any) => r.status === "maintenance").length;
+  const occupiedRooms = roomsData.filter((r) => r.status === "occupied").length;
+  const vacantRooms = roomsData.filter((r) => r.status === "vacant").length;
+  const maintenanceRooms = roomsData.filter((r) => r.status === "maintenance").length;
   const occupancyRate = totalRooms > 0 ? Math.round((occupiedRooms / totalRooms) * 100) : 0;
-  const totalBuildings = apiData?.totalBuildings || new Set(roomsData.map((r: any) => r.buildingId).filter(Boolean)).size;
+  const totalBuildings = apiData?.totalBuildings || new Set(roomsData.map((r) => r.buildingId).filter(Boolean)).size;
 
   const currentInvoices = invoicesData.filter(
-    (inv: any) => inv.month === currentMonth && inv.year === currentYear
+    (inv) => inv.month === currentMonth && inv.year === currentYear
   );
   const monthlyRevenue = currentInvoices
-    .filter((inv: any) => inv.status === "paid")
-    .reduce((sum: number, inv: any) => sum + Number(inv.rentalCost || 0) + Number(inv.waterCost || 0) + Number(inv.electricCost || 0) + Number(inv.serviceCharge || 0) + Number(inv.wifiCost || 0), 0);
+    .filter((inv) => inv.status === "paid")
+    .reduce((sum: number, inv) => sum + Number(inv.rentalCost || 0) + Number(inv.waterCost || 0) + Number(inv.electricCost || 0) + Number(inv.serviceCharge || 0) + Number(inv.wifiCost || 0), 0);
 
   const currentReadings = metersData.filter(
-    (m: any) => m.month === currentMonth && m.year === currentYear
+    (m) => m.month === currentMonth && m.year === currentYear
   );
   const avgWater = currentReadings.length > 0
-    ? Math.round(currentReadings.reduce((sum: number, m: any) => sum + Number(m.waterUsage || 0), 0) / currentReadings.length) : 0;
+    ? Math.round(currentReadings.reduce((sum: number, m) => sum + Number(m.waterUsage || 0), 0) / currentReadings.length) : 0;
   const avgElectric = currentReadings.length > 0
-    ? Math.round(currentReadings.reduce((sum: number, m: any) => sum + Number(m.electricUsage || 0), 0) / currentReadings.length) : 0;
+    ? Math.round(currentReadings.reduce((sum: number, m) => sum + Number(m.electricUsage || 0), 0) / currentReadings.length) : 0;
 
-  const paidCount = currentInvoices.filter((inv: any) => inv.status === "paid").length;
+  const paidCount = currentInvoices.filter((inv) => inv.status === "paid").length;
   const collectionRate = currentInvoices.length > 0
     ? Math.round((paidCount / currentInvoices.length) * 100) : 0;
 
-  const overdueInvoices = currentInvoices.filter((inv: any) => inv.status === "overdue");
+  const overdueInvoices = currentInvoices.filter((inv) => inv.status === "overdue");
   const maxDaysOverdue = overdueInvoices.length > 0
-    ? Math.max(...overdueInvoices.map((inv: any) => Math.ceil((Date.now() - new Date(inv.dueDate).getTime()) / (1000 * 60 * 60 * 24)))) : 0;
+    // eslint-disable-next-line react-hooks/purity -- computing overdue days for display
+    ? Math.max(...overdueInvoices.map((inv) => Math.ceil((Date.now() - new Date(inv.dueDate).getTime()) / (1000 * 60 * 60 * 24)))) : 0;
 
-  const occupiedRoomIds = roomsData.filter((r: any) => r.status === "occupied").map((r: any) => r.id);
-  const readRoomIds = new Set(currentReadings.map((m: any) => m.roomId));
+  const occupiedRoomIds = roomsData.filter((r) => r.status === "occupied").map((r) => r.id);
+  const readRoomIds = new Set(currentReadings.map((m) => m.roomId));
   const meterReadCount = occupiedRoomIds.filter((id: string) => readRoomIds.has(id)).length;
   const meterUnreadCount = occupiedRoomIds.length - meterReadCount;
 
   const recentInvoices = invoicesData
-    .filter((inv: any) => inv.month === currentMonth && inv.year === currentYear)
-    .sort((a: any, b: any) => new Date(b.issuedDate || b.createdAt).getTime() - new Date(a.issuedDate || a.createdAt).getTime())
+    .filter((inv) => inv.month === currentMonth && inv.year === currentYear)
+    .sort((a, b) => new Date(b.issuedDate || b.createdAt).getTime() - new Date(a.issuedDate || a.createdAt).getTime())
     .slice(0, 5);
 
   const { topElectric, topWater } = useMemo(() => ({
-    topElectric: [...currentReadings].sort((a: any, b: any) => Number(b.electricUsage || 0) - Number(a.electricUsage || 0)).slice(0, 3),
-    topWater: [...currentReadings].sort((a: any, b: any) => Number(b.waterUsage || 0) - Number(a.waterUsage || 0)).slice(0, 3),
+    topElectric: [...currentReadings].sort((a, b) => Number(b.electricUsage || 0) - Number(a.electricUsage || 0)).slice(0, 3),
+    topWater: [...currentReadings].sort((a, b) => Number(b.waterUsage || 0) - Number(a.waterUsage || 0)).slice(0, 3),
   }), [currentReadings]);
 
   const revenueByMonth = useMemo(() => {
@@ -133,7 +136,7 @@ export default function DashboardPage() {
     }
     // Generate 6-month range
     const now = new Date();
-    const months: any[] = [];
+    const months: RevenuePoint[] = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const key = `${d.getMonth() + 1}-${d.getFullYear()}`;
@@ -144,7 +147,7 @@ export default function DashboardPage() {
   }, [invoicesData, locale]);
 
   const maxRevenue = Math.max(...revenueByMonth.map((m) => m.total), 1);
-  const revenueAvg = Math.round(revenueByMonth.reduce((s: number, m: any) => s + m.total, 0) / Math.max(revenueByMonth.length, 1));
+  const revenueAvg = Math.round(revenueByMonth.reduce((s: number, m) => s + m.total, 0) / Math.max(revenueByMonth.length, 1));
   const revenueDiff = (revenueByMonth[revenueByMonth.length-1]?.total || 0) - (revenueByMonth[revenueByMonth.length-2]?.total || 0);
   const prevTotal = revenueByMonth[revenueByMonth.length-2]?.total;
   const revenueDiffPct = prevTotal > 0 ? Math.round(((revenueByMonth[revenueByMonth.length-1]?.total || 0) - prevTotal) / prevTotal * 100) : 0;
@@ -202,6 +205,7 @@ export default function DashboardPage() {
       </Reveal>
 
       <ContractStatusCard stats={useMemo(() => {
+        // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
         const now = Date.now();
         const monthMs = MS.DAY * 30;
         let active = 0, expiring = 0, expired = 0, total = 0;
@@ -235,7 +239,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-8">
         <RecentActivity activities={recentActivities} timeAgo={(ts: string) => timeAgo(ts, locale)} />
-        <RecentInvoices invoices={recentInvoices.map((inv: any) => ({
+        <RecentInvoices invoices={recentInvoices.map((inv) => ({
           id: inv.id, roomNumber: inv.roomNumber || "", tenantName: inv.tenantName || "",
           invoiceNumber: inv.invoiceNumber || "",
           totalAmount: Number(inv.rentalCost || 0) + Number(inv.waterCost || 0) + Number(inv.electricCost || 0) + Number(inv.serviceCharge || 0) + Number(inv.wifiCost || 0),

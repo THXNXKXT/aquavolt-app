@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { useState, useMemo, useEffect } from "react";
-import { PageHeader } from "@/components/layout/page-header";
 import { SubNav } from "@/components/layout/sub-nav";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -10,9 +9,9 @@ import { ConfirmDialog } from "@/components/shared/confirm-dialog";
 import { SelectApple } from "@/components/shared/select-apple";
 import { FieldError } from "@/components/shared/field-error";
 import { Pagination } from "@/components/shared/pagination";
-import { generateId, formatDate } from "@/lib/formatters";
+
 import { useLocale } from "next-intl";
-import type { Tenant } from "@/types";
+import type { Tenant, Room } from "@/types";
 import { Users, Plus, Pencil, Trash2, Search, Phone, MessageCircle, Loader2, Check } from "lucide-react";
 import { fetchTenants, fetchRooms, createTenant, updateTenant, deleteTenant, updateRoom, createActivity } from "@/lib/api";
 import toast from "react-hot-toast";
@@ -56,7 +55,7 @@ export default function TenantsPage() {
 
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loaded, setLoaded] = useState(false);
-  const [roomsForDropdown, setRoomsForDropdown] = useState<any[]>([]);
+  const [roomsForDropdown, setRoomsForDropdown] = useState<Room[]>([]);
 
   useEffect(() => {
     Promise.all([fetchTenants(), fetchRooms()])
@@ -93,16 +92,14 @@ export default function TenantsPage() {
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [tenants, search]);
 
+  // Reset page when search changes
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setPage(1); }, [search]);
 
   const paginatedTenants = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
     return filteredTenants.slice(start, start + PAGE_SIZE);
   }, [filteredTenants, page]);
-
-  const availableRooms = roomsForDropdown.filter(
-    (r) => r.status === "vacant" || tenants.some((t) => t.roomId === r.id && t.isActive)
-  );
 
   const openCreate = () => {
     setEditTenant(null);

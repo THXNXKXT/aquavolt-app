@@ -56,7 +56,7 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
         </button>
       </div>
       <div className="space-y-1.5">
-        {activities.map((act: any) => (
+        {activities.map((act) => (
           <div
             key={act.id}
             className="flex items-start gap-2.5 px-2 py-2 rounded-md hover:bg-canvas-parchment transition-colors"
@@ -69,7 +69,7 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
             <div className="flex-1 min-w-0">
               <p className="text-[11px] text-ink truncate">{act.detail}</p>
               <p className="text-[9px] text-[#a1a1a6] mt-0.5" suppressHydrationWarning>
-                {timeAgo(act.timestamp || act.createdAt)}
+                {timeAgo(act.timestamp || act.createdAt || "")}
               </p>
             </div>
           </div>

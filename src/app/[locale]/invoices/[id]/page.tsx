@@ -4,7 +4,6 @@ import { useTranslations, useLocale } from "next-intl";
 import { useState, useEffect } from "react";
 import { fetchInvoice, fetchMeters, updateInvoice, createActivity } from "@/lib/api";
 import { useParams, useRouter } from "next/navigation";
-import { PageHeader } from "@/components/layout/page-header";
 import { SubNav } from "@/components/layout/sub-nav";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { formatCurrency, formatDate } from "@/lib/formatters";
@@ -12,12 +11,13 @@ import { useSettings } from "@/hooks/use-settings";
 import { ArrowLeft, Printer, Send, CheckCircle, Droplets, Zap, Building2, Home, CreditCard, Landmark, User, Calendar, Smartphone, QrCode, Receipt, FileText } from "lucide-react";
 import toast from "react-hot-toast";
 import { PromptPayQR } from "@/components/shared/promptpay-qr";
+import type { Invoice, MeterReading } from "@/types";
 
 export default function InvoiceDetailPage() {
   const t = useTranslations();
   const locale = useLocale();
-  const [invoiceData, setInvoiceData] = useState<any>(null);
-  const [meterReadingsData, setMeterReadingsData] = useState<any[]>([]);
+  const [invoiceData, setInvoiceData] = useState<Invoice | null>(null);
+  const [meterReadingsData, setMeterReadingsData] = useState<MeterReading[]>([]);
 
   const router = useRouter();
   const params = useParams();
@@ -38,15 +38,15 @@ export default function InvoiceDetailPage() {
   const invoice = invoiceData;
 
   const meterReading = invoice
-    ? meterReadingsData.find((m: any) => m.id === invoice.meterReadingId)
+    ? meterReadingsData.find((m) => m.id === invoice.meterReadingId)
     : null;
 
   const [status, setStatus] = useState("pending");
-  const [markingPaid, setMarkingPaid] = useState(false);
-  const [showPrint, setShowPrint] = useState(false);
+  const [, setMarkingPaid] = useState(false);
 
-  // Sync status from loaded invoice data
+  // Sync local status from loaded invoice data
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (invoice) setStatus(invoice.status);
   }, [invoice]);
 
@@ -141,6 +141,7 @@ export default function InvoiceDetailPage() {
               <StatusBadge status={status} />
               {status === "pending" && <span className="text-[#6e6e73]">{t("invoices.dueDateLabel")}: {formatDate(invoice.dueDate, locale === "th" ? "th" : "en")}</span>}
               {status === "paid" && <span className="text-green-700 font-medium">{t("invoices.paidDate")}: {formatDate(invoice.paidDate || invoice.issuedDate, locale === "th" ? "th" : "en")}</span>}
+              {/* eslint-disable-next-line react-hooks/purity -- overdue days display */}
               {status === "overdue" && <span className="text-red-600">เกินกำหนดชำระ {Math.ceil((Date.now() - new Date(invoice.dueDate).getTime()) / (1000*60*60*24))} วัน</span>}
             </div>
           </div>
@@ -254,7 +255,7 @@ export default function InvoiceDetailPage() {
                     <span className="w-4 h-4 flex items-center justify-center font-bold text-[10px] text-primary">WiFi</span>
                     ค่าบริการ WiFi
                   </span>
-                  <span className="text-[13px] font-semibold text-ink">{formatCurrency(invoice.wifiCost)}</span>
+                  <span className="text-[13px] font-semibold text-ink">{formatCurrency(invoice.wifiCost || 0)}</span>
                 </div>
               )}
             </div>
@@ -423,8 +424,8 @@ export default function InvoiceDetailPage() {
                 <tr style={{ borderBottom: "1px solid #e0e0e0" }}>
                   <td className="py-1.5 text-ink"><span className="w-3 h-3 inline mr-1 text-primary font-bold text-[8px]">WiFi</span>ค่าบริการ WiFi</td>
                   <td className="py-1.5 text-center text-[#86868b]">{t("invoices.printOneMonth")}</td>
-                  <td className="py-1.5 text-right text-[#86868b]">{formatCurrency(invoice.wifiCost)}</td>
-                  <td className="py-1.5 text-right font-semibold text-ink">{formatCurrency(invoice.wifiCost)}</td>
+                  <td className="py-1.5 text-right text-[#86868b]">{formatCurrency(invoice.wifiCost || 0)}</td>
+                  <td className="py-1.5 text-right font-semibold text-ink">{formatCurrency(invoice.wifiCost || 0)}</td>
                 </tr>
               )}
             </tbody>

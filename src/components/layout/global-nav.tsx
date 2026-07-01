@@ -67,6 +67,8 @@ export function GlobalNav() {
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const groupRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
+  // Close mobile menu on route change
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMobileMenuOpen(false); }, [pathname]);
 
   // Close dropdown on click outside

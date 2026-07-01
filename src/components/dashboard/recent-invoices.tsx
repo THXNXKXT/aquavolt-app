@@ -49,7 +49,7 @@ export function RecentInvoices({ invoices }: RecentInvoicesProps) {
       </div>
       {sortedInvoices.length > 0 ? (
         <div className="divide-y divide-divider-soft">
-          {sortedInvoices.slice(0, 5).map((inv: any) => (
+          {sortedInvoices.slice(0, 5).map((inv) => (
             <div
               key={inv.id}
               className="flex items-center gap-3 px-4 py-2.5 hover:bg-canvas-parchment/50 transition-colors cursor-pointer"

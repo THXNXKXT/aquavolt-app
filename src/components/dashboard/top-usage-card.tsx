@@ -3,10 +3,11 @@
 import { useTranslations } from "next-intl";
 import { Trophy, Zap, Droplets } from "lucide-react";
 import { AnimatedProgressBar } from "@/components/shared/animated-progress-bar";
+import type { MeterReading } from "@/types";
 
 interface TopUsageCardProps {
-  topElectric: any[];
-  topWater: any[];
+  topElectric: MeterReading[];
+  topWater: MeterReading[];
   currentMonth: number;
 }
 
@@ -43,7 +44,7 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
           </div>
           {topElectric.length > 0 ? (
             <div className="space-y-2.5">
-              {topElectric.map((r: any, i: number) => {
+              {topElectric.map((r, i) => {
                 const maxVal = Number(topElectric[0].electricUsage) || 0;
                 const pct = maxVal > 0 ? Math.round((Number(r.electricUsage) / maxVal) * 100) : 0;
                 return (
@@ -88,7 +89,7 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
           </div>
           {topWater.length > 0 ? (
             <div className="space-y-2.5">
-              {topWater.map((r: any, i: number) => {
+              {topWater.map((r, i) => {
                 const maxVal = Number(topWater[0].waterUsage) || 0;
                 const pct = maxVal > 0 ? Math.round((Number(r.waterUsage) / maxVal) * 100) : 0;
                 return (

@@ -5,9 +5,10 @@ import { useState, useMemo, useEffect } from "react";
 import { SubNav } from "@/components/layout/sub-nav";
 import { SelectApple } from "@/components/shared/select-apple";
 import { fetchInvoices, fetchRooms, fetchTenants, fetchMeters } from "@/lib/api";
+import type { Invoice, Room, Tenant, MeterReading } from "@/types";
 import { formatCurrency } from "@/lib/formatters";
 import { exportToExcel, formatExportDate, formatExportCurrency } from "@/lib/export-utils";
-import { FileText, Download, Building2, Users, Zap, Droplets, DollarSign } from "lucide-react";
+import { FileText, Download, Building2, Zap, DollarSign } from "lucide-react";
 
 type ReportTab = "financial" | "outstanding" | "utility" | "occupancy";
 
@@ -15,10 +16,10 @@ export default function ReportsPage() {
   const t = useTranslations();
   const locale = useLocale();
 
-  const [invoices, setInvoices] = useState<any[]>([]);
-  const [rooms, setRooms] = useState<any[]>([]);
-  const [tenants, setTenants] = useState<any[]>([]);
-  const [meters, setMeters] = useState<any[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [, setTenants] = useState<Tenant[]>([]);
+  const [meters, setMeters] = useState<MeterReading[]>([]);
   const [activeTab, setActiveTab] = useState<ReportTab>("financial");
   const [filterMonth, setFilterMonth] = useState<string>("all");
   const [loading, setLoading] = useState(true);
@@ -38,7 +39,7 @@ export default function ReportsPage() {
   };
 
   const monthOptions = useMemo(() => {
-    const months = new Set(invoices.map((inv: any) => `${inv.month}-${inv.year}`));
+    const months = new Set(invoices.map((inv) => `${inv.month}-${inv.year}`));
     const cur = `${currentMonth}-${currentYear}`;
     if (!months.has(cur)) months.add(cur);
     return Array.from(months).sort().reverse();
@@ -47,11 +48,11 @@ export default function ReportsPage() {
   const filteredInvoices = useMemo(() => {
     if (filterMonth === "all") return invoices;
     const [m, y] = filterMonth.split("-");
-    return invoices.filter((inv: any) => inv.month === parseInt(m) && inv.year === parseInt(y));
+    return invoices.filter((inv) => inv.month === parseInt(m) && inv.year === parseInt(y));
   }, [invoices, filterMonth]);
 
   const financialData = useMemo(() => {
-    return filteredInvoices.map((inv: any) => ({
+    return filteredInvoices.map((inv) => ({
       invoiceNumber: inv.invoiceNumber,
       roomNumber: inv.roomNumber,
       tenantName: inv.tenantName,
@@ -86,9 +87,10 @@ export default function ReportsPage() {
 
   const outstandingData = useMemo(() => {
     return filteredInvoices
-      .filter((inv: any) => inv.status === "pending" || inv.status === "overdue")
-      .map((inv: any) => {
+      .filter((inv) => inv.status === "pending" || inv.status === "overdue")
+      .map((inv) => {
         const dueDate = new Date(inv.dueDate);
+        // eslint-disable-next-line react-hooks/purity -- days-overdue calculation
         const daysOverdue = Math.max(0, Math.ceil((Date.now() - dueDate.getTime()) / 86400000));
         return {
           invoiceNumber: inv.invoiceNumber,
@@ -117,13 +119,13 @@ export default function ReportsPage() {
   const utilityData = useMemo(() => {
     const currentMeters = filterMonth === "all"
       ? meters
-      : meters.filter((m: any) => m.month === parseInt(filterMonth.split("-")[0]) && m.year === parseInt(filterMonth.split("-")[1]));
-    return currentMeters.map((m: any) => ({
+      : meters.filter((m) => m.month === parseInt(filterMonth.split("-")[0]) && m.year === parseInt(filterMonth.split("-")[1]));
+    return currentMeters.map((m) => ({
       roomNumber: m.roomNumber || m.roomId,
       buildingName: m.buildingName || "",
       waterUsage: Number(m.waterUsage || 0),
       electricUsage: Number(m.electricUsage || 0),
-    })).sort((a: any, b: any) => (b.waterUsage + b.electricUsage) - (a.waterUsage + a.electricUsage));
+    })).sort((a, b) => (b.waterUsage + b.electricUsage) - (a.waterUsage + a.electricUsage));
   }, [meters, filterMonth]);
 
   const exportUtility = () => {
@@ -138,23 +140,23 @@ export default function ReportsPage() {
   const occupancyData = useMemo(() => {
     return {
       total: rooms.length,
-      occupied: rooms.filter((r: any) => r.status === "occupied").length,
-      vacant: rooms.filter((r: any) => r.status === "vacant").length,
-      maintenance: rooms.filter((r: any) => r.status === "maintenance").length,
-      occupancyRate: rooms.length > 0 ? Math.round((rooms.filter((r: any) => r.status === "occupied").length / rooms.length) * 100) : 0,
-      buildings: [...new Set(rooms.map((r: any) => r.buildingName).filter(Boolean))],
+      occupied: rooms.filter((r) => r.status === "occupied").length,
+      vacant: rooms.filter((r) => r.status === "vacant").length,
+      maintenance: rooms.filter((r) => r.status === "maintenance").length,
+      occupancyRate: rooms.length > 0 ? Math.round((rooms.filter((r) => r.status === "occupied").length / rooms.length) * 100) : 0,
+      buildings: [...new Set(rooms.map((r) => r.buildingName).filter(Boolean))],
     };
   }, [rooms]);
 
   const exportOccupancy = () => {
-    const buildingStats = occupancyData.buildings.map((b: any) => {
-      const buildingRooms = rooms.filter((r: any) => r.buildingName === b);
+    const buildingStats = occupancyData.buildings.map((b) => {
+      const buildingRooms = rooms.filter((r) => r.buildingName === b);
       return {
         building: b,
         total: buildingRooms.length,
-        occupied: buildingRooms.filter((r: any) => r.status === "occupied").length,
-        vacant: buildingRooms.filter((r: any) => r.status === "vacant").length,
-        rate: buildingRooms.length > 0 ? Math.round((buildingRooms.filter((r: any) => r.status === "occupied").length / buildingRooms.length) * 100) : 0,
+        occupied: buildingRooms.filter((r) => r.status === "occupied").length,
+        vacant: buildingRooms.filter((r) => r.status === "vacant").length,
+        rate: buildingRooms.length > 0 ? Math.round((buildingRooms.filter((r) => r.status === "occupied").length / buildingRooms.length) * 100) : 0,
       };
     });
     exportToExcel(buildingStats, [
@@ -174,13 +176,13 @@ export default function ReportsPage() {
   ];
 
   const summary = useMemo(() => {
-    const paid = filteredInvoices.filter((i: any) => i.status === "paid");
-    const pending = filteredInvoices.filter((i: any) => i.status === "pending" || i.status === "overdue");
+    const paid = filteredInvoices.filter((i) => i.status === "paid");
+    const pending = filteredInvoices.filter((i) => i.status === "pending" || i.status === "overdue");
     return {
       totalInvoices: filteredInvoices.length,
       paidCount: paid.length,
-      totalRevenue: paid.reduce((s: number, i: any) => s + Number(i.totalAmount || 0), 0),
-      pendingAmount: pending.reduce((s: number, i: any) => s + Number(i.totalAmount || 0), 0),
+      totalRevenue: paid.reduce((s, i) => s + Number(i.totalAmount || 0), 0),
+      pendingAmount: pending.reduce((s, i) => s + Number(i.totalAmount || 0), 0),
     };
   }, [filteredInvoices]);
 
@@ -198,7 +200,7 @@ export default function ReportsPage() {
       <div className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-12">
         <div className="flex flex-wrap items-right justify-self-end gap-3 mb-6">
           <SelectApple value={filterMonth} onChange={setFilterMonth}
-            options={[{ value: "all", label: t("reports.filterAll") }, ...monthOptions.map((m: any) => { const [mo, yr] = m.split("-"); return { value: m, label: `${getMonthName(parseInt(mo))} ${yr}` }; })]}
+            options={[{ value: "all", label: t("reports.filterAll") }, ...monthOptions.map((m) => { const [mo, yr] = m.split("-"); return { value: m, label: `${getMonthName(parseInt(mo))} ${yr}` }; })]}
             className="min-w-[180px]" />
         </div>
 
@@ -261,7 +263,7 @@ export default function ReportsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {financialData.slice(0, 50).map((inv: any) => (
+                  {financialData.slice(0, 50).map((inv) => (
                     <tr key={inv.invoiceNumber} className="border-b border-divider-soft hover:bg-canvas-parchment/50">
                       <td className="px-4 py-3 text-xs text-[#6e6e73]">{inv.invoiceNumber}</td>
                       <td className="px-4 py-3 text-xs text-ink font-medium">{inv.roomNumber}</td>
@@ -309,7 +311,7 @@ export default function ReportsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {outstandingData.map((inv: any) => (
+                    {outstandingData.map((inv) => (
                       <tr key={inv.invoiceNumber} className="border-b border-divider-soft hover:bg-canvas-parchment/50">
                         <td className="px-4 py-3 text-xs text-[#6e6e73]">{inv.invoiceNumber}</td>
                         <td className="px-4 py-3 text-xs text-ink font-medium">{inv.roomNumber}</td>
@@ -358,7 +360,7 @@ export default function ReportsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {utilityData.slice(0, 100).map((m: any, i: number) => (
+                  {utilityData.slice(0, 100).map((m, i) => (
                     <tr key={i} className="border-b border-divider-soft hover:bg-canvas-parchment/50">
                       <td className="px-4 py-3 text-xs text-ink font-medium">{m.roomNumber}</td>
                       <td className="px-4 py-3 text-xs text-[#6e6e73]">{m.buildingName}</td>
@@ -413,10 +415,10 @@ export default function ReportsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {occupancyData.buildings.map((b: any) => {
-                    const buildingRooms = rooms.filter((r: any) => r.buildingName === b);
-                    const occ = buildingRooms.filter((r: any) => r.status === "occupied").length;
-                    const vac = buildingRooms.filter((r: any) => r.status === "vacant").length;
+                  {occupancyData.buildings.map((b) => {
+                    const buildingRooms = rooms.filter((r) => r.buildingName === b);
+                    const occ = buildingRooms.filter((r) => r.status === "occupied").length;
+                    const vac = buildingRooms.filter((r) => r.status === "vacant").length;
                     const rate = buildingRooms.length > 0 ? Math.round((occ / buildingRooms.length) * 100) : 0;
                     return (
                       <tr key={b} className="border-b border-divider-soft hover:bg-canvas-parchment/50">

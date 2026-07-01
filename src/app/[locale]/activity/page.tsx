@@ -4,7 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { useState, useMemo, useEffect } from "react";
 import { SubNav } from "@/components/layout/sub-nav";
 import { SelectApple } from "@/components/shared/select-apple";
-import { fetchActivities } from "@/lib/api";
+import { fetchActivities, type Activity } from "@/lib/api";
 import { Gauge, FileText, Users, Building2, Search, ArrowRight, Clock } from "lucide-react";
 
 export default function ActivityPage() {
@@ -41,18 +41,19 @@ export default function ActivityPage() {
   const [filterType, setFilterType] = useState<string>("all");
   const [search, setSearch] = useState("");
   const [filterMonth, setFilterMonth] = useState<string>("all");
-  const [activitiesData, setActivitiesData] = useState<any[]>([]);
+  const [activitiesData, setActivitiesData] = useState<Activity[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     fetchActivities().then((d) => { setActivitiesData(d); setLoaded(true); }).catch((e) => { console.warn("API:", e); setLoaded(true); });
   }, []);
 
-  const getTs = (a: any) => a.timestamp || a.createdAt;
+  const getTs = (a: Activity) => a.createdAt;
 
   const timeAgo = (ts: string) => {
     const date = new Date(ts);
     if (isNaN(date.getTime())) return "-";
+    // eslint-disable-next-line react-hooks/purity -- time-ago display needs current time
     const diff = Date.now() - date.getTime();
     const mins = Math.floor(diff / 60000);
     if (mins < 60) return `${mins}m`;
@@ -94,9 +95,9 @@ export default function ActivityPage() {
 
   // Group by date
   const grouped = useMemo(() => {
-    const groups: { label: string; items: any[] }[] = [];
+    const groups: { label: string; items: Activity[] }[] = [];
     let currentLabel = "";
-    let currentItems: any[] = [];
+    let currentItems: Activity[] = [];
     filtered.forEach((a) => {
       const d = new Date(getTs(a));
       const label = d.toLocaleDateString(locale === "th" ? "th-TH" : "en-US", {
