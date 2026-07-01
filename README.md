@@ -1,41 +1,36 @@
-# AquaVolt - Dormitory Management System
+# AquaVolt — Dormitory Management System
 
-> A comprehensive dormitory/boarding house management system for utility billing, tenant management, and financial reporting.
+ระบบจัดการหอพักสำหรับการเก็บค่าน้ำ-ไฟ-ห้อง และการทำใบแจ้งหนี้ รองรับภาษาไทย/อังกฤษ
 
 ---
 
 ## Features
 
-- **Dashboard** - Overview with room stats, revenue chart, collection rate, occupancy, recent activity
-- **Building Management** - CRUD buildings with room counts
-- **Room Management** - CRUD rooms with status (occupied/vacant/maintenance)
-- **Tenant Management** - CRUD tenants with contract tracking, WiFi toggle, auto room status sync
-- **Meter Recording** - Monthly water & electric meter readings with auto usage calculation
-- **Invoice Generation** - Auto-calculate utility costs, create invoices with preview, support WiFi fee
-- **Payment Tracking** - Mark as paid, overdue alerts, outstanding report
-- **Activity Log** - Track all system actions with filters
-- **Reports & Export** - Financial summary, outstanding, utility usage, occupancy - export to Excel
-- **Bilingual** - Thai and English language support
-- **Toast Notifications** - Success/error feedback via react-hot-toast
+- **Dashboard** — ภาพรวมรายได้ 6 เดือน, อัตราการเก็บเงิน, สถานะห้อง, กิจกรรมล่าสุด
+- **Building / Room / Tenant** — CRUD พร้อม sync สถานะห้องอัตโนมัติ
+- **Meter Recording** — จดมิเตอร์รายเดือน คำนวณ usage อัตโนมัติ + เตือนเมื่อมิเตอร์ลดลง
+- **Invoice Generation** — สร้างใบแจ้งหนี้อัตโนมัติ พร้อม PromptPay QR + กันการสร้างซ้ำ
+- **Payment Tracking** — ติดตามการชำระ, แจ้งเตือน overdue, mark as paid
+- **Reports & Export** — สรุปการเงิน, ค้างชำระ, สาธารณูปโภค, อัตราการเช่า — export Excel
+- **Authentication** — Better-Auth session-based, rate limiting, เปลี่ยนรหัสผ่านได้
+- **Bilingual** — ไทย / English (next-intl)
 
 ---
 
 ## Tech Stack
 
-| Technology | Purpose |
-|-----------|---------|
-| Next.js 16 (App Router) | Framework |
-| React 19 | UI Library |
-| TypeScript 5 | Language |
-| PostgreSQL (Neon) | Database |
-| Drizzle ORM | Database ORM |
-| Tailwind CSS v4 | Styling |
-| Better-Auth | Authentication |
-| Recharts | Charts |
-| react-hot-toast | Notifications |
-| next-intl | i18n |
-| xlsx (SheetJS) | Excel export |
-| lucide-react | Icons |
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| UI | React 19 + Tailwind CSS v4 + Framer Motion |
+| Language | TypeScript 5 (strict) |
+| Database | PostgreSQL (Neon) + Drizzle ORM |
+| Auth | Better-Auth (email/password, session cookies) |
+| Charts | Recharts |
+| Excel Export | xlsx (SheetJS) |
+| i18n | next-intl |
+| Validation | Zod |
+| Testing | Vitest |
 
 ---
 
@@ -43,28 +38,48 @@
 
 ### Prerequisites
 - Node.js 20+
+- pnpm (`npm install -g pnpm`)
 - PostgreSQL database
 
 ### Setup
 
 ```bash
 # 1. Install dependencies
-npm install
+pnpm install
 
 # 2. Configure environment
 cp .env.example .env
+# Edit .env: set DATABASE_URL and BETTER_AUTH_URL
 
 # 3. Push database schema
 npx drizzle-kit push
 
-# 4. Seed initial data
+# 4. Seed initial data (buildings, rooms, rates)
 npx tsx src/db/seed.ts
 
-# 5. Start development server
-npm run dev
+# 5. Create admin user
+npx tsx src/db/seed-auth.ts
+
+# 6. Start development server
+pnpm dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000)
+Visit http://localhost:3000 → login with the credentials from step 5.
+
+---
+
+## Environment Variables
+
+```env
+# Database (required)
+DATABASE_URL=postgresql://user:***@host:5432/dbname?sslmode=require
+
+# Auth (required)
+BETTER_AUTH_URL=http://localhost:3000
+
+# SSL (optional — set to "false" only for dev with self-signed certs)
+# DB_SSL_REJECT_UNAUTHORIZED=false
+```
 
 ---
 
@@ -72,59 +87,60 @@ Visit [http://localhost:3000](http://localhost:3000)
 
 ```
 src/
-┌── app/
-    ├── api/              # REST API routes (9 modules)
-    └── [locale]/         # Pages (12 routes)
-│ components/
-    ├── dashboard/        # Dashboard widgets (12 components)
-    ├── layout/           # Navigation, search
-    └── shared/           # Reusable UI (10 components)
+├── app/
+│   ├── api/              # REST API routes (9 modules + auth)
+│   └── [locale]/         # Localized pages (12 routes)
+├── components/
+│   ├── dashboard/        # Dashboard widgets
+│   ├── layout/           # Navigation, search
+│   └── shared/           # Reusable UI (modal, pagination, QR, etc.)
 ├── db/
-    ├── schema/           # 7 database tables
-    ├── index.ts          # DB connection
-    └── seed.ts           # Seed data
+│   ├── schema/           # Drizzle table definitions (12 tables)
+│   ├── queries.ts        # Shared queries + invoice numbering
+│   └── seed.ts           # Seed data
 ├── hooks/                # use-settings
-├── lib/                  # API client, calculators, formatters, export utils
+├── lib/                  # API client, auth, calculators, validation, formatters
 └── types/                # TypeScript interfaces
 messages/                 # Translation files (en.json, th.json)
+drizzle/                  # Database migrations
 ```
 
 ---
 
-## API Overview
+## API Routes
 
-| Entity | Endpoints | Operations |
-|--------|-----------|------------|
-| Buildings | /api/buildings | CRUD |
-| Rooms | /api/rooms | CRUD |
-| Tenants | /api/tenants | CRUD |
-| Invoices | /api/invoices | CRUD + payment |
-| Meters | /api/meters | Create, Read, Update |
-| Rates | /api/rates | CRUD |
-| Settings | /api/settings | Read, Upsert |
-| Activities | /api/activities | List, Create |
-| Dashboard | /api/dashboard | Summary |
+| Endpoint | Methods | Description |
+|----------|---------|-------------|
+| `/api/auth/*` | GET, POST | Better-Auth authentication |
+| `/api/buildings` | GET, POST | List / create buildings |
+| `/api/buildings/:id` | GET, PATCH, DELETE | Building CRUD |
+| `/api/rooms` | GET, POST | List / create rooms |
+| `/api/rooms/:id` | GET, PATCH, DELETE | Room CRUD |
+| `/api/tenants` | GET, POST | List / create tenants |
+| `/api/tenants/:id` | GET, PATCH, DELETE | Tenant CRUD |
+| `/api/invoices` | GET, POST | List / create invoices |
+| `/api/invoices/:id` | GET, PATCH | Invoice detail / mark paid |
+| `/api/meters` | GET, POST | List / create meter readings |
+| `/api/meters/:id` | PATCH, DELETE | Update / delete readings |
+| `/api/rates` | GET, POST | Utility rates |
+| `/api/settings` | GET, PATCH | Key-value settings |
+| `/api/activities` | GET, POST | Activity log |
+| `/api/dashboard` | GET | Dashboard summary |
+
+All routes require authentication (session cookie).
 
 ---
 
-## Environment Variables
+## Scripts
 
-```env
-DATABASE_URL=postgresql://user:pass@host:5432/dbname
-BETTER_AUTH_URL=http://localhost:3000
+```bash
+pnpm dev          # Start dev server
+pnpm build        # Production build
+pnpm start        # Start production server
+pnpm lint         # ESLint
+pnpm test         # Run tests (vitest)
+pnpm test:watch   # Watch mode tests
 ```
-
----
-
-## Screenshots
-
-> (Add screenshots of dashboard, invoices, reports here)
-
----
-
-## Documentation
-
-See [SYSTEM.md](SYSTEM.md) for full system documentation including database schema, component reference, i18n details, and troubleshooting.
 
 ---
 
