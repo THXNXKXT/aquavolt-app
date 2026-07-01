@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# tooling artifacts
+/.playwright-mcp/
+motion-demo.html
+motion-preview.html
+dashboard.jpeg
