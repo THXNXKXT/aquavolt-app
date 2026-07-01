@@ -438,7 +438,7 @@ export default function RoomsPage() {
                       onChange={(e) => setFormData((prev) => ({ ...prev, rentalFee: parseInt(e.target.value) || 0 }))}
                       className="w-full pl-9 pr-12 py-2.5 rounded-lg border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-[#a1a1a6]">บาท/เดือน</span>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-[#a1a1a6]">{t("settings.bahtPerMonth")}</span>
                   </div>
                 </div>
                 <div className="p-4">

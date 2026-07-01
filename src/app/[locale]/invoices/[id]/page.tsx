@@ -141,8 +141,8 @@ export default function InvoiceDetailPage() {
               <StatusBadge status={status} />
               {status === "pending" && <span className="text-[#6e6e73]">{t("invoices.dueDateLabel")}: {formatDate(invoice.dueDate, locale === "th" ? "th" : "en")}</span>}
               {status === "paid" && <span className="text-green-700 font-medium">{t("invoices.paidDate")}: {formatDate(invoice.paidDate || invoice.issuedDate, locale === "th" ? "th" : "en")}</span>}
-              {/* eslint-disable-next-line react-hooks/purity -- overdue days display */}
-              {status === "overdue" && <span className="text-red-600">เกินกำหนดชำระ {Math.ceil((Date.now() - new Date(invoice.dueDate).getTime()) / (1000*60*60*24))} วัน</span>}
+              {/* eslint-disable-next-line react-hooks/purity -- overdue days needs current time */}
+              {status === "overdue" && <span className="text-red-600">{t("invoices.overdueDaysCount", { days: Math.ceil((Date.now() - new Date(invoice.dueDate).getTime()) / (1000*60*60*24)) })}</span>}
             </div>
           </div>
 
@@ -253,7 +253,7 @@ export default function InvoiceDetailPage() {
                 <div className="px-5 py-3 flex items-center justify-between">
                   <span className="flex items-center gap-2.5 text-[13px] text-ink">
                     <span className="w-4 h-4 flex items-center justify-center font-bold text-[10px] text-primary">WiFi</span>
-                    ค่าบริการ WiFi
+                    {t("invoices.wifiCharge")}
                   </span>
                   <span className="text-[13px] font-semibold text-ink">{formatCurrency(invoice.wifiCost || 0)}</span>
                 </div>
@@ -422,7 +422,7 @@ export default function InvoiceDetailPage() {
               </tr>
               {Number(invoice.wifiCost) > 0 && (
                 <tr style={{ borderBottom: "1px solid #e0e0e0" }}>
-                  <td className="py-1.5 text-ink"><span className="w-3 h-3 inline mr-1 text-primary font-bold text-[8px]">WiFi</span>ค่าบริการ WiFi</td>
+                  <td className="py-1.5 text-ink"><span className="w-3 h-3 inline mr-1 text-primary font-bold text-[8px]">WiFi</span>{t("invoices.wifiCharge")}</td>
                   <td className="py-1.5 text-center text-[#86868b]">{t("invoices.printOneMonth")}</td>
                   <td className="py-1.5 text-right text-[#86868b]">{formatCurrency(invoice.wifiCost || 0)}</td>
                   <td className="py-1.5 text-right font-semibold text-ink">{formatCurrency(invoice.wifiCost || 0)}</td>

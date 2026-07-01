@@ -71,26 +71,26 @@ export default function SettingsPage() {
 
   const handleChangePassword = async () => {
     if (newPassword !== confirmPassword) {
-      toast.error(locale === "th" ? "รหัสผ่านไม่ตรงกัน" : "Passwords do not match");
+      toast.error(t("settings.passwordMismatch"));
       return;
     }
     if (newPassword.length < 8) {
-      toast.error(locale === "th" ? "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร" : "Password must be at least 8 characters");
+      toast.error(t("settings.passwordTooShort"));
       return;
     }
     setPasswordSaving(true);
     try {
       const result = await changePassword({ currentPassword, newPassword, revokeOtherSessions: false });
       if (result.error) {
-        toast.error(locale === "th" ? "รหัสผ่านปัจจุบันไม่ถูกต้อง" : "Current password is incorrect");
+        toast.error(t("settings.passwordWrong"));
       } else {
-        toast.success(locale === "th" ? "เปลี่ยนรหัสผ่านสำเร็จ" : "Password changed successfully");
+        toast.success(t("settings.passwordChanged"));
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
       }
     } catch {
-      toast.error(locale === "th" ? "เปลี่ยนรหัสผ่านไม่สำเร็จ" : "Failed to change password");
+      toast.error(t("settings.passwordFailed"));
     }
     setPasswordSaving(false);
   };
@@ -112,7 +112,7 @@ export default function SettingsPage() {
     { key: "general", label: t("settings.general") },
     { key: "payment", label: t("settings.payment") },
     { key: "rates", label: t("rates.title") },
-    { key: "security", label: locale === "th" ? "ความปลอดภัย" : "Security" },
+    { key: "security", label: t("settings.security") },
   ];
 
   return (
@@ -304,8 +304,8 @@ export default function SettingsPage() {
                   <span className="w-4 h-4 text-primary flex items-center justify-center font-bold text-[10px]">WiFi</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-medium text-ink">ค่า WiFi</p>
-                  <p className="text-[11px] text-[#86868b]">ค่าบริการอินเทอร์เน็ตต่อเดือน</p>
+                  <p className="text-[13px] font-medium text-ink">{t("settings.wifiRate")}</p>
+                  <p className="text-[11px] text-[#86868b]">{t("settings.wifiRateDesc")}</p>
                 </div>
                 <div className="relative w-28">
                   <input type="number" step="50" min="0" value={wifiRate} onChange={(e) => setWifiRate(parseFloat(e.target.value) || 0)}
@@ -342,7 +342,7 @@ export default function SettingsPage() {
                 <span className="font-medium text-ink">{formatCurrency(preview.service)}</span>
               </div>
               <div className="py-2.5 flex items-center justify-between text-[13px] border-b border-canvas-parchment">
-                <span className="flex items-center gap-2 text-[#6e6e73]"><span className="w-3.5 h-3.5 text-primary font-bold text-[9px] flex items-center justify-center">WiFi</span> ค่า WiFi</span>
+                <span className="flex items-center gap-2 text-[#6e6e73]"><span className="w-3.5 h-3.5 text-primary font-bold text-[9px] flex items-center justify-center">WiFi</span> {t("settings.wifiRate")}</span>
                 <span className="font-medium text-ink">{formatCurrency(preview.wifi)}</span>
               </div>
               <div className="pt-3 flex items-center justify-between">
@@ -369,30 +369,30 @@ export default function SettingsPage() {
                   <Lock className="w-3.5 h-3.5 text-primary" />
                 </div>
                 <h2 className="text-[15px] font-semibold text-ink">
-                  {locale === "th" ? "เปลี่ยนรหัสผ่าน" : "Change Password"}
+                  {t("settings.changePassword")}
                 </h2>
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-[#f0f0f0]">
                 <div className="p-4 sm:p-5">
                   <label className="block text-xs font-medium text-[#86868b] mb-1.5">
-                    {locale === "th" ? "รหัสผ่านปัจจุบัน" : "Current Password"}
+                    {t("settings.currentPassword")}
                   </label>
                   <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-md border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary" />
                 </div>
                 <div className="p-4 sm:p-5">
                   <label className="block text-xs font-medium text-[#86868b] mb-1.5">
-                    {locale === "th" ? "รหัสผ่านใหม่" : "New Password"}
+                    {t("settings.newPassword")}
                   </label>
                   <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-md border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary" />
                   <p className="text-[11px] text-[#a1a1a6] mt-1">
-                    {locale === "th" ? "อย่างน้อย 8 ตัวอักษร" : "At least 8 characters"}
+                    {t("settings.passwordMinLength")}
                   </p>
                 </div>
                 <div className="p-4 sm:p-5">
                   <label className="block text-xs font-medium text-[#86868b] mb-1.5">
-                    {locale === "th" ? "ยืนยันรหัสผ่านใหม่" : "Confirm New Password"}
+                    {t("settings.confirmPassword")}
                   </label>
                   <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-md border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary" />
@@ -400,7 +400,7 @@ export default function SettingsPage() {
                 <div className="p-4 sm:p-5 flex justify-end">
                   <button onClick={handleChangePassword} disabled={passwordSaving || !currentPassword || !newPassword}
                     className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100">
-                    {passwordSaving ? "..." : (locale === "th" ? "เปลี่ยนรหัสผ่าน" : "Change Password")}
+                    {passwordSaving ? "..." : t("settings.changePassword")}
                   </button>
                 </div>
               </div>

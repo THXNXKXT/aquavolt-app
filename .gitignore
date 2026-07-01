@@ -45,3 +45,12 @@ next-env.d.ts
 motion-demo.html
 motion-preview.html
 dashboard.jpeg
+
+# dev/debug scripts (not needed in production)
+/scripts/
+
+# AI agent working files
+AGENTS.md
+SKILL.md
+skills-lock.json
+CLAUDE.md

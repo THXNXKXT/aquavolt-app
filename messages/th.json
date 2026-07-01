@@ -335,6 +335,7 @@
     "alreadyHasInvoice": "มีใบแจ้งหนี้ของห้องนี้ในเดือนนี้แล้ว",
     "creating": "กำลังสร้าง...",
     "wifiCharge": "ค่า WiFi",
+    "overdueDaysCount": "เกินกำหนดชำระ {days} วัน",
     "meterRecorded": "บันทึกมิเตอร์แล้ว",
     "meterNotRecorded": "ยังไม่บันทึกมิเตอร์"
   },
@@ -356,7 +357,21 @@
     "bankName": "ชื่อธนาคาร",
     "bankAccount": "เลขบัญชี",
     "accountName": "ชื่อบัญชี",
-    "promptpay": "พร้อมเพย์ (PromptPay)"
+    "promptpay": "พร้อมเพย์ (PromptPay)",
+    "security": "ความปลอดภัย",
+    "changePassword": "เปลี่ยนรหัสผ่าน",
+    "currentPassword": "รหัสผ่านปัจจุบัน",
+    "newPassword": "รหัสผ่านใหม่",
+    "confirmPassword": "ยืนยันรหัสผ่านใหม่",
+    "passwordMinLength": "อย่างน้อย 8 ตัวอักษร",
+    "passwordMismatch": "รหัสผ่านไม่ตรงกัน",
+    "passwordTooShort": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร",
+    "passwordWrong": "รหัสผ่านปัจจุบันไม่ถูกต้อง",
+    "passwordChanged": "เปลี่ยนรหัสผ่านสำเร็จ",
+    "passwordFailed": "เปลี่ยนรหัสผ่านไม่สำเร็จ",
+    "wifiRate": "ค่า WiFi",
+    "wifiRateDesc": "ค่าบริการอินเทอร์เน็ตต่อเดือน",
+    "bahtPerMonth": "บาท/เดือน"
   },
   "common": {
     "loading": "กำลังโหลด...",

@@ -132,8 +132,8 @@ export default function ReportsPage() {
     exportToExcel(utilityData, [
       { key: "roomNumber", label: t("invoices.room") },
       { key: "buildingName", label: t("buildings.buildingName") },
-      { key: "waterUsage", label: `น้ำ (m³)` },
-      { key: "electricUsage", label: `ไฟ (kWh)` },
+      { key: "waterUsage", label: `${t("invoices.waterCharge")} (m³)` },
+      { key: "electricUsage", label: `${t("invoices.electricCharge")} (kWh)` },
     ], t("reports.exportFilenameUtility"));
   };
 
