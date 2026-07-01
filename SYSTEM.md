@@ -1,470 +1,619 @@
-﻿# AquaVolt - Dormitory Management System
+﻿# AquaVolt — System Documentation
 
-> Dormitory Utility Management System  
-> Version: 1.0.0  
-> Stack: Next.js 16 + React 19 + TypeScript + PostgreSQL + Drizzle ORM
+> **Technical reference for developers.**
+> For setup and quick start, see the [README](./README.md).
+
+---
+
+## Table of Contents
+
+1. [System Overview](#1-system-overview)
+2. [Architecture](#2-architecture)
+3. [Database Schema](#3-database-schema)
+4. [Authentication & Security](#4-authentication--security)
+5. [Business Logic](#5-business-logic)
+6. [API Reference](#6-api-reference)
+7. [Money Handling](#7-money-handling)
+8. [Error Handling](#8-error-handling)
+9. [Internationalization (i18n)](#9-internationalization-i18n)
+10. [Component Reference](#10-component-reference)
+11. [Configuration](#11-configuration)
+12. [Troubleshooting](#12-troubleshooting)
 
 ---
 
 ## 1. System Overview
 
-**AquaVolt** is a comprehensive dormitory management system for utility billing, tenant management, and financial reporting.
+AquaVolt is a dormitory utility management system built for single-property operators. It handles the full monthly billing cycle: meter reading → cost calculation → invoice generation → payment tracking → reporting.
 
-### Core Features
-- Building / Room / Tenant CRUD management
-- Monthly water & electric meter recording
-- Automated utility cost calculation
-- Invoice generation with WiFi billing support
-- Payment tracking & overdue alerts
-- 6-month revenue chart with breakdown by category
-- Export reports to Excel (financial, outstanding, utility, occupancy)
-- Activity logging for all system actions
-- Bilingual support (Thai / English)
-- Toast notifications (react-hot-toast)
-- Error boundary with graceful fallback
-- Animated counters and progress bars
-- Dashboard auto-refresh on visibility change
+### Core Workflow
 
----
-
-## 2. Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router) |
-| UI Library | React 19 |
-| Language | TypeScript 5 |
-| Database | PostgreSQL (Neon) |
-| ORM | Drizzle ORM |
-| Auth | Better-Auth |
-| Styling | Tailwind CSS v4 |
-| Charts | Recharts |
-| Excel Export | xlsx (SheetJS) |
-| Toast | react-hot-toast |
-| i18n | next-intl |
-| Icons | lucide-react |
-
----
-
-## 3. Installation
-
-### Prerequisites
-- Node.js 20+
-- PostgreSQL database (local or Neon)
-
-### Setup
-
-bash
-# 1. Install dependencies
-npm install
-
-# 2. Configure environment
-cp .env.example .env
-# Edit .env: set DATABASE_URL and BETTER_AUTH_URL
-
-# 3. Push database schema
-npx drizzle-kit push
-
-# 4. Seed initial data
-npx tsx src/db/seed.ts
-
-# 5. Start development server
-npm run dev
-
-### Environment Variables
-
-env
-DATABASE_URL=postgresql://user:pass@host:5432/dbname
-BETTER_AUTH_URL=http://localhost:3000
-
----
-
-## 4. Project Structure
 ```
-src/
-  app/
-    layout.tsx            # Root layout (metadata + ClientLayout for toast)
-    globals.css           # Global styles + Tailwind
-    api/                  # REST API routes
-      buildings/          # CRUD buildings
-      rooms/              # CRUD rooms
-      tenants/            # CRUD tenants
-      invoices/           # CRUD invoices
-      meters/             # CRUD meter readings
-      rates/              # CRUD utility rates
-      settings/           # Key-value settings
-      activities/         # Activity log
-      dashboard/          # Dashboard summary
-      auth/               # Better-auth authentication
-    [locale]/             # Localized pages
-      dashboard/          # Dashboard overview
-      rooms/              # Room management
-      tenants/            # Tenant management
-      invoices/           # Invoice list & create
-      invoices/[id]/      # Invoice detail & print
-      meters/             # Meter recording
-      buildings/          # Building management
-      rates/              # Rate management
-      settings/           # System settings
-      activity/           # Activity log
-      reports/            # Reports & export
-      login/              # Login page
-  components/
-    dashboard/            # Dashboard widgets (12 components)
-    layout/               # Navigation, search bar
-    shared/               # Reusable UI (SelectApple, Pagination, etc.)
-  db/
-    schema/               # Drizzle table definitions (7 tables)
-    index.ts              # Database connection
-    seed.ts               # Seed data
-  hooks/
-    use-settings.ts       # Settings hook (localStorage + API sync)
-  lib/
-    api.ts                # API client functions
-    calculators.ts        # Utility cost calculator
-    formatters.ts         # Date/currency/string formatters
-    export-utils.ts       # Excel export utility
-    error-utils.ts        # Error handling helper with toast
-  types/
-    index.ts              # TypeScript interfaces
-messages/
-  en.json                 # English translations
-  th.json                 # Thai translations
-drizzle/                  # Database migrations
-public/img/               # Images
+Building → Room → Tenant (move-in)
+                        ↓
+              Monthly Meter Reading
+                        ↓
+              Auto Cost Calculation
+              (usage × rate + rent + fees)
+                        ↓
+              Invoice Generation
+              (unique per room/month/year)
+                        ↓
+              Payment Tracking
+              (pending → paid / overdue)
+                        ↓
+              Reports & Excel Export
 ```
+
 ---
 
-## 5. Database Schema
+## 2. Architecture
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                    Browser (Client)                       │
+│                                                          │
+│  React 19 Components ← useTranslations (next-intl)      │
+│       ↓                                                  │
+│  API Client (lib/api.ts) ← auth cookies (httpOnly)      │
+└──────────────────────────┬───────────────────────────────┘
+                           │ HTTPS (same-origin)
+┌──────────────────────────┴───────────────────────────────┐
+│                 Next.js 16 (Server)                       │
+│                                                          │
+│  App Router [locale] pages → Server Components            │
+│       ↓                                                  │
+│  Route Handlers (/api/*) ← route() wrapper               │
+│       ↓                  ↓                               │
+│  requireAuth()    Zod Validation                         │
+│       ↓                                                  │
+│  Drizzle ORM → PostgreSQL (Neon)                         │
+│                                                          │
+│  Better-Auth ← session cookies → /api/auth/*             │
+└──────────────────────────────────────────────────────────┘
+```
+
+### Request Flow
+
+```
+Client fetch("/api/invoices")
+  → Next.js Route Handler
+    → route() wrapper catches errors
+      → requireAuth() checks session cookie
+        → auth.api.getSession() → DB lookup
+      → validate(req, schema) → Zod parse
+      → DB query via Drizzle
+    → Response.json() or error (401/400/409/500)
+```
+
+---
+
+## 3. Database Schema
 
 ### Entity Relationship
 
-buildings ──1:N── rooms ──1:N── tenants
-                          │
-                          └──1:N── meter_readings
-                          │
-                          └──1:N── invoices
+```
+buildings ──1:N──→ rooms ──1:N──→ tenants
+                     │
+                     ├──1:N──→ meter_readings
+                     │
+                     └──1:N──→ invoices ──→ tenants
 
-settings (key-value store)
-activities (event log)
+utility_rates     (standalone — rate per unit)
+settings          (key-value store)
+activities        (event log)
 
-### buildings
-| Column | Type | Description |
-|--------|------|-------------|
-| id | text PK | UUID |
-| name | text | Building name |
-| address | text | Address |
-| createdAt | timestamp | |
-| updatedAt | timestamp | |
+user              ──1:N──→ session
+user              ──1:N──→ account
+verification      (standalone — email tokens)
+```
 
-### rooms
-| Column | Type | Description |
-|--------|------|-------------|
-| id | text PK | UUID |
-| buildingId | text FK | References buildings.id |
-| roomNumber | text | Room number |
-| floor | integer | Floor |
-| status | text | vacant / occupied / maintenance |
-| rentalFee | numeric | Monthly rent |
-| createdAt | timestamp | |
-| updatedAt | timestamp | |
+### Tables (12 total)
 
-### tenants
-| Column | Type | Description |
-|--------|------|-------------|
-| id | text PK | UUID |
-| roomId | text FK | References rooms.id |
-| name | text | Tenant name |
-| phone | text | Phone number |
-| lineId | text | LINE ID |
-| moveInDate | timestamp | Move-in date |
-| moveOutDate | timestamp nullable | Move-out date |
-| contractDuration | integer | Contract length (months) |
-| isActive | boolean | Active status |
-| wifiEnabled | boolean | WiFi billing enabled |
-| createdAt | timestamp | |
-| updatedAt | timestamp | |
+#### Business Tables (8)
 
-### invoices
-| Column | Type | Description |
-|--------|------|-------------|
-| id | text PK | UUID |
-| roomId | text FK | References rooms.id |
-| tenantId | text | |
-| meterReadingId | text nullable | |
-| month | integer | Billing month |
-| year | integer | Billing year |
-| invoiceNumber | text | Invoice number |
-| rentalCost | numeric | Room rent |
-| waterCost | numeric | Water charge |
-| electricCost | numeric | Electric charge |
-| serviceCharge | numeric | Service fee |
-| wifiCost | numeric | WiFi fee |
-| totalAmount | numeric | Total |
-| status | text | pending / paid / overdue / cancelled |
-| issuedDate | timestamp | Issue date |
-| dueDate | timestamp | Due date |
-| paidDate | timestamp nullable | Payment date |
-| createdAt | timestamp | |
-| updatedAt | timestamp | |
+| Table | PK | Columns | Notes |
+|-------|----|---------|-------|
+| `buildings` | `id (text)` | name, address, timestamps | Root entity |
+| `rooms` | `id (text)` | buildingId (FK cascade), roomNumber, floor, status (enum), rentalFee, timestamps | `status`: vacant / occupied / maintenance |
+| `tenants` | `id (text)` | roomId (FK), name, phone, lineId, moveInDate, moveOutDate, contractDuration, isActive, wifiEnabled, timestamps | Syncs room status on create/update/delete |
+| `meter_readings` | `id (text)` | roomId, month, year, water/electric previous+current+usage, notes, timestamps | **uniqueIndex(roomId, month, year)** |
+| `invoices` | `id (text)` | roomId, tenantId, meterReadingId, month, year, costs (rental/water/electric/service/wifi), status (enum), dates, invoiceNumber (unique), timestamps | **uniqueIndex(roomId, month, year)** |
+| `utility_rates` | `id (text)` | name, unit, ratePerUnit (numeric), isActive, timestamps | Water/electric rates |
+| `settings` | `id (text)` | key (unique), value, updatedAt | Key-value config store |
+| `activities` | `id (text)` | type (enum), action, detail, createdAt | Audit log |
 
-### meter_readings
-| Column | Type | Description |
-|--------|------|-------------|
-| id | text PK | UUID |
-| roomId | text FK | References rooms.id |
-| month | integer | Month |
-| year | integer | Year |
-| waterPrevious | text | Previous water reading |
-| waterCurrent | text | Current water reading |
-| waterUsage | text | Water usage |
-| electricPrevious | text | Previous electric reading |
-| electricCurrent | text | Current electric reading |
-| electricUsage | text | Electric usage |
-| notes | text nullable | Notes |
-| createdAt | timestamp | |
-| updatedAt | timestamp | |
+#### Auth Tables (4)
 
-### settings (Key-Value)
-| Column | Type | Description |
-|--------|------|-------------|
-| id | text PK | UUID |
-| key | text unique | Setting key |
-| value | text | Setting value |
+| Table | PK | Columns | Notes |
+|-------|----|---------|-------|
+| `user` | `id (text)` | name, email (unique), emailVerified, image, timestamps | Better-Auth managed |
+| `session` | `id (text)` | expiresAt, token (unique), ipAddress, userAgent, userId (FK cascade), timestamps | Session tokens |
+| `account` | `id (text)` | accountId, providerId, userId (FK cascade), accessToken, refreshToken, password, timestamps | Credentials storage |
+| `verification` | `id (text)` | identifier, value, expiresAt, timestamps | Email verification tokens |
 
-### activities
-| Column | Type | Description |
-|--------|------|-------------|
-| id | text PK | UUID |
-| type | text | meter / invoice / tenant / room |
-| action | text | Action description |
-| detail | text | Detail text |
-| createdAt | timestamp | |
+### Key Constraints
+
+- `rooms.buildingId` → `buildings.id` (ON DELETE CASCADE)
+- `invoices` has **unique index** on `(roomId, month, year)` — prevents duplicate invoices
+- `meter_readings` has **unique index** on `(roomId, month, year)` — prevents duplicate readings
+- `invoiceNumber` is **globally unique** — format: `INV-YYYYMM-NNN`
 
 ---
 
-## 6. API Routes
+## 4. Authentication & Security
+
+### Better-Auth Configuration
+
+```
+src/lib/auth.ts        → Server config (drizzleAdapter, emailAndPassword, rateLimit)
+src/lib/auth-client.ts → React client (signIn, signOut, useSession, changePassword)
+src/lib/api-helper.ts  → requireAuth() — throws 401 if no session
+```
+
+### Auth Flow
+
+```
+Login:
+  POST /api/auth/sign-in/email
+    → Better-Auth validates password (bcrypt hash in account table)
+    → Creates session → Sets httpOnly cookie
+    → Returns session token
+
+API Request:
+  GET /api/invoices
+    → route() wrapper → requireAuth()
+    → getSession() reads cookie → validates against session table
+    → No session → throws Error (status: 401) → returns 401 JSON
+
+Client 401:
+  api.ts request() checks res.status === 401
+  → window.location.href = "/login" (auto-redirect)
+```
+
+### Security Features
+
+| Feature | Implementation |
+|---------|---------------|
+| Password hashing | bcrypt (via Better-Auth) |
+| Session storage | DB + httpOnly cookie |
+| Rate limiting | Better-Auth built-in (`rateLimit: { enabled: true }`) |
+| API auth | `route()` wrapper auto-calls `requireAuth()` on all 32 handlers |
+| Password change | Settings → Security tab → Better-Auth `changePassword()` |
+| SSL | Configurable via `DB_SSL_REJECT_UNAUTHORIZED` env var |
+| Input validation | Zod schemas on every POST/PATCH endpoint |
+
+---
+
+## 5. Business Logic
+
+### Utility Cost Calculation
+
+```typescript
+// src/lib/calculators.ts
+
+waterUsage = max(0, waterCurrent - waterPrevious)
+electricUsage = max(0, electricCurrent - electricPrevious)
+
+waterCost = waterUsage × waterRate
+electricCost = electricUsage × electricRate
+rentalCost = room.rentalFee (fixed)
+serviceCharge = from settings
+wifiCost = tenant.wifiEnabled ? settings.wifiRate : 0
+
+totalAmount = waterCost + electricCost + rentalCost + serviceCharge + wifiCost
+```
+
+`Math.max(0, ...)` prevents negative usage when meters are misread.
+
+### Meter Validation
+
+When recording a meter reading where `current < previous`, the API returns warnings (but still saves):
+
+```json
+{
+  "id": "...",
+  "waterUsage": "0",
+  "warnings": ["Water meter current is lower than previous — please verify"]
+}
+```
+
+### Invoice Numbering
+
+```
+Format: INV-YYYYMM-NNN
+Example: INV-202607-001
+
+nextInvoiceNumber() runs INSIDE the insert transaction:
+  1. COUNT existing invoices WHERE invoiceNumber LIKE 'INV-202607-%'
+  2. Increment count + 1
+  3. Pad to 3 digits
+
+This serializes concurrent generators under the row lock.
+```
+
+### Duplicate Invoice Prevention
+
+Two layers:
+
+1. **API check** — `SELECT ... WHERE roomId = ? AND month = ? AND year = ?` before insert → returns 400
+2. **DB constraint** — `uniqueIndex(roomId, month, year)` → throws 409 if race condition
+
+### Tenant → Room Status Sync
+
+All runs inside `db.transaction()`:
+
+| Trigger | Action |
+|---------|--------|
+| Create tenant (isActive) | Room → `occupied` |
+| Update tenant (isActive=false or moveOutDate) | If no other active tenant → Room → `vacant` |
+| Update tenant (roomId change) | Old room freed → New room `occupied` |
+| Delete tenant (isActive) | If no other active tenant → Room → `vacant` |
+
+### Overdue Auto-Promotion
+
+`markOverdue()` runs lazily on dashboard read:
+
+```sql
+UPDATE invoices SET status = 'overdue'
+WHERE status = 'pending' AND due_date < NOW()
+```
+
+Not a cron job — sufficient for single-dorm scale.
+
+### Cascade Deletes
+
+All delete cascades run inside transactions:
+
+```
+DELETE building → invoices → tenants → rooms → building
+DELETE room     → invoices → meter_readings → tenants → room
+```
+
+---
+
+## 6. API Reference
+
+All endpoints require a valid session cookie. Unauthenticated requests return `401`.
+
+### Response Format
+
+```typescript
+// Success: 200 / 201
+{ "id": "...", "name": "...", ... }
+
+// Error: 400 / 401 / 404 / 409 / 500
+{ "error": "Human-readable message" }
+```
+
+### Status Code Mapping
+
+| Status | When |
+|--------|------|
+| 200 | GET / PATCH success |
+| 201 | POST success |
+| 204 | DELETE success (no body) |
+| 400 | Validation error, duplicate invoice |
+| 401 | No session (unauthorized) |
+| 404 | Resource not found |
+| 409 | DB constraint violation (unique, FK) |
+| 500 | Unhandled server error (logged to console) |
 
 ### Endpoints
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|:----:|-------------|
-| GET | /api/buildings | yes | List buildings |
-| POST | /api/buildings | yes | Create building |
-| GET | /api/buildings/:id | yes | Get building |
-| PATCH | /api/buildings/:id | yes | Update building |
-| DELETE | /api/buildings/:id | yes | Delete building |
-| GET | /api/rooms | yes | List rooms (with building name) |
-| POST | /api/rooms | yes | Create room |
-| GET | /api/rooms/:id | yes | Get room |
-| PATCH | /api/rooms/:id | yes | Update room |
-| DELETE | /api/rooms/:id | yes | Delete room |
-| GET | /api/tenants | yes | List tenants (with room/building) |
-| POST | /api/tenants | yes | Create tenant |
-| GET | /api/tenants/:id | yes | Get tenant |
-| PATCH | /api/tenants/:id | yes | Update tenant |
-| DELETE | /api/tenants/:id | yes | Delete tenant |
-| GET | /api/invoices | yes | List invoices (with details) |
-| POST | /api/invoices | yes | Create invoice |
-| GET | /api/invoices/:id | yes | Get invoice |
-| PATCH | /api/invoices/:id | yes | Update invoice |
-| GET | /api/meters | yes | List meter readings |
-| POST | /api/meters | yes | Create reading (calculates usage) |
-| PATCH | /api/meters/:id | yes | Update reading |
-| GET | /api/rates | yes | List utility rates |
-| POST | /api/rates | yes | Create rate |
-| PATCH | /api/rates/:id | yes | Update rate |
-| DELETE | /api/rates/:id | yes | Delete rate |
-| GET | /api/settings | yes | Get all settings |
-| PATCH | /api/settings | yes | Upsert settings (key-value) |
-| GET | /api/activities | yes | List activities |
-| POST | /api/activities | yes | Create activity log |
-| GET | /api/dashboard | yes | Dashboard summary data |
-| POST | /api/auth/* | no | Better-auth authentication |
+#### Authentication
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/api/auth/sign-in/email` | Login with email + password |
+| `POST` | `/api/auth/sign-up/email` | Register new user |
+| `POST` | `/api/auth/sign-out` | Logout (clears session) |
+| `GET` | `/api/auth/get-session` | Get current session |
+| `POST` | `/api/auth/change-password` | Change password |
+
+#### Buildings
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/buildings` | List all buildings (with room count) |
+| `POST` | `/api/buildings` | Create building `{ name, address? }` |
+| `GET` | `/api/buildings/:id` | Get single building |
+| `PATCH` | `/api/buildings/:id` | Update building |
+| `DELETE` | `/api/buildings/:id` | Delete building (cascade in transaction) |
+
+#### Rooms
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/rooms` | List all rooms (with building name) |
+| `POST` | `/api/rooms` | Create room `{ buildingId, roomNumber, floor?, status?, rentalFee? }` |
+| `GET` | `/api/rooms/:id` | Get single room |
+| `PATCH` | `/api/rooms/:id` | Update room |
+| `DELETE` | `/api/rooms/:id` | Delete room (cascade dependents in transaction) |
+
+#### Tenants
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/tenants` | List all tenants (with room/building) |
+| `POST` | `/api/tenants` | Create tenant + auto room status sync |
+| `GET` | `/api/tenants/:id` | Get single tenant |
+| `PATCH` | `/api/tenants/:id` | Update tenant + room status sync |
+| `DELETE` | `/api/tenants/:id` | Delete tenant + room status sync |
+
+#### Invoices
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/invoices` | List invoices (filter: `?month=&year=&status=`) |
+| `POST` | `/api/invoices` | Create invoice (duplicate check + auto numbering) |
+| `GET` | `/api/invoices/:id` | Get invoice with computed `totalAmount` |
+| `PATCH` | `/api/invoices/:id` | Update status (paid/pending), auto-sets paidDate |
+
+#### Meters
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/meters` | List meter readings (filter: `?roomId=&month=&year=`) |
+| `POST` | `/api/meters` | Create reading (auto-computes usage, returns warnings) |
+| `PATCH` | `/api/meters/:id` | Update reading values |
+| `DELETE` | `/api/meters/:id` | Delete reading |
+
+#### Other
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/dashboard` | Aggregated stats (calls `markOverdue()` first) |
+| `GET` | `/api/rates` | List utility rates |
+| `POST` | `/api/rates` | Create rate |
+| `PATCH` | `/api/rates/:id` | Update rate |
+| `DELETE` | `/api/rates/:id` | Delete rate |
+| `GET` | `/api/settings` | Get all settings (as key-value map) |
+| `PATCH` | `/api/settings` | Upsert settings (atomic transaction) |
+| `GET` | `/api/activities` | List activities (filter: `?type=&limit=`) |
+| `POST` | `/api/activities` | Create activity log entry |
 
 ---
 
-## 7. Pages
+## 7. Money Handling
 
-| Path | Page | Description |
+### The Problem
+
+PostgreSQL `numeric(10,2)` returns values as **strings** in Node.js. If code does arithmetic directly on these strings, JavaScript silently coerces them — potentially losing precision.
+
+### The Solution
+
+```
+DB (numeric) → string → toMoney(string) → number → arithmetic → String(number) → DB
+```
+
+| Function | Location | Purpose |
+|----------|----------|---------|
+| `toMoney(v)` | `lib/calculators.ts` | Safe parse string/number/null → number (0 on NaN) |
+| `sumInvoice(inv)` | `lib/calculators.ts` | Single source of truth for invoice totals |
+| `formatCurrency(amount)` | `lib/formatters.ts` | `Money` type → THB formatted string |
+| `money` (Zod) | `lib/validation.ts` | `z.coerce.number().min(0)` — validates all money inputs |
+
+### Rules
+
+1. **Never** do arithmetic on raw DB values — always `toMoney()` first
+2. **Never** compute totals in multiple places — use `sumInvoice()`
+3. **Always** store back as `String(number)` for numeric columns
+4. **Always** accept money via Zod `money` schema on API input
+
+---
+
+## 8. Error Handling
+
+### API Layer
+
+```typescript
+// src/lib/route-handler.ts
+route(async (req) => {
+  // ... handler logic
+})
+// Catches ALL throws → converts to structured JSON response
+```
+
+| Error Source | Detection | Response |
+|-------------|-----------|----------|
+| Postgres constraint (code starts with `23`) | `pg.code` | `409 { error: message }` |
+| Custom error with `status` property | `err.status` | `{ status, error }` |
+| Everything else | catch-all | `500 { error: "Internal server error" }` |
+
+### Client Layer
+
+| Layer | Mechanism |
+|-------|-----------|
+| `safeApi()` | Wraps promise → returns `[data, error]` + toast |
+| API client `request()` | Checks `res.status === 401` → redirect to `/login` |
+| ErrorBoundary | Wraps all pages via `[locale]/layout.tsx` → fallback UI |
+| Toast notifications | `react-hot-toast` for all user-facing feedback |
+
+---
+
+## 9. Internationalization (i18n)
+
+### Configuration
+
+```
+next-intl with locale-based routing:
+  /[locale]/dashboard  →  th or en
+  /api/*               →  no locale (API routes)
+```
+
+### Files
+
+| File | Keys | Description |
 |------|------|-------------|
-| /dashboard | Dashboard | Summary: rooms, revenue, occupancy, recent activity |
-| /rooms | Rooms | CRUD room management with building/status filters |
-| /tenants | Tenants | CRUD tenant management with WiFi toggle |
-| /invoices | Invoices | List invoices, create new, filter by month/status |
-| /invoices/:id | Invoice Detail | View invoice, print, mark as paid |
-| /meters | Meters | Record meter readings with month/room filters |
-| /buildings | Buildings | CRUD building management |
-| /rates | Rates | CRUD utility rate management |
-| /settings | Settings | Configure rates, payment info, WiFi fee |
-| /activity | Activity | Activity log with type/month/search filters |
-| /reports | Reports | Financial/Outstanding/Utility/Occupancy reports + Excel export |
-| /login | Login | Authentication page |
+| `messages/en.json` | ~380 | English translations |
+| `messages/th.json` | ~380 | Thai translations |
 
----
+### Namespaces
 
-## 8. Features
-
-### Dashboard
-- 4 metric cards: rooms, buildings, tenants, monthly revenue
-- Collection rate with progress bar and animated number
-- Meter reading status with progress bar
-- Room grid (12 rooms) with status indicators
-- Average water/electric usage with progress bars
-- Top 3 water/electric usage ranking
-- Revenue donut chart (rent, water, electric, service, WiFi)
-- 6-month revenue bar chart
-- Contract status (active/expiring/expired)
-- Recent invoices (5 latest)
-- Recent activities (5 latest)
-- Overdue invoice alert
-- Auto-refresh on page visibility change
-
-### Invoice Features
-- Create invoice from meter readings
-- Auto-calculate utility costs
-- Preview with breakdown before creating
-- Support WiFi fee (if tenant has WiFi enabled)
-- Print invoice view with CSS @media print
-- Mark as paid with date recording
-- Duplicate detection warning
-- Filter by month and status
-- Sorting by issue date (newest first)
-
-### Meter Recording
-- Auto-compute water/electric usage (current - previous)
-- Smart room selection: shows meter status
-- Pre-fill previous readings from last entry
-- Month filter
-- Room status indicators (occupied/vacant/maintenance)
-
-### Tenant Management
-- Redesigned form with sections (Personal Info, Room & Contract, Additional Services)
-- WiFi fee checkbox
-- Auto-update room status (occupied/vacant)
-- Contract duration tracking (6/12/24 months)
-
-### Reports
-- Financial Summary: per-invoice breakdown with all cost categories
-- Outstanding: filtered unpaid invoices with overdue days
-- Utility Usage: water/electric sorted by usage (highest first)
-- Occupancy: by building with rates
-- All reports exportable to Excel (.xlsx)
-
----
-
-## 9. Components
-
-### Dashboard Components (12)
-| Component | Props | Description |
-|-----------|-------|-------------|
-| MetricCards | totals, counts | 4 summary cards |
-| RevenueCard | invoices, chart data | Donut + bar chart + breakdown |
-| QuickActions | - | 4 shortcut buttons (memoized) |
-| CollectionRate | rate, paid/total | Progress bar + animated number (memoized) |
-| MeterStatus | read/unread counts | Progress bar + button (memoized) |
-| RoomGridUsage | rooms, averages | Room grid + utility progress bars |
-| ContractStatusCard | stats (active/expiring/expired) | Contract summary |
-| OverdueAlert | invoices, max days | Red alert with amount |
-| RecentActivity | activities, timeAgo fn | Activity timeline |
-| RecentInvoices | invoices | 5 latest invoices |
-
-### Shared Components (10)
-| Component | Description |
-|-----------|-------------|
-| AnimatedNumber | Count up animation (0 to target) |
-| AnimatedProgressBar | Width animation with CSS transition |
-| SelectApple | Custom select dropdown |
-| StatusBadge | Color-coded status pill |
-| Pagination | Page controls |
-| EmptyState | "No data" placeholder |
-| FieldError | Validation error message |
-| ConfirmDialog | Delete confirmation modal |
-| ErrorBoundary | React error boundary with reload |
-| LocaleSwitcher | Language switcher |
-
----
-
-## 10. i18n
-
-System uses 
-ext-intl with two language files:
-- messages/en.json — English
-- messages/th.json - Thai
-
-### Translation Sections
-- nav, auth, dashboard, buildings, rooms, tenants, invoices, meters, rates, settings, common, reports, toast
+`auth`, `nav`, `dashboard`, `buildings`, `rooms`, `tenants`, `invoices`, `meters`, `rates`, `settings`, `common`, `reports`, `toast`, `app`
 
 ### Usage
-tsx
-// In any client component:
-const t = useTranslations();
-t("dashboard.totalRooms")       // -> "Total Rooms"
-t("toast.roomCreated")          // -> "Room created successfully"
-t("reports.daysOverdue", { days: 3 })  // -> "3 day(s)"
 
-### Total Keys
-| Language | Keys |
-|----------|:----:|
-| English | ~360 |
-| Thai | ~360 |
+```tsx
+const t = useTranslations();
+
+// Simple key
+t("dashboard.totalRooms")           // → "Total Rooms" / "จำนวนห้องทั้งหมด"
+
+// With interpolation
+t("invoices.overdueDaysCount", { days: 5 })
+// → "Overdue by 5 days" / "เกินกำหนดชำระ 5 วัน"
+
+// Namespaced
+const t = useTranslations("auth");
+t("title")                          // → "Sign In" / "เข้าสู่ระบบ"
+```
+
+### Rules
+
+- **Zero hardcoded UI text** — all visible strings use `t()`
+- Date formatting uses `toLocaleDateString(locale)` — not i18n keys
+- Both files must have identical key structures
 
 ---
 
-## 11. Error Handling
+## 10. Component Reference
 
-### Toast Notifications (react-hot-toast)
-| Context | Type | Message Key |
-|---------|------|-------------|
-| Room created | success | toast.roomCreated |
-| Room updated | success | toast.roomUpdated |
-| Room deleted | success | toast.roomDeleted |
-| Tenant created | success | toast.tenantCreated |
-| Tenant updated | success | toast.tenantUpdated |
-| Tenant deleted | success | toast.tenantDeleted |
-| Invoice created | success | toast.invoiceCreated |
-| Invoice paid | success | toast.invoicePaid |
-| Building created | success | toast.buildingCreated |
-| Building updated | success | toast.buildingUpdated |
-| Building deleted | success | toast.buildingDeleted |
-| Meter saved | success | toast.meterSaved |
-| Settings saved | success | toast.settingsSaved |
-| Dashboard load error | error | toast.dashboardError |
+### Dashboard Widgets (`components/dashboard/`)
 
-### Error Boundary
-- Wraps dashboard to catch render errors
-- Shows fallback UI with reload button
+| Component | Key Props | Description |
+|-----------|-----------|-------------|
+| `MetricCards` | totals, counts | 4 summary stat cards |
+| `RevenueCard` | invoices, chartData | Donut + bar chart + cost breakdown |
+| `CollectionRate` | rate, paid, total | Animated progress bar |
+| `MeterStatus` | read, unread | Reading progress + action button |
+| `QuickActions` | — | 4 shortcut buttons (memoized) |
+| `RoomGridUsage` | rooms, topMeters | Room grid + utility bars |
+| `ContractStatusCard` | stats | Contract expiry summary |
+| `OverdueAlert` | invoices, maxDays | Red alert banner |
+| `RecentActivity` | activities, timeAgo | Activity feed |
+| `RecentInvoices` | invoices | Latest 5 invoices |
 
-### safeApi Utility
-- Wraps API calls with auto-toast on error
-- Returns [data, error] tuple
+### Shared Components (`components/shared/`)
+
+| Component | Description |
+|-----------|-------------|
+| `AnimatedNumber` | Count-up animation on mount |
+| `AnimatedProgressBar` | CSS transition width animation |
+| `SelectApple` | Custom dropdown with Apple-style UI |
+| `StatusBadge` | Color-coded status pill (room/invoice) |
+| `Pagination` | Page navigation controls |
+| `EmptyState` | "No data" placeholder with icon + action |
+| `FieldError` | Form validation error display |
+| `ConfirmDialog` | Modal confirmation for destructive actions |
+| `ErrorBoundary` | React error boundary with reload button |
+| `Modal` | Reusable modal dialog |
+| `PromptPayQR` | Generates PromptPay QR code (dynamic import) |
+| `LocaleSwitcher` | Language toggle (TH/EN) |
+| `Reveal` | Framer Motion entrance animation wrapper |
+
+### Layout (`components/layout/`)
+
+| Component | Description |
+|-----------|-------------|
+| `NavWrapper` | Desktop sidebar + mobile nav shell |
+| `GlobalNav` | Navigation menu with groups + active state |
+| `GlobalSearch` | ⌘K command palette (search rooms/tenants/invoices) |
+| `PageHeader` | Page title + description |
+| `SubNav` | Sub-navigation bar with back button |
+
+### Auth (`components/auth/`)
+
+| Component | Description |
+|-----------|-------------|
+| `AuthGuard` | Wraps protected routes — redirects to `/login` if unauthenticated |
+
+---
+
+## 11. Configuration
+
+### Environment Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `DATABASE_URL` | Yes | — | PostgreSQL connection string |
+| `BETTER_AUTH_URL` | Yes | — | App base URL (for auth cookies/redirects) |
+| `DB_SSL_REJECT_UNAUTHORIZED` | No | `true` | Set to `"false"` for dev with self-signed certs |
+
+### Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start dev server (Turbopack) |
+| `pnpm build` | Production build |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm test` | Run Vitest |
+| `pnpm test:watch` | Vitest in watch mode |
+| `npx drizzle-kit push` | Push schema changes to DB |
+| `npx tsx src/db/seed.ts` | Seed sample business data |
+| `npx tsx src/db/seed-auth.ts` | Create admin user |
+
+### Quality Gates
+
+| Check | Command | Expected |
+|-------|---------|----------|
+| TypeScript | `npx tsc --noEmit` | 0 errors |
+| ESLint | `npx eslint src/` | 0 errors |
+| Tests | `pnpm test` | 16 passed |
+| Build | `pnpm build` | Success |
 
 ---
 
 ## 12. Troubleshooting
 
-### Build fails with TypeScript error
-Run 
-px tsc --noEmit to check. Ensure all imported types match.
+### Login fails (401)
 
-### API returns 500
-Check DATABASE_URL. Run 
-px drizzle-kit push to sync schema.
+1. Verify admin user exists: `npx tsx src/db/seed-auth.ts`
+2. Check `BETTER_AUTH_URL` matches the app URL
+3. Check session table has records after login
 
-### Missing translation errors
-Add missing key to both messages/en.json and messages/th.json.
+### API returns 409 on invoice creation
 
-### Toast not appearing
-Ensure <ClientLayout> wraps children in root layout.
+This is expected — the unique constraint `(roomId, month, year)` prevents duplicates. The API pre-checks and returns `400` with a message, but concurrent requests may hit the DB-level `409`.
 
-### Better Auth warning
-Set BETTER_AUTH_URL in .env.
+### TypeScript build fails
 
-### Dashboard data stale
-Dashboard auto-refreshes on focus and visibility change. Navigate away and back.
+```bash
+npx tsc --noEmit
+# Fix reported errors — usually a type mismatch after schema change
+```
+
+### Missing translation warning
+
+```
+MISSING_MESSAGE: Could not resolve `key` in messages for locale `en`
+```
+
+Add the missing key to **both** `messages/en.json` and `messages/th.json`.
+
+### Better-Auth warning
+
+```
+WARN [Better Auth]: Base URL is not set
+```
+
+Set `BETTER_AUTH_URL` in `.env` (e.g., `http://localhost:3000`).
+
+### Dashboard shows stale data
+
+The dashboard calls `markOverdue()` on each load and auto-refreshes on page visibility change. Hard refresh to force update.
+
+### Database connection fails
+
+1. Verify `DATABASE_URL` is correct
+2. For Neon: ensure connection string has `?sslmode=require`
+3. For local dev with self-signed certs: set `DB_SSL_REJECT_UNAUTHORIZED=false`
+4. Test connection: `npx tsx -e "import 'dotenv/config'; import { db } from '@/db'; db.execute('SELECT 1').then(() => console.log('OK'))"`
 
 ---
 
 ## License
 
-THXNXKXT - AquaVolt Dormitory Management System
+© THXNXKXT. All rights reserved.

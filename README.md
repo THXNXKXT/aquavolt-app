@@ -198,6 +198,8 @@ pnpm test:watch   # Watch mode tests
 
 ## 🏗 Architecture Highlights
 
+> 📖 **Full technical docs:** [SYSTEM.md](./SYSTEM.md) — database schema, business logic, API reference, security model, and troubleshooting.
+
 - **Money safety** — DB stores `numeric(10,2)` as strings, single `toMoney()` parser, `sumInvoice()` as the only total calculator
 - **Transaction safety** — all multi-step writes (DELETE cascade, invoice creation, tenant room-sync) run inside `db.transaction()`
 - **Auto-auth** — `route()` wrapper enforces `requireAuth()` on all 32 API handlers
