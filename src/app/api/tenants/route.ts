@@ -27,7 +27,8 @@ export const GET = route(async () => {
     .from(tenants)
     .leftJoin(rooms, eq(tenants.roomId, rooms.id))
     .leftJoin(buildings, eq(rooms.buildingId, buildings.id))
-    .orderBy(tenants.name);
+    .orderBy(tenants.name)
+    .limit(500);
   return Response.json(data);
 });
 

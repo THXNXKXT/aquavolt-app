@@ -40,7 +40,8 @@ export const GET = route(async (req: Request) => {
     .leftJoin(rooms, eq(meterReadings.roomId, rooms.id))
     .leftJoin(buildings, eq(rooms.buildingId, buildings.id))
     .where(conditions.length > 0 ? and(...conditions) : undefined)
-    .orderBy(meterReadings.year, meterReadings.month);
+    .orderBy(meterReadings.year, meterReadings.month)
+    .limit(500);
 
   return Response.json(data);
 });

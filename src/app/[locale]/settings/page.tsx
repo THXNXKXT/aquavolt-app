@@ -19,9 +19,11 @@ import {
   CreditCard,
   Smartphone,
   Landmark,
+  Lock,
 } from "lucide-react";
+import { changePassword } from "@/lib/auth-client";
 
-type Tab = "general" | "payment" | "rates";
+type Tab = "general" | "payment" | "rates" | "security";
 
 export default function SettingsPage() {
   const t = useTranslations();
@@ -47,6 +49,11 @@ export default function SettingsPage() {
   const [serviceCharge, setServiceCharge] = useState(settings.serviceCharge);
   const [wifiRate, setWifiRate] = useState(settings.wifiRate);
 
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordSaving, setPasswordSaving] = useState(false);
+
   const handleSaveGeneral = () => {
     updateSettings({ dormitoryName: dormName, dormitoryAddress: address, phone });
     toast.success(t("toast.settingsSaved"));
@@ -60,6 +67,32 @@ export default function SettingsPage() {
   const handleSaveRates = () => {
     updateSettings({ waterRate, electricRate, serviceCharge, wifiRate });
     toast.success(t("toast.settingsSaved"));
+  };
+
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      toast.error(locale === "th" ? "รหัสผ่านไม่ตรงกัน" : "Passwords do not match");
+      return;
+    }
+    if (newPassword.length < 8) {
+      toast.error(locale === "th" ? "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร" : "Password must be at least 8 characters");
+      return;
+    }
+    setPasswordSaving(true);
+    try {
+      const result = await changePassword({ currentPassword, newPassword, revokeOtherSessions: false });
+      if (result.error) {
+        toast.error(locale === "th" ? "รหัสผ่านปัจจุบันไม่ถูกต้อง" : "Current password is incorrect");
+      } else {
+        toast.success(locale === "th" ? "เปลี่ยนรหัสผ่านสำเร็จ" : "Password changed successfully");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      }
+    } catch {
+      toast.error(locale === "th" ? "เปลี่ยนรหัสผ่านไม่สำเร็จ" : "Failed to change password");
+    }
+    setPasswordSaving(false);
   };
 
   const switchLocale = (newLocale: string) => {
@@ -79,6 +112,7 @@ export default function SettingsPage() {
     { key: "general", label: t("settings.general") },
     { key: "payment", label: t("settings.payment") },
     { key: "rates", label: t("rates.title") },
+    { key: "security", label: locale === "th" ? "ความปลอดภัย" : "Security" },
   ];
 
   return (
@@ -323,6 +357,54 @@ export default function SettingsPage() {
                 {t("settings.save")}
               </button>
             </div>
+          </div>
+        )}
+
+        {/* ══════ SECURITY TAB ══════ */}
+        {activeTab === "security" && (
+          <div className="space-y-6">
+            <section>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-7 h-7 rounded-sm bg-[#f0f7ff] flex items-center justify-center">
+                  <Lock className="w-3.5 h-3.5 text-primary" />
+                </div>
+                <h2 className="text-[15px] font-semibold text-ink">
+                  {locale === "th" ? "เปลี่ยนรหัสผ่าน" : "Change Password"}
+                </h2>
+              </div>
+              <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-[#f0f0f0]">
+                <div className="p-4 sm:p-5">
+                  <label className="block text-xs font-medium text-[#86868b] mb-1.5">
+                    {locale === "th" ? "รหัสผ่านปัจจุบัน" : "Current Password"}
+                  </label>
+                  <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-md border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary" />
+                </div>
+                <div className="p-4 sm:p-5">
+                  <label className="block text-xs font-medium text-[#86868b] mb-1.5">
+                    {locale === "th" ? "รหัสผ่านใหม่" : "New Password"}
+                  </label>
+                  <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-md border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary" />
+                  <p className="text-[11px] text-[#a1a1a6] mt-1">
+                    {locale === "th" ? "อย่างน้อย 8 ตัวอักษร" : "At least 8 characters"}
+                  </p>
+                </div>
+                <div className="p-4 sm:p-5">
+                  <label className="block text-xs font-medium text-[#86868b] mb-1.5">
+                    {locale === "th" ? "ยืนยันรหัสผ่านใหม่" : "Confirm New Password"}
+                  </label>
+                  <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-md border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary" />
+                </div>
+                <div className="p-4 sm:p-5 flex justify-end">
+                  <button onClick={handleChangePassword} disabled={passwordSaving || !currentPassword || !newPassword}
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100">
+                    {passwordSaving ? "..." : (locale === "th" ? "เปลี่ยนรหัสผ่าน" : "Change Password")}
+                  </button>
+                </div>
+              </div>
+            </section>
           </div>
         )}
       </div>

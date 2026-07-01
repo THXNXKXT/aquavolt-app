@@ -29,7 +29,8 @@ export const GET = route(async (req: Request) => {
     .leftJoin(tenants, eq(invoices.tenantId, tenants.id))
     .leftJoin(buildings, eq(rooms.buildingId, buildings.id))
     .where(conditions.length > 0 ? and(...conditions) : undefined)
-    .orderBy(invoices.createdAt);
+    .orderBy(invoices.createdAt)
+    .limit(500);
 
   return Response.json(rows.map((r) => withTotal(r)));
 });

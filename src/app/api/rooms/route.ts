@@ -20,7 +20,8 @@ export const GET = route(async () => {
     })
     .from(rooms)
     .leftJoin(buildings, eq(rooms.buildingId, buildings.id))
-    .orderBy(rooms.roomNumber);
+    .orderBy(rooms.roomNumber)
+    .limit(500);
   return Response.json(data);
 });
 
