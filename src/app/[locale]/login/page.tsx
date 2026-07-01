@@ -133,7 +133,7 @@ export default function LoginPage() {
             </button>
 
             <p className="text-xs text-[#86868b] text-center mt-6">
-              Demo: admin@aquavolt.com / admin123
+              {t("hint") || ""}
             </p>
           </form>
 

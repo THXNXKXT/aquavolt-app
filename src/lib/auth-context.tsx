@@ -1,64 +1,50 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
+import { useSession, signIn, signOut } from "@/lib/auth-client";
 
 export interface AuthUser {
   name: string;
   email: string;
+  image?: string | null;
 }
 
 interface AuthContextValue {
   user: AuthUser | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const MOCK_CREDENTIALS = { email: "admin@aquavolt.com", password: "admin123" };
-const MOCK_USER: AuthUser = { name: "Admin", email: "admin@aquavolt.com" };
-const STORAGE_KEY = "aquavolt-auth";
-
-function loadUser(): AuthUser | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-function saveUser(user: AuthUser | null) {
-  try {
-    if (user) localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-    else localStorage.removeItem(STORAGE_KEY);
-  } catch {}
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(loadUser);
+  const { data: session, isPending } = useSession();
 
-  const login = useCallback(async (email: string, password: string) => {
-    // Simulate network delay
-    await new Promise((r) => setTimeout(r, 800));
+  const user = session?.user
+    ? { name: session.user.name, email: session.user.email, image: session.user.image }
+    : null;
 
-    if (email === MOCK_CREDENTIALS.email && password === MOCK_CREDENTIALS.password) {
-      setUser(MOCK_USER);
-      saveUser(MOCK_USER);
-      return true;
-    }
-    return false;
-  }, []);
+  const login = async (email: string, password: string) => {
+    const result = await signIn.email({ email, password });
+    return !result.error;
+  };
 
-  const logout = useCallback(() => {
-    setUser(null);
-    saveUser(null);
-  }, []);
+  const logout = async () => {
+    await signOut();
+  };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        isLoading: isPending,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

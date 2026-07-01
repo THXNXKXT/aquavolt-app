@@ -7,35 +7,29 @@ import { useEffect, useState } from "react";
 const PUBLIC_ROUTES = ["/login"];
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
-  const [checked, setChecked] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   const isPublic = PUBLIC_ROUTES.some((r) => pathname.endsWith(r));
 
   useEffect(() => {
-    // Auth guard: set checked flag after determining route access
-    if (isPublic) {
+    if (isPublic || isLoading) return;
+    if (!isAuthenticated && !redirecting) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setChecked(true);
-      return;
-    }
-    if (!isAuthenticated) {
+      setRedirecting(true);
       router.replace("/login");
-    } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setChecked(true);
     }
-  }, [isAuthenticated, pathname, router, isPublic]);
+  }, [isAuthenticated, isLoading, pathname, router, isPublic, redirecting]);
 
-  // For public routes, always render
+  // Always render public routes
   if (isPublic) return <>{children}</>;
 
-  // For protected routes, show nothing while checking
-  if (!checked) return null;
+  // Show nothing while session is loading or redirecting
+  if (isLoading || (!isAuthenticated && redirecting)) return null;
 
-  // Only render children when authenticated
+  // Only render protected content when authenticated
   if (!isAuthenticated) return null;
 
   return <>{children}</>;

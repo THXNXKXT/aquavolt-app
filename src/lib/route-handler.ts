@@ -1,12 +1,20 @@
 /**
  * Wrap an API route handler so thrown errors become structured responses
  * instead of bare 500s. Known error shapes map to specific status codes.
+ *
+ * Auth is enforced by default — every route() handler must have a valid
+ * session unless explicitly opted out with `{ auth: false }`.
  */
 export function route<TArgs extends unknown[]>(
   handler: (...args: TArgs) => Promise<Response>,
+  options?: { auth?: false },
 ): (...args: TArgs) => Promise<Response> {
   return async (...args) => {
     try {
+      if (options?.auth !== false) {
+        const { requireAuth } = await import("@/lib/api-helper");
+        await requireAuth();
+      }
       return await handler(...args);
     } catch (e) {
       return toErrorResponse(e);
