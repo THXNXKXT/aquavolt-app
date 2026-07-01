@@ -26,6 +26,7 @@
     "password": "Password",
     "submit": "Sign In",
     "error": "Invalid email or password",
+    "hint": "",
     "placeholder": {
       "email": "admin@aquavolt.com",
       "password": "Enter your password"

@@ -26,6 +26,7 @@
     "password": "รหัสผ่าน",
     "submit": "เข้าสู่ระบบ",
     "error": "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
+    "hint": "",
     "placeholder": {
       "email": "admin@aquavolt.com",
       "password": "กรุณากรอกรหัสผ่าน"
