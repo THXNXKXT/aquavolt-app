@@ -1,4 +1,4 @@
-import { pgTable, text, integer, numeric, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, numeric, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 import { rooms } from "./rooms";
 import { tenants } from "./tenants";
 import { meterReadings } from "./meter-readings";
@@ -22,4 +22,6 @@ export const invoices = pgTable("invoices", {
   invoiceNumber: text("invoice_number").notNull().unique(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
-});
+}, (table) => ({
+  roomMonthYearIdx: uniqueIndex("invoice_room_month_year_idx").on(table.roomId, table.month, table.year),
+}));

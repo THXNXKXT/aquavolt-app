@@ -5,6 +5,7 @@ import { routing } from "@/i18n/routing";
 import { NavWrapper } from "@/components/layout/nav-wrapper";
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { AuthProvider } from "@/lib/auth-context";
+import { ErrorBoundary } from "@/components/shared/error-boundary";
 
 type Props = {
   children: React.ReactNode;
@@ -32,7 +33,9 @@ export default async function LocaleLayout({ children, params }: Props) {
     <NextIntlClientProvider messages={messages}>
       <AuthProvider>
         <AuthGuard>
-          <NavWrapper>{children}</NavWrapper>
+          <NavWrapper>
+            <ErrorBoundary>{children}</ErrorBoundary>
+          </NavWrapper>
         </AuthGuard>
       </AuthProvider>
     </NextIntlClientProvider>

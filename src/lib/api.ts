@@ -22,6 +22,10 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
       ...options?.headers,
     },
   });
+  if (res.status === 401) {
+    if (typeof window !== "undefined") window.location.href = "/login";
+    throw new Error("Session expired");
+  }
   if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`);
   if (res.status === 204) return undefined as T;
   return res.json() as Promise<T>;

@@ -39,6 +39,13 @@ export const POST = route(async (req: Request) => {
   if (parsed instanceof Response) return parsed;
   const body = parsed;
 
+  // Check for existing invoice for this room/month/year before creating.
+  const [existing] = await db
+    .select({ id: invoices.id })
+    .from(invoices)
+    .where(and(eq(invoices.roomId, body.roomId), eq(invoices.month, body.month), eq(invoices.year, body.year)));
+  if (existing) return badRequest("Invoice already exists for this room and billing period");
+
   // #7 + #8: reserve the number and insert atomically inside one transaction.
   const created = await db.transaction(async (tx) => {
     const invoiceNumber = await nextInvoiceNumber(tx, body.year, body.month);
