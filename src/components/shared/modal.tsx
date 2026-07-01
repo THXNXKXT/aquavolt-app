@@ -60,7 +60,7 @@ export function Modal({
           }}
         >
           <motion.div
-            className={`bg-white rounded-[18px] shadow-xl w-full ${maxWidthClassName}`}
+            className={`bg-white rounded-[14px] shadow-xl w-full ${maxWidthClassName}`}
             initial={{ opacity: 0, scale: 0.96, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 8 }}

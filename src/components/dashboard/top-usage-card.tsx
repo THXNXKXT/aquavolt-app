@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Trophy, Zap, Droplets } from "lucide-react";
 import { AnimatedProgressBar } from "@/components/shared/animated-progress-bar";
 import type { MeterReading } from "@/types";
@@ -13,12 +13,13 @@ interface TopUsageCardProps {
 
 export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCardProps) {
   const t = useTranslations();
+  const locale = useLocale();
 
   const monthName = new Date(
     new Date().getFullYear(),
     currentMonth - 1,
     1
-  ).toLocaleDateString("th-TH", { month: "long" });
+  ).toLocaleDateString(locale === "th" ? "th-TH" : "en-US", { month: "long" });
 
   return (
     <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
@@ -30,7 +31,7 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
           </h3>
         </div>
         <span className="text-[10px] text-[#86868b]">
-          ประจำเดือน {monthName}
+          {t("dashboard.monthlyLabel", { month: monthName })}
         </span>
       </div>
       <div className="grid grid-cols-2 gap-3">

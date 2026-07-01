@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useMemo } from "react";
 import {
   PieChart,
@@ -45,6 +45,7 @@ export function RevenueCard({
   loading,
 }: RevenueCardProps) {
   const t = useTranslations();
+  const locale = useLocale();
 
   // All paid invoices across all time (total revenue)
   const allPaidInvs = useMemo(
@@ -113,10 +114,10 @@ export function RevenueCard({
         </div>
         <div className="text-right">
           <p className="text-[10px] text-[#86868b]">
-            {new Date().toLocaleDateString("th-TH", { month: "short", year: "numeric" })}
+            {new Date().toLocaleDateString(locale === "th" ? "th-TH" : "en-US", { month: "short", year: "numeric" })}
           </p>
           <p className="text-[9px] text-[#86868b] mt-0.5">
-            {allPaidInvs.length}/{invoicesData.length} ชำระแล้ว
+            {t("dashboard.paidSummary", { paid: allPaidInvs.length, total: invoicesData.length })}
           </p>
         </div>
       </div>
@@ -147,7 +148,7 @@ export function RevenueCard({
                 ))}
               </Bar>
               <Tooltip
-                formatter={(value) => [`${Number(value).toLocaleString()} ฿`, "รายได้"]}
+                formatter={(value) => [`${Number(value).toLocaleString()} ฿`, t("dashboard.revenueLabel")]}
                 contentStyle={{ fontSize: 11, borderRadius: 8, border: "1px solid #e0e0e0" }}
               />
               <XAxis
