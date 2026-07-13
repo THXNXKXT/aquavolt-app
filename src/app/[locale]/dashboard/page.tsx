@@ -207,8 +207,8 @@ export default function DashboardPage() {
       {/* ── Overdue Alert ── */}
       <OverdueAlert overdueInvoices={overdueInvoices} maxDaysOverdue={maxDaysOverdue} />
 
-      {/* ── Contract + Room Grid side by side ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+      {/* ── Contract (1-col) + Room Grid (2-col) ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
         <ContractStatusCard stats={useMemo(() => {
           // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
           const now = Date.now();
