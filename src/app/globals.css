@@ -2,20 +2,20 @@
 
 /* ───── Design Tokens ───── */
 :root {
-  --color-primary: #0066cc;
-  --color-primary-focus: #0071e3;
+  --color-primary: #0071e3;
+  --color-primary-focus: #0077ed;
   --color-primary-on-dark: #2997ff;
   --color-ink: #1d1d1f;
   --color-body: #1d1d1f;
   --color-body-on-dark: #ffffff;
   --color-body-muted: #cccccc;
-  --color-ink-muted-80: #333333;
-  --color-ink-muted-48: #7a7a7a;
-  --color-divider-soft: #f0f0f0;
-  --color-hairline: #e0e0e0;
+  --color-ink-muted-80: #424245;
+  --color-ink-muted-48: #86868b;
+  --color-divider-soft: #f0efed;
+  --color-hairline: #e5e5e7;
   --color-canvas: #ffffff;
-  --color-canvas-parchment: #f5f5f7;
-  --color-surface-pearl: #fafafc;
+  --color-canvas-parchment: #f9f8f6;
+  --color-surface-pearl: #fbfaf8;
   --color-surface-tile-1: #272729;
   --color-surface-tile-2: #2a2a2c;
   --color-surface-tile-3: #252527;
@@ -40,20 +40,20 @@
 }
 
 @theme inline {
-  --color-primary: #0066cc;
-  --color-primary-focus: #0071e3;
+  --color-primary: #0071e3;
+  --color-primary-focus: #0077ed;
   --color-primary-on-dark: #2997ff;
   --color-ink: #1d1d1f;
   --color-body: #1d1d1f;
   --color-body-on-dark: #ffffff;
   --color-body-muted: #cccccc;
-  --color-ink-muted-80: #333333;
-  --color-ink-muted-48: #7a7a7a;
-  --color-divider-soft: #f0f0f0;
-  --color-hairline: #e0e0e0;
+  --color-ink-muted-80: #424245;
+  --color-ink-muted-48: #86868b;
+  --color-divider-soft: #f0efed;
+  --color-hairline: #e5e5e7;
   --color-canvas: #ffffff;
-  --color-canvas-parchment: #f5f5f7;
-  --color-surface-pearl: #fafafc;
+  --color-canvas-parchment: #f9f8f6;
+  --color-surface-pearl: #fbfaf8;
   --color-surface-tile-1: #272729;
   --color-surface-tile-2: #2a2a2c;
   --color-surface-tile-3: #252527;
@@ -221,6 +221,16 @@ button:not(:disabled),
 button:not(:disabled):active:not(.no-press),
 [role="button"]:active:not(.no-press) {
   transform: scale(0.97);
+}
+
+/* ───── Apple-style card depth ─────
+   ponytail: one rule for all cards instead of editing every component.
+   Multi-layer shadow = soft ambient + subtle key light. Barely visible on
+   white, gives cards a floating quality without heavy borders. */
+.bg-white.rounded-\[14px\] {
+  box-shadow:
+    0 0.5px 1px rgba(0, 0, 0, 0.04),
+    0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 /* Respect users who asked for less motion. Applies to both framer-motion
