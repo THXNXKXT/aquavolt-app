@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Building2, Users, Wallet, DoorOpen } from "lucide-react";
+import { Building2, Users, DoorOpen, Receipt } from "lucide-react";
 import { formatCurrency } from "@/lib/formatters";
 import { AnimatedNumber } from "@/components/shared/animated-number";
 
@@ -75,36 +75,36 @@ export function MetricCards({
         </p>
       </div>
 
-      {/* Monthly Revenue */}
+      {/* This Month Bills (gradient) */}
       <div className="bg-gradient-to-br from-[#0071e3] to-[#005bb5] rounded-[14px] p-5 border border-transparent">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-9 h-9 rounded-[10px] bg-white/15 flex items-center justify-center">
-            <Wallet className="w-4 h-4 text-white" />
+            <Receipt className="w-4 h-4 text-white" />
           </div>
           <span className="text-[11px] font-medium text-white/70 uppercase tracking-wider">
-            {t("dashboard.monthlyRevenue")}
+            {t("nav.invoices")}
           </span>
         </div>
         <p className="text-[32px] font-semibold tracking-tight text-white leading-none">
-          <AnimatedNumber value={monthlyRevenue} formatter={formatCurrency} />
+          <AnimatedNumber value={currentInvoiceCount} formatter={int} />
         </p>
         <p className="text-[11px] text-white/60 mt-3">
-          {currentInvoiceCount} {t("common.rooms")}
+          {formatCurrency(monthlyRevenue)}
         </p>
       </div>
 
-      {/* Collection Rate summary */}
+      {/* Buildings */}
       <div className="bg-white rounded-[14px] p-5 border border-divider-soft">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-9 h-9 rounded-[10px] bg-amber-50 flex items-center justify-center">
             <Building2 className="w-4 h-4 text-amber-500" />
           </div>
           <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-wider">
-            {t("dashboard.occupancyRateLabel")}
+            {t("dashboard.allBuildings")}
           </span>
         </div>
         <p className="text-[32px] font-semibold tracking-tight text-ink leading-none">
-          {totalRooms > 0 ? Math.round((occupiedRooms / totalRooms) * 100) : 0}<span className="text-[18px] text-[#86868b]">%</span>
+          <AnimatedNumber value={totalBuildings} formatter={int} />
         </p>
         <div className="flex gap-1.5 mt-3">
           {maintenanceRooms > 0 && (
