@@ -3,9 +3,8 @@ import "./globals.css";
 import { ClientLayout } from "@/components/shared/client-layout";
 
 export const metadata: Metadata = {
-  title: "AquaVolt - ระบบจัดการหอพัก",
-  description:
-    "Dormitory utility management system for water and electricity billing",
+  title: "AquaVolt — Dormitory Management",
+  description: "Utility billing, tenant management, and financial reporting for dormitories.",
 };
 
 export default function RootLayout({
@@ -14,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="th" className="h-full antialiased" suppressHydrationWarning>
+    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <body className="min-h-full bg-canvas-parchment text-ink font-sans" suppressHydrationWarning>
         <ClientLayout>{children}</ClientLayout>
       </body>
