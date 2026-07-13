@@ -29,21 +29,11 @@ export const MeterStatus = memo(function MeterStatus({
       : 0;
 
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-divider-soft flex-1">
-      <div className="flex items-center gap-2 mb-3">
-        <svg
-          className="w-4 h-4 text-primary"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-          />
-        </svg>
+    <div className="bg-white rounded-[14px] p-5 border border-divider-soft flex-1">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-8 h-8 rounded-[10px] bg-[#0071e3]/8 flex items-center justify-center">
+          <Gauge className="w-4 h-4 text-primary" />
+        </div>
         <h3 className="text-[13px] font-semibold text-ink">
           {t("dashboard.meterStatus")}
         </h3>
