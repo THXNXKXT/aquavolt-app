@@ -207,28 +207,28 @@ export default function DashboardPage() {
       {/* ── Overdue Alert ── */}
       <OverdueAlert overdueInvoices={overdueInvoices} maxDaysOverdue={maxDaysOverdue} />
 
-      {/* ── Contract (1-col) + Room Grid (2-col) ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
-        <ContractStatusCard stats={useMemo(() => {
-          // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
-          const now = Date.now();
-          const monthMs = MS.DAY * 30;
-          let active = 0, expiring = 0, expired = 0, total = 0;
-          for (const t of tenantsData) {
-            if (!t.isActive) continue;
-            total++;
-            const e = new Date(t.moveInDate);
-            e.setFullYear(e.getFullYear() + Math.floor(t.contractDuration / 12));
-            e.setMonth(e.getMonth() + (t.contractDuration % 12));
-            const endTime = e.getTime();
-            if (endTime <= now) { expired++; }
-            else if (endTime - now <= monthMs) { expiring++; }
-            else { active++; }
-          }
-          return { active, expiring, expired, total };
-        }, [tenantsData])} />
+      {/* ── Contract Status (full width) ── */}
+      <ContractStatusCard stats={useMemo(() => {
+        // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
+        const now = Date.now();
+        const monthMs = MS.DAY * 30;
+        let active = 0, expiring = 0, expired = 0, total = 0;
+        for (const t of tenantsData) {
+          if (!t.isActive) continue;
+          total++;
+          const e = new Date(t.moveInDate);
+          e.setFullYear(e.getFullYear() + Math.floor(t.contractDuration / 12));
+          e.setMonth(e.getMonth() + (t.contractDuration % 12));
+          const endTime = e.getTime();
+          if (endTime <= now) { expired++; }
+          else if (endTime - now <= monthMs) { expiring++; }
+          else { active++; }
+        }
+        return { active, expiring, expired, total };
+      }, [tenantsData])} />
 
-        <RoomGridUsage
+      {/* ── Room Grid (full width) ── */}
+      <RoomGridUsage
           roomsData={roomsData}
           occupiedRooms={occupiedRooms}
           vacantRooms={vacantRooms}
@@ -239,7 +239,6 @@ export default function DashboardPage() {
           topWater={topWater}
           currentMonth={currentMonth}
         />
-      </div>
 
       {/* ── Bottom: Activity + Invoices ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
