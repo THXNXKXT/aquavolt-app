@@ -9,6 +9,7 @@ import { FieldError } from "@/components/shared/field-error";
 import { Loader2, Check } from "lucide-react";
 import { fetchBuildings, createBuilding, updateBuilding, deleteBuilding } from "@/lib/api";
 import type { Building } from "@/types";
+import { Reveal } from "@/components/shared/reveal";
 import { Building2, Plus, Pencil, Trash2, MapPin } from "lucide-react";
 import toast from "react-hot-toast";
 import { Modal } from "@/components/shared/modal";
@@ -84,7 +85,7 @@ export default function BuildingsPage() {
   return (
     <div>
       <SubNav title={t("buildings.title")} />
-      <div className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-12">
+      <Reveal className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-12">
         {/* Stats bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex items-center gap-1.5 text-[13px] text-[#86868b]">
@@ -173,7 +174,7 @@ export default function BuildingsPage() {
             })}
           </div>
         )}
-      </div>
+      </Reveal>
 
       {/* Form Dialog */}
       <Modal isOpen={formOpen} onClose={() => { setFormOpen(false); setEditBuilding(null); }} maxWidthClassName="max-w-lg">

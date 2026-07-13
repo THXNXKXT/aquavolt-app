@@ -11,6 +11,7 @@ import { useSettings } from "@/hooks/use-settings";
 import toast from "react-hot-toast";
 import { Modal } from "@/components/shared/modal";
 import { fetchMeters, fetchRooms, createMeterReading, createActivity } from "@/lib/api";
+import { Reveal } from "@/components/shared/reveal";
 import type { MeterReading, Room } from "@/types";
 import {
   Plus,
@@ -186,7 +187,7 @@ export default function MetersPage() {
   return (
     <div>
       <SubNav title={t("meters.title")} />
-      <div className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-12">
+      <Reveal className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-12">
         {/* Summary + Action */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex items-center gap-1.5 text-[13px] text-[#86868b]">
@@ -293,7 +294,7 @@ export default function MetersPage() {
           )}
         </div>
       )}
-      </div>
+      </Reveal>
 
       {/* Record Meter Dialog */}
       <Modal isOpen={formOpen} onClose={() => setFormOpen(false)} maxWidthClassName="max-w-xl">

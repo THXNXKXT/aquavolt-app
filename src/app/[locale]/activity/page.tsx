@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect } from "react";
 import { SubNav } from "@/components/layout/sub-nav";
 import { SelectApple } from "@/components/shared/select-apple";
 import { fetchActivities, type Activity } from "@/lib/api";
+import { Reveal } from "@/components/shared/reveal";
 import { Gauge, FileText, Users, Building2, Search, ArrowRight, Clock } from "lucide-react";
 
 export default function ActivityPage() {
@@ -127,7 +128,7 @@ export default function ActivityPage() {
       <SubNav title={t("dashboard.recentActivity")}>
         <span className="text-xs text-[#86868b]">{filtered.length} {t("common.items")}</span>
       </SubNav>
-      <div className="max-w-200 mx-auto px-5 sm:px-8 py-8 sm:py-12">
+      <Reveal className="max-w-200 mx-auto px-5 sm:px-8 py-8 sm:py-12">
         {/* Search + Filters */}
         <div className="flex flex-col sm:flex-row gap-3 mb-8">
           <div className="relative flex-1">
@@ -224,7 +225,7 @@ export default function ActivityPage() {
             </div>
           </div>
         )}
-      </div>
+      </Reveal>
     </div>
   );
 }

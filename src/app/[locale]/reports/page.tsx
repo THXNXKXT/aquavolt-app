@@ -9,6 +9,7 @@ import type { Invoice, Room, Tenant, MeterReading } from "@/types";
 import { formatCurrency } from "@/lib/formatters";
 import { exportToExcel, formatExportDate, formatExportCurrency } from "@/lib/export-utils";
 import { FileText, Download, Building2, Zap, DollarSign } from "lucide-react";
+import { Reveal } from "@/components/shared/reveal";
 
 type ReportTab = "financial" | "outstanding" | "utility" | "occupancy";
 
@@ -197,7 +198,7 @@ export default function ReportsPage() {
   return (
     <div>
       <SubNav title={t("reports.title")} />
-      <div className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-12">
+      <Reveal className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-12">
         <div className="flex flex-wrap items-right justify-self-end gap-3 mb-6">
           <SelectApple value={filterMonth} onChange={setFilterMonth}
             options={[{ value: "all", label: t("reports.filterAll") }, ...monthOptions.map((m) => { const [mo, yr] = m.split("-"); return { value: m, label: `${getMonthName(parseInt(mo))} ${yr}` }; })]}
@@ -435,7 +436,7 @@ export default function ReportsPage() {
             </div>
           </div>
         )}
-      </div>
+      </Reveal>
     </div>
   );
 }

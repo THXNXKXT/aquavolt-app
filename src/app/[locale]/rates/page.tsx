@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/routing";
 import { SubNav } from "@/components/layout/sub-nav";
 import { useSettings } from "@/hooks/use-settings";
 import { formatCurrency } from "@/lib/formatters";
+import { Reveal } from "@/components/shared/reveal";
 import { Droplets, Zap, Building2, Settings, ArrowRight } from "lucide-react";
 
 export default function RatesPage() {
@@ -51,7 +52,7 @@ export default function RatesPage() {
           {t("settings.title")}
         </button>
       </SubNav>
-      <div className="max-w-[800px] mx-auto px-5 sm:px-8 py-8 sm:py-12">
+      <Reveal className="max-w-[800px] mx-auto px-5 sm:px-8 py-8 sm:py-12">
         {/* Rates summary */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex items-center gap-1.5 text-[13px] text-[#86868b]">
@@ -112,7 +113,7 @@ export default function RatesPage() {
             </button>
           </div>
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { useTransition } from "react";
 import { SubNav } from "@/components/layout/sub-nav";
 import { useSettings } from "@/hooks/use-settings";
 import { formatCurrency } from "@/lib/formatters";
+import { Reveal } from "@/components/shared/reveal";
 import toast from "react-hot-toast";
 import {
   Check,
@@ -118,7 +119,7 @@ export default function SettingsPage() {
   return (
     <div>
       <SubNav title={t("settings.title")} />
-      <div className="max-w-[680px] mx-auto px-5 sm:px-8 py-8 sm:py-12">
+      <Reveal className="max-w-[680px] mx-auto px-5 sm:px-8 py-8 sm:py-12">
         {/* Tabs */}
         <div className="flex gap-1 p-1 bg-divider-soft rounded-full w-fit mb-8">
           {tabs.map((tab) => (
@@ -407,7 +408,7 @@ export default function SettingsPage() {
             </section>
           </div>
         )}
-      </div>
+      </Reveal>
     </div>
   );
 }
