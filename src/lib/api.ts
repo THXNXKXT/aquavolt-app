@@ -14,7 +14,30 @@ import type {
 
 const BASE = ""; // same origin
 
+// ponytail: module-level SWR cache. GET responses are cached so revisiting
+// a page renders instantly with stale data while a background refetch updates.
+// Any mutation (POST/PATCH/DELETE) clears the whole cache — ~5 entries, free.
+const cache = new Map<string, unknown>();
+
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
+  const method = options?.method ?? "GET";
+  const isGet = method === "GET";
+
+  // Invalidate cache on any mutation
+  if (!isGet) cache.clear();
+
+  // Return cached data instantly, refetch in background
+  if (isGet && cache.has(url)) {
+    const cached = cache.get(url) as T;
+    fetch(`${BASE}${url}`, {
+      ...options,
+      headers: { "Content-Type": "application/json", ...options?.headers },
+    }).then(res => res.ok ? res.json() : null)
+      .then(data => { if (data) cache.set(url, data); })
+      .catch(() => {});
+    return cached;
+  }
+
   const res = await fetch(`${BASE}${url}`, {
     ...options,
     headers: {
@@ -28,7 +51,9 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
   }
   if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`);
   if (res.status === 204) return undefined as T;
-  return res.json() as Promise<T>;
+  const data = await res.json();
+  if (isGet) cache.set(url, data);
+  return data as T;
 }
 
 // ─── Buildings ───
