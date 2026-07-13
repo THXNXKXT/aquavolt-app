@@ -14,7 +14,7 @@ export const QuickActions = memo(function QuickActions() {
       <p className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider mb-3">
         {t("dashboard.quickActions")}
       </p>
-      <div className="grid grid-cols-4 gap-2.5">
+      <div className="grid grid-cols-2 gap-2.5">
         {[
           { icon: Gauge, label: t("dashboard.recordMeter"), tile: "bg-[#0071e3]/8", iconColor: "text-primary", path: "/meters" },
           { icon: FileText, label: t("dashboard.createBill"), tile: "bg-amber-50", iconColor: "text-amber-600", path: "/invoices" },
