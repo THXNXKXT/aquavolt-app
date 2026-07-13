@@ -13,7 +13,6 @@ export async function safeApi<T>(
     return [data, null];
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ";
-    console.warn(`API${label ? ` (${label})` : ""}:`, e);
     toast.error(`${label || "ระบบ"} ล้มเหลว: ${msg}`);
     return [null, msg];
   }

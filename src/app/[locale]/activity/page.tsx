@@ -46,7 +46,7 @@ export default function ActivityPage() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    fetchActivities().then((d) => { setActivitiesData(d); setLoaded(true); }).catch((e) => { console.warn("API:", e); setLoaded(true); });
+    fetchActivities().then((d) => { setActivitiesData(d); setLoaded(true); }).catch(() => { setLoaded(true); });
   }, []);
 
   const getTs = (a: Activity) => a.createdAt;

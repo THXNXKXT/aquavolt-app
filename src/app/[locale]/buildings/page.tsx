@@ -68,7 +68,7 @@ export default function BuildingsPage() {
       }
       setFormOpen(false);
       setEditBuilding(null);
-    } catch (e) { console.error(e); }
+    } catch {}
     setFormSaving(false);
     setFormErrors({});
   };

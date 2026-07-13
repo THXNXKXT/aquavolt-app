@@ -158,8 +158,8 @@ export default function InvoicesPage() {
       setShowCreate(false);
       setFilterMonth(`${createForm.month}-${createForm.year}`);
       const roomName = selectedRoom?.roomNumber || createForm.roomId;
-      createActivity({ type: "invoice", action: "ออกใบแจ้งหนี้", detail: `${roomName} · ${selectedTenant?.name || ""} · ${formatCurrency(calcPreview.totalAmount)}` }).catch((e) => console.warn("activity:", e));
-    } catch (e) { console.error(e); }
+      createActivity({ type: "invoice", action: "ออกใบแจ้งหนี้", detail: `${roomName} · ${selectedTenant?.name || ""} · ${formatCurrency(calcPreview.totalAmount)}` }).catch(() => {});
+    } catch {}
     setCreating(false);
   };
 

@@ -50,7 +50,6 @@ export default function DashboardPage() {
       setMetersData(meters);
       setTenantsData(tens);
     }).catch((e) => {
-      console.warn("API:", e);
       toast.error(t("toast.dashboardError"));
     }).finally(() => setLoading(false));
   }, []);

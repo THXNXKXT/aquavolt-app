@@ -39,7 +39,6 @@ export default function MetersPage() {
         setLoaded(true);
       })
       .catch((e) => {
-        console.warn("API:", e);
         setLoaded(true);
       });
   }, []);
@@ -181,7 +180,7 @@ export default function MetersPage() {
     setFormOpen(false);
     toast.success(t("toast.meterSaved"));
     const usage = saved.waterUsage && saved.electricUsage ? `น้ำ ${saved.waterUsage} หน่วย · ไฟ ${saved.electricUsage} kWh` : "";
-    createActivity({ type: "meter", action: "บันทึกมิเตอร์", detail: `${savedRoom?.roomNumber || formData.roomId} · ${usage}` }).catch((e) => console.warn("activity:", e));
+    createActivity({ type: "meter", action: "บันทึกมิเตอร์", detail: `${savedRoom?.roomNumber || formData.roomId} · ${usage}` }).catch(() => {});
   };
 
   return (

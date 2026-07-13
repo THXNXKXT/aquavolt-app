@@ -26,13 +26,13 @@ export default function RoomsPage() {
   const [firstLoad, setFirstLoad] = useState(true);
 
   useEffect(() => {
-    fetchRooms().then((d) => { setRooms(d); setFirstLoad(false); }).catch((e) => console.warn("API:", e));
-    fetchBuildings().then(setBuildingsList).catch((e) => console.warn("API:", e));
+    fetchRooms().then((d) => { setRooms(d); setFirstLoad(false); }).catch(() => {});
+    fetchBuildings().then(setBuildingsList).catch(() => {});
     fetchTenants().then((data) => {
       const map: Record<string, string> = {};
       data.forEach((tn) => { if (tn.isActive) map[tn.roomId] = tn.name; });
       setTenantsMap(map);
-    }).catch((e) => console.warn("API:", e));
+    }).catch(() => {});
   }, []);
 
   const [filterBuilding, setFilterBuilding] = useState<string>("all");
@@ -131,11 +131,11 @@ export default function RoomsPage() {
         })) as Room;
         setRooms((prev) => [newRoom, ...prev]);
         toast.success(t("toast.roomCreated"));
-        createActivity({ type: "room", action: "เพิ่มห้อง", detail: `${formData.roomNumber} · ค่าเช่า ${formData.rentalFee.toLocaleString()} ฿` }).catch((e) => console.warn("activity:", e));
+        createActivity({ type: "room", action: "เพิ่มห้อง", detail: `${formData.roomNumber} · ค่าเช่า ${formData.rentalFee.toLocaleString()} ฿` }).catch(() => {});
       }
       setFormOpen(false);
       setEditRoom(null);
-    } catch (e) { console.error(e); }
+    } catch {}
     setFormSaving(false);
     setFormErrors({});
   };
@@ -147,8 +147,8 @@ export default function RoomsPage() {
         await deleteRoom(deleteId);
         setRooms((prev) => prev.filter((r) => r.id !== deleteId));
         toast.success(t("toast.roomDeleted"));
-        if (room) createActivity({ type: "room", action: "ลบห้อง", detail: `ลบห้อง ${room.roomNumber}` }).catch((e) => console.warn("activity:", e));
-      } catch (e) { console.error(e); }
+        if (room) createActivity({ type: "room", action: "ลบห้อง", detail: `ลบห้อง ${room.roomNumber}` }).catch(() => {});
+      } catch {}
       setDeleteId(null);
     }
   };

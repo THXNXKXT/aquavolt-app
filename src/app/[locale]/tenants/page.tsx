@@ -60,7 +60,7 @@ export default function TenantsPage() {
   useEffect(() => {
     Promise.all([fetchTenants(), fetchRooms()])
       .then(([tData, rData]) => { setTenants(tData); setRoomsForDropdown(rData); setLoaded(true); })
-      .catch((e) => { console.warn("API:", e); setLoaded(true); });
+      .catch(() => { setLoaded(true); });
   }, []);
   const [search, setSearch] = useState("");
   const [formOpen, setFormOpen] = useState(false);
@@ -163,20 +163,20 @@ export default function TenantsPage() {
         // Update room status if room changed or tenant deactivated
         if (editTenant.roomId !== formData.roomId) {
           // Old room → vacant
-          updateRoom(editTenant.roomId, { status: "vacant" }).catch((e) => console.warn("API:", e));
+          updateRoom(editTenant.roomId, { status: "vacant" }).catch(() => {});
           setRoomsForDropdown((prev) =>
             prev.map((r) => (r.id === editTenant.roomId ? { ...r, status: "vacant" } : r))
           );
           // New room → occupied (if active)
           if (formData.isActive) {
-            updateRoom(formData.roomId, { status: "occupied" }).catch((e) => console.warn("API:", e));
+            updateRoom(formData.roomId, { status: "occupied" }).catch(() => {});
             setRoomsForDropdown((prev) =>
               prev.map((r) => (r.id === formData.roomId ? { ...r, status: "occupied" } : r))
             );
           }
         } else if (!formData.isActive) {
           // Same room but deactivated → vacant
-          updateRoom(formData.roomId, { status: "vacant" }).catch((e) => console.warn("API:", e));
+          updateRoom(formData.roomId, { status: "vacant" }).catch(() => {});
           setRoomsForDropdown((prev) =>
             prev.map((r) => (r.id === formData.roomId ? { ...r, status: "vacant" } : r))
           );
@@ -200,17 +200,17 @@ export default function TenantsPage() {
 
         // Mark room as occupied
         if (formData.isActive) {
-          updateRoom(formData.roomId, { status: "occupied" }).catch((e) => console.warn("API:", e));
+          updateRoom(formData.roomId, { status: "occupied" }).catch(() => {});
           setRoomsForDropdown((prev) =>
             prev.map((r) => (r.id === formData.roomId ? { ...r, status: "occupied" } : r))
           );
         }
 
-        createActivity({ type: "tenant", action: "เพิ่มผู้เช่า", detail: `${formData.name} · ห้อง ${room?.roomNumber || formData.roomId}` }).catch((e) => console.warn("activity:", e));
+        createActivity({ type: "tenant", action: "เพิ่มผู้เช่า", detail: `${formData.name} · ห้อง ${room?.roomNumber || formData.roomId}` }).catch(() => {});
       }
       setFormOpen(false);
       setEditTenant(null);
-    } catch (e) { console.error(e); }
+    } catch {}
     setFormSaving(false);
     setFormErrors({});
   };
@@ -224,13 +224,13 @@ export default function TenantsPage() {
         toast.success(t("toast.tenantDeleted"));
         if (tenant) {
           // Set room back to vacant
-          updateRoom(tenant.roomId, { status: "vacant" }).catch((e) => console.warn("API:", e));
+          updateRoom(tenant.roomId, { status: "vacant" }).catch(() => {});
           setRoomsForDropdown((prev) =>
             prev.map((r) => (r.id === tenant.roomId ? { ...r, status: "vacant" } : r))
           );
-          createActivity({ type: "tenant", action: "ลบผู้เช่า", detail: `ลบผู้เช่า ${tenant.name} · ห้อง ${tenant.roomNumber}` }).catch((e) => console.warn("activity:", e));
+          createActivity({ type: "tenant", action: "ลบผู้เช่า", detail: `ลบผู้เช่า ${tenant.name} · ห้อง ${tenant.roomNumber}` }).catch(() => {});
         }
-      } catch (e) { console.error(e); }
+      } catch {}
       setDeleteId(null);
     }
   };

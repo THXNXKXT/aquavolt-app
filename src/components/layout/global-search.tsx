@@ -27,7 +27,7 @@ export function GlobalSearch() {
   useEffect(() => {
     Promise.all([fetchRooms(), fetchTenants(), fetchInvoices()])
       .then(([rooms, tenants, invoices]) => setSearchData({ rooms, tenants, invoices }))
-      .catch((e) => console.warn("API:", e));
+      .catch(() => {});
   }, []);
 
   const inputRef = useRef<HTMLInputElement>(null);

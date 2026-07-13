@@ -32,7 +32,7 @@ export default function InvoiceDetailPage() {
     ]).then(([inv, metersData]) => {
       setInvoiceData(inv);
       setMeterReadingsData(metersData);
-    }).catch((e) => console.warn("API:", e));
+    }).catch(() => {});
   }, [params.id]);
 
   const invoice = invoiceData;
@@ -76,9 +76,8 @@ export default function InvoiceDetailPage() {
       await updateInvoice(invoice.id, { status: "paid", paidDate });
       setStatus("paid");
       toast.success(t("toast.invoicePaid"));
-      createActivity({ type: "invoice", action: "ชำระเงิน", detail: `${invoice.invoiceNumber} · ${invoice.tenantName} · ${formatCurrency(invoice.totalAmount)}` }).catch((e) => console.warn("activity:", e));
+      createActivity({ type: "invoice", action: "ชำระเงิน", detail: `${invoice.invoiceNumber} · ${invoice.tenantName} · ${formatCurrency(invoice.totalAmount)}` }).catch(() => {});
     } catch (e) {
-      console.error("Failed to mark invoice as paid:", e);
     }
     setMarkingPaid(false);
   };
