@@ -179,7 +179,7 @@ export default function DashboardPage() {
         totalTenants={tenantsData.length}
         monthlyRevenue={monthlyRevenue} currentInvoiceCount={currentInvoices.length} />
 
-      {/* ── Featured: Revenue (3-col) + Quick Actions sidebar (1-col) ── */}
+      {/* ── Featured: Revenue (3-col) + Stats sidebar (1-col) ── */}
       <Reveal className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-8">
         <Reveal.Item className="lg:col-span-3">
           <RevenueCard invoicesData={invoicesData} revenueByMonth={revenueByMonth} maxRevenue={maxRevenue}
@@ -189,24 +189,20 @@ export default function DashboardPage() {
             diffPct={revenueDiffPct}
             loading={loading} />
         </Reveal.Item>
-        <Reveal.Item className="lg:col-span-1">
+        <Reveal.Item className="lg:col-span-1 flex flex-col gap-4">
           <QuickActions />
+          <CollectionRate
+            collectionRate={collectionRate}
+            paidCount={paidCount}
+            totalInvoices={currentInvoices.length}
+          />
+          <MeterStatus
+            meterReadCount={meterReadCount}
+            meterUnreadCount={meterUnreadCount}
+            occupiedRoomCount={occupiedRoomIds.length}
+          />
         </Reveal.Item>
       </Reveal>
-
-      {/* ── Status Row: Collection + Meter ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        <CollectionRate
-          collectionRate={collectionRate}
-          paidCount={paidCount}
-          totalInvoices={currentInvoices.length}
-        />
-        <MeterStatus
-          meterReadCount={meterReadCount}
-          meterUnreadCount={meterUnreadCount}
-          occupiedRoomCount={occupiedRoomIds.length}
-        />
-      </div>
 
       {/* ── Overdue Alert ── */}
       <OverdueAlert overdueInvoices={overdueInvoices} maxDaysOverdue={maxDaysOverdue} />
