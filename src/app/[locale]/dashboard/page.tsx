@@ -162,15 +162,15 @@ export default function DashboardPage() {
       {/* ── Welcome ── */}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-8">
         <div>
-          <p className="text-sm text-[#86868b]">{dateStr}</p>
-          <h1 className="text-[28px] sm:text-[34px] font-semibold leading-tight tracking-[-0.374px] text-ink mt-0.5">
+          <p className="text-[13px] text-[#86868b] font-medium">{dateStr}</p>
+          <h1 className="text-[32px] sm:text-[40px] font-semibold leading-[1.1] tracking-[-0.4px] text-ink mt-1">
             {settings.dormitoryName}
           </h1>
         </div>
-        <p className="text-sm text-[#86868b]">
-          {t("dashboard.occupancyRateLabel")}{" "}
-          <span className="font-semibold text-ink">{occupancyRate}%</span>
-        </p>
+        <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-divider-soft">
+          <span className="text-[13px] text-[#86868b]">{t("dashboard.occupancyRateLabel")}</span>
+          <span className="text-[15px] font-semibold text-ink">{occupancyRate}%</span>
+        </div>
       </div>
 
       <MetricCards totalRooms={totalRooms} occupiedRooms={occupiedRooms} vacantRooms={vacantRooms}
@@ -236,7 +236,7 @@ export default function DashboardPage() {
 
       <OverdueAlert overdueInvoices={overdueInvoices} maxDaysOverdue={maxDaysOverdue} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-8">
         <RecentActivity activities={recentActivities} timeAgo={(ts: string) => timeAgo(ts, locale)} />
         <RecentInvoices invoices={recentInvoices.map((inv) => ({
           id: inv.id, roomNumber: inv.roomNumber || "", tenantName: inv.tenantName || "",
