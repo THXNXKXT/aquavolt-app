@@ -31,7 +31,7 @@ export function MetricCards({
   const int = (n: number) => Math.round(n).toLocaleString();
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       {/* Total Rooms */}
       <div className="bg-white rounded-[14px] p-5 border border-divider-soft">
         <div className="flex items-center gap-2 mb-3">

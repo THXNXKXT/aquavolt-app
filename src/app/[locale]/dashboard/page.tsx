@@ -160,7 +160,7 @@ export default function DashboardPage() {
     <ErrorBoundary>
     <div className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-10">
       {/* ── Welcome ── */}
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-10">
         <div>
           <p className="text-[13px] text-[#86868b] font-medium">{dateStr}</p>
           <h1 className="text-[32px] sm:text-[40px] font-semibold leading-[1.1] tracking-[-0.4px] text-ink mt-1">
@@ -178,9 +178,9 @@ export default function DashboardPage() {
         totalTenants={tenantsData.length}
         monthlyRevenue={monthlyRevenue} currentInvoiceCount={currentInvoices.length} />
 
-      {/* ── Left (2/4): Quick + Collection + Meter || Right (2/4): Revenue ── */}
-      <Reveal className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-8">
-        <Reveal.Item className="lg:col-span-2 flex flex-col gap-3 h-full">
+      {/* ── Revenue + Quick Stats ── */}
+      <Reveal className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-10">
+        <Reveal.Item className="lg:col-span-2 flex flex-col gap-4 h-full">
           <QuickActions />
           <CollectionRate
             collectionRate={collectionRate}
@@ -236,7 +236,7 @@ export default function DashboardPage() {
 
       <OverdueAlert overdueInvoices={overdueInvoices} maxDaysOverdue={maxDaysOverdue} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
         <RecentActivity activities={recentActivities} timeAgo={(ts: string) => timeAgo(ts, locale)} />
         <RecentInvoices invoices={recentInvoices.map((inv) => ({
           id: inv.id, roomNumber: inv.roomNumber || "", tenantName: inv.tenantName || "",
