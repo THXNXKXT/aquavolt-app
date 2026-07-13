@@ -29,12 +29,12 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
         min-h-[80vh]: stable floor so the viewport doesn't collapse on a short
         page — keeps the footer from snapping up.
       */}
-      <main className="flex-1 min-h-[80vh] pt-12">
+      <main className="flex-1 min-h-[80vh] pt-14">
         <motion.div
           key={pathname}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: [0.2, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
           {children}
         </motion.div>
