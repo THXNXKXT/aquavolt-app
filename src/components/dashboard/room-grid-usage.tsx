@@ -34,7 +34,7 @@ export function RoomGridUsage({
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-8">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
       <div className="lg:col-span-2 bg-white rounded-[14px] p-5 border border-divider-soft">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">

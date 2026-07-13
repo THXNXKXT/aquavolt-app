@@ -207,37 +207,39 @@ export default function DashboardPage() {
       {/* ── Overdue Alert ── */}
       <OverdueAlert overdueInvoices={overdueInvoices} maxDaysOverdue={maxDaysOverdue} />
 
-      {/* ── Contract + Room Grid ── */}
-      <ContractStatusCard stats={useMemo(() => {
-        // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
-        const now = Date.now();
-        const monthMs = MS.DAY * 30;
-        let active = 0, expiring = 0, expired = 0, total = 0;
-        for (const t of tenantsData) {
-          if (!t.isActive) continue;
-          total++;
-          const e = new Date(t.moveInDate);
-          e.setFullYear(e.getFullYear() + Math.floor(t.contractDuration / 12));
-          e.setMonth(e.getMonth() + (t.contractDuration % 12));
-          const endTime = e.getTime();
-          if (endTime <= now) { expired++; }
-          else if (endTime - now <= monthMs) { expiring++; }
-          else { active++; }
-        }
-        return { active, expiring, expired, total };
-      }, [tenantsData])} />
+      {/* ── Contract + Room Grid side by side ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+        <ContractStatusCard stats={useMemo(() => {
+          // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
+          const now = Date.now();
+          const monthMs = MS.DAY * 30;
+          let active = 0, expiring = 0, expired = 0, total = 0;
+          for (const t of tenantsData) {
+            if (!t.isActive) continue;
+            total++;
+            const e = new Date(t.moveInDate);
+            e.setFullYear(e.getFullYear() + Math.floor(t.contractDuration / 12));
+            e.setMonth(e.getMonth() + (t.contractDuration % 12));
+            const endTime = e.getTime();
+            if (endTime <= now) { expired++; }
+            else if (endTime - now <= monthMs) { expiring++; }
+            else { active++; }
+          }
+          return { active, expiring, expired, total };
+        }, [tenantsData])} />
 
-      <RoomGridUsage
-        roomsData={roomsData}
-        occupiedRooms={occupiedRooms}
-        vacantRooms={vacantRooms}
-        maintenanceRooms={maintenanceRooms}
-        avgWater={avgWater}
-        avgElectric={avgElectric}
-        topElectric={topElectric}
-        topWater={topWater}
-        currentMonth={currentMonth}
-      />
+        <RoomGridUsage
+          roomsData={roomsData}
+          occupiedRooms={occupiedRooms}
+          vacantRooms={vacantRooms}
+          maintenanceRooms={maintenanceRooms}
+          avgWater={avgWater}
+          avgElectric={avgElectric}
+          topElectric={topElectric}
+          topWater={topWater}
+          currentMonth={currentMonth}
+        />
+      </div>
 
       {/* ── Bottom: Activity + Invoices ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
