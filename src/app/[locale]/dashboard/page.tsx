@@ -189,7 +189,7 @@ export default function DashboardPage() {
             diffPct={revenueDiffPct}
             loading={loading} />
         </Reveal.Item>
-        <Reveal.Item className="lg:col-span-1 flex flex-col gap-4">
+        <Reveal.Item className="lg:col-span-1 flex flex-col gap-4 h-full">
           <QuickActions />
           <CollectionRate
             collectionRate={collectionRate}
