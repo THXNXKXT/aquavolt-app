@@ -28,9 +28,9 @@ export function OverdueAlert({ overdueInvoices, maxDaysOverdue }: OverdueAlertPr
   );
 
   return (
-    <div className="bg-red-50 rounded-[14px] p-4 border border-red-200 mb-8">
+    <div className="bg-red-50 rounded-[14px] p-5 border border-red-200 mb-8">
       <div className="flex items-start gap-3">
-        <div className="p-2 rounded-full bg-red-100 shrink-0">
+        <div className="w-10 h-10 rounded-[12px] bg-red-100 flex items-center justify-center shrink-0">
           <AlertTriangle className="w-5 h-5 text-red-600" />
         </div>
         <div className="flex-1 min-w-0">

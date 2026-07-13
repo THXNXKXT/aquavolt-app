@@ -23,10 +23,10 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
 
   const activityIcon = (type: string) => {
     switch (type) {
-      case "meter": return <Gauge className="w-3 h-3 text-primary" />;
-      case "invoice": return <FileText className="w-3 h-3 text-amber-600" />;
-      case "tenant": return <Users className="w-3 h-3 text-green-600" />;
-      default: return <Building2 className="w-3 h-3 text-[#6e6e73]" />;
+      case "meter": return <Gauge className="w-3.5 h-3.5 text-primary" />;
+      case "invoice": return <FileText className="w-3.5 h-3.5 text-amber-600" />;
+      case "tenant": return <Users className="w-3.5 h-3.5 text-green-600" />;
+      default: return <Building2 className="w-3.5 h-3.5 text-[#6e6e73]" />;
     }
   };
 
@@ -40,10 +40,12 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
   };
 
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
-      <div className="flex items-center justify-between mb-3">
+    <div className="bg-white rounded-[14px] p-5 border border-divider-soft">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Activity className="w-4 h-4 text-primary" />
+          <div className="w-8 h-8 rounded-[10px] bg-[#0071e3]/8 flex items-center justify-center">
+            <Activity className="w-4 h-4 text-primary" />
+          </div>
           <h3 className="text-[13px] font-semibold text-ink">
             {t("dashboard.recentActivity")}
           </h3>
@@ -59,11 +61,9 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
         {activities.map((act) => (
           <div
             key={act.id}
-            className="flex items-start gap-2.5 px-2 py-2 rounded-md hover:bg-canvas-parchment transition-colors"
+            className="flex items-start gap-2.5 px-2 py-2 rounded-[8px] hover:bg-canvas-parchment transition-colors"
           >
-            <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${activityBg(act.type)}`}
-            >
+            <div className={`w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0 ${activityBg(act.type)}`}>
               {activityIcon(act.type)}
             </div>
             <div className="flex-1 min-w-0">

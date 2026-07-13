@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
-import { Droplets, Zap } from "lucide-react";
+import { Droplets, Zap, DoorOpen } from "lucide-react";
 import { TopUsageCard } from "@/components/dashboard/top-usage-card";
 import { AnimatedProgressBar } from "@/components/shared/animated-progress-bar";
 import type { Room, MeterReading } from "@/types";
@@ -35,11 +35,16 @@ export function RoomGridUsage({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-8">
-      <div className="lg:col-span-2 bg-white rounded-[14px] p-4 border border-divider-soft">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-[13px] font-semibold text-ink">
-            {t("dashboard.roomStatus")}
-          </h3>
+      <div className="lg:col-span-2 bg-white rounded-[14px] p-5 border border-divider-soft">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-[10px] bg-[#0071e3]/8 flex items-center justify-center">
+              <DoorOpen className="w-4 h-4 text-primary" />
+            </div>
+            <h3 className="text-[13px] font-semibold text-ink">
+              {t("dashboard.roomStatus")}
+            </h3>
+          </div>
           <button
             onClick={() => router.push("/rooms")}
             className="text-[11px] text-primary hover:text-primary-focus transition-colors font-medium"

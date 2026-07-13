@@ -22,10 +22,12 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
   ).toLocaleDateString(locale === "th" ? "th-TH" : "en-US", { month: "long" });
 
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
+    <div className="bg-white rounded-[14px] p-5 border border-divider-soft">
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-1.5">
-          <Trophy className="w-4 h-4 text-[#d97706]" />
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-[10px] bg-amber-50 flex items-center justify-center">
+            <Trophy className="w-4 h-4 text-[#d97706]" />
+          </div>
           <h3 className="text-[13px] font-semibold text-ink">
             {t("dashboard.topUsage")}
           </h3>

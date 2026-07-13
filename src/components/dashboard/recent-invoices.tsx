@@ -36,7 +36,7 @@ export function RecentInvoices({ invoices }: RecentInvoicesProps) {
 
   return (
     <div className="lg:col-span-2 bg-white rounded-[14px] border border-divider-soft overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-divider-soft">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-divider-soft">
         <h3 className="text-[13px] font-semibold text-ink">
           {t("dashboard.recentInvoices")}
         </h3>
