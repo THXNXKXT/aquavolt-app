@@ -190,6 +190,7 @@ export default function DashboardPage() {
             loading={loading} />
         </Reveal.Item>
         <Reveal.Item className="flex flex-col gap-3">
+          <QuickActions />
           <ContractStatusCard stats={useMemo(() => {
             // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
             const now = Date.now();
@@ -208,7 +209,6 @@ export default function DashboardPage() {
             }
             return { active, expiring, expired, total };
           }, [tenantsData])} />
-          <QuickActions />
           <MeterStatus
             meterReadCount={meterReadCount}
             meterUnreadCount={meterUnreadCount}
@@ -234,8 +234,8 @@ export default function DashboardPage() {
       />
 
       {/* ═══ Row 6: Activity (2/3) + Invoices (1/3) ═══ */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <Reveal.Item className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <Reveal.Item className="lg:col-span-4">
           <RecentActivity activities={recentActivities} timeAgo={(ts: string) => timeAgo(ts, locale)} />
         </Reveal.Item>
         <Reveal.Item>
