@@ -34,7 +34,7 @@ export const MeterStatus = memo(function MeterStatus({
         <span className="text-[18px] font-semibold tabular-nums text-ink leading-none">{readPct}%</span>
       </div>
 
-      <div className="h-1.5 mb-2">
+      <div className="h-2 mb-3">
         <AnimatedProgressBar
           value={readPct}
           fillClassName="bg-primary"
