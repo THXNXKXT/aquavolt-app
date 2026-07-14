@@ -31,7 +31,7 @@ export function OverdueAlert({ overdueInvoices, maxDaysOverdue }: OverdueAlertPr
     <div className="bg-red-50 rounded-[14px] p-4 border border-red-200 mb-6">
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <h3 className="text-[13px] font-semibold text-red-800">
+          <h3 className="text-[13px] font-semibold text-red-800 mb-0.5">
             {t("dashboard.overdueTitle")}
           </h3>
           <p className="text-[10px] text-red-600 mt-0.5">

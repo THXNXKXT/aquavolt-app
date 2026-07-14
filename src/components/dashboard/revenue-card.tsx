@@ -93,9 +93,9 @@ export function RevenueCard({
       {/* ═══ Header ═══ */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-[10px] font-medium text-[#86868b] uppercase tracking-wider">
+          <h3 className="text-[13px] font-semibold text-ink">
             {t("dashboard.totalRevenue")}
-          </p>
+          </h3>
           <div className="flex items-baseline gap-2 mt-1">
             <span className="text-[32px] font-semibold tabular-nums tracking-tight text-ink">
               <AnimatedNumber
