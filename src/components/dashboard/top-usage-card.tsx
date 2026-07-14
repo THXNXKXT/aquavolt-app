@@ -11,14 +11,18 @@ interface TopUsageCardProps {
   currentMonth: number;
 }
 
-export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCardProps) {
+export function TopUsageCard({
+  topElectric,
+  topWater,
+  currentMonth,
+}: TopUsageCardProps) {
   const t = useTranslations();
   const locale = useLocale();
 
   const monthName = new Date(
     new Date().getFullYear(),
     currentMonth - 1,
-    1
+    1,
   ).toLocaleDateString(locale === "th" ? "th-TH" : "en-US", { month: "long" });
 
   return (
@@ -44,13 +48,19 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
             <div className="space-y-2">
               {topElectric.map((r, i) => {
                 const maxVal = Number(topElectric[0].electricUsage) || 0;
-                const pct = maxVal > 0 ? Math.round((Number(r.electricUsage) / maxVal) * 100) : 0;
+                const pct =
+                  maxVal > 0
+                    ? Math.round((Number(r.electricUsage) / maxVal) * 100)
+                    : 0;
                 return (
                   <div key={r.id}>
                     <div className="flex items-center justify-between text-[11px] mb-1">
-                      <span className="text-ink font-medium">{r.roomNumber}</span>
+                      <span className="text-ink font-medium">
+                        {r.roomNumber}
+                      </span>
                       <span className="font-semibold tabular-nums text-ink">
-                        {Number(r.electricUsage) || 0} kWh
+                        {Number(r.electricUsage) || 0}{" "}
+                        <span className="text-[10px] text-[#86868b]">kWh</span>
                       </span>
                     </div>
                     <div className="h-1.5">
@@ -80,13 +90,19 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
             <div className="space-y-2">
               {topWater.map((r, i) => {
                 const maxVal = Number(topWater[0].waterUsage) || 0;
-                const pct = maxVal > 0 ? Math.round((Number(r.waterUsage) / maxVal) * 100) : 0;
+                const pct =
+                  maxVal > 0
+                    ? Math.round((Number(r.waterUsage) / maxVal) * 100)
+                    : 0;
                 return (
                   <div key={r.id}>
                     <div className="flex items-center justify-between text-[11px] mb-1">
-                      <span className="text-ink font-medium">{r.roomNumber}</span>
+                      <span className="text-ink font-medium">
+                        {r.roomNumber}
+                      </span>
                       <span className="font-semibold tabular-nums text-ink">
-                        {Number(r.waterUsage) || 0} m³
+                        {Number(r.waterUsage) || 0}{" "}
+                        <span className="text-[10px] text-[#86868b]">m³</span>
                       </span>
                     </div>
                     <div className="h-1.5">
