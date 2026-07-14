@@ -180,8 +180,8 @@ export default function DashboardPage() {
         monthlyRevenue={monthlyRevenue} currentInvoiceCount={currentInvoices.length} />
 
       {/* ═══ Row 3: Revenue (3-col) + Quick Actions sidebar (1-col) ═══ */}
-      <Reveal className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
-        <Reveal.Item className="lg:col-span-3">
+      <Reveal className="flex flex-col lg:flex-row gap-4 mb-6">
+        <Reveal.Item className="lg:flex-[3]">
           <RevenueCard invoicesData={invoicesData} revenueByMonth={revenueByMonth} maxRevenue={maxRevenue}
             currentMonth={currentMonth} currentYear={currentYear}
             avg={revenueAvg}
@@ -189,7 +189,7 @@ export default function DashboardPage() {
             diffPct={revenueDiffPct}
             loading={loading} />
         </Reveal.Item>
-        <Reveal.Item className="lg:col-span-1 flex flex-col gap-3 h-full">
+        <Reveal.Item className="lg:flex-1 flex flex-col gap-3">
           <QuickActions />
           <CollectionRate
             collectionRate={collectionRate}
