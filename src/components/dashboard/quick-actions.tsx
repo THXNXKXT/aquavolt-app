@@ -11,10 +11,10 @@ export const QuickActions = memo(function QuickActions() {
 
   return (
     <div className="bg-white rounded-[14px] border border-divider-soft p-4">
-      <p className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider mb-3">
+      <p className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider mb-2.5">
         {t("dashboard.quickActions")}
       </p>
-      <div className="grid grid-cols-2 gap-2.5">
+      <div className="grid grid-cols-4 gap-2">
         {[
           { icon: Gauge, label: t("dashboard.recordMeter"), tile: "bg-[#0071e3]/8", iconColor: "text-primary", path: "/meters" },
           { icon: FileText, label: t("dashboard.createBill"), tile: "bg-amber-50", iconColor: "text-amber-600", path: "/invoices" },
@@ -24,12 +24,12 @@ export const QuickActions = memo(function QuickActions() {
           <button
             key={path}
             onClick={() => router.push(path)}
-            className="flex flex-col items-center gap-2 py-3 rounded-[12px] hover:bg-canvas-parchment transition-all group"
+            className="flex flex-col items-center gap-1.5 py-2 rounded-[10px] hover:bg-canvas-parchment transition-all group"
           >
-            <div className={`w-10 h-10 rounded-[12px] ${tile} flex items-center justify-center group-hover:scale-105 transition-transform`}>
-              <Icon className={`w-4.5 h-4.5 ${iconColor}`} strokeWidth={2} />
+            <div className={`w-8 h-8 rounded-[10px] ${tile} flex items-center justify-center group-hover:scale-105 transition-transform`}>
+              <Icon className={`w-4 h-4 ${iconColor}`} strokeWidth={2} />
             </div>
-            <span className="text-[10px] font-medium text-[#6e6e73] text-center leading-tight">{label}</span>
+            <span className="text-[9px] font-medium text-[#6e6e73] text-center leading-tight">{label}</span>
           </button>
         ))}
       </div>
