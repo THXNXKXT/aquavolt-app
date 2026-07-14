@@ -34,19 +34,12 @@ export const MeterStatus = memo(function MeterStatus({
         <span className="text-[18px] font-semibold tabular-nums text-ink leading-none">{readPct}%</span>
       </div>
 
-      <div className="h-2 mb-3">
+      <div className="h-1.5 mb-3">
         <AnimatedProgressBar
           value={readPct}
           fillClassName="bg-primary"
-          containerClassName="h-full bg-[#f0f7ff]"
+          containerClassName="h-full bg-[#f5f5f7]"
         />
-      </div>
-
-      <div className="flex items-center justify-between text-[10px] text-[#86868b]">
-        <span>{t("dashboard.meterRead", { count: meterReadCount })}</span>
-        {meterUnreadCount > 0 && (
-          <span>{t("dashboard.meterUnread", { count: meterUnreadCount })}</span>
-        )}
       </div>
 
       {meterUnreadCount > 0 && (

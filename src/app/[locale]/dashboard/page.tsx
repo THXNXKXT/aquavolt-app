@@ -11,6 +11,7 @@ import { ContractStatusCard } from "@/components/dashboard/contract-status-card"
 import { RoomGridUsage } from "@/components/dashboard/room-grid-usage";
 import { QuickActions } from "@/components/dashboard/quick-actions";
 import { MeterStatus } from "@/components/dashboard/meter-status";
+import { TopUsageCard } from "@/components/dashboard/top-usage-card";
 import { OverdueAlert } from "@/components/dashboard/overdue-alert";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { RecentInvoices } from "@/components/dashboard/recent-invoices";
@@ -214,6 +215,11 @@ export default function DashboardPage() {
             meterUnreadCount={meterUnreadCount}
             occupiedRoomCount={occupiedRoomIds.length}
           />
+          <TopUsageCard
+            topElectric={topElectric}
+            topWater={topWater}
+            currentMonth={currentMonth}
+          />
         </Reveal.Item>
       </Reveal>
 
@@ -228,9 +234,6 @@ export default function DashboardPage() {
         maintenanceRooms={maintenanceRooms}
         avgWater={avgWater}
         avgElectric={avgElectric}
-        topElectric={topElectric}
-        topWater={topWater}
-        currentMonth={currentMonth}
       />
 
       {/* ═══ Row 6: Activity + Invoices ═══ */}
