@@ -77,7 +77,7 @@ export default function InvoiceDetailPage() {
       setStatus("paid");
       toast.success(t("toast.invoicePaid"));
       createActivity({ type: "invoice", action: "ชำระเงิน", detail: `${invoice.invoiceNumber} · ${invoice.tenantName} · ${formatCurrency(invoice.totalAmount)}` }).catch(() => {});
-    } catch (e) {
+    } catch {
     }
     setMarkingPaid(false);
   };

@@ -46,7 +46,7 @@ export function TopUsageCard({
           </div>
           {topElectric.length > 0 ? (
             <div className="space-y-2">
-              {topElectric.map((r, i) => {
+              {topElectric.map((r) => {
                 const maxVal = Number(topElectric[0].electricUsage) || 0;
                 const pct =
                   maxVal > 0
@@ -88,7 +88,7 @@ export function TopUsageCard({
           </div>
           {topWater.length > 0 ? (
             <div className="space-y-2">
-              {topWater.map((r, i) => {
+              {topWater.map((r) => {
                 const maxVal = Number(topWater[0].waterUsage) || 0;
                 const pct =
                   maxVal > 0

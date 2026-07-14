@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
-import { ArrowRight } from "lucide-react";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { formatCurrency } from "@/lib/formatters";
 

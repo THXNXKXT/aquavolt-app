@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
-import { Activity, ArrowRight, Gauge, FileText, Users, Building2 } from "lucide-react";
+import { Gauge, FileText, Users, Building2 } from "lucide-react";
 
 interface ActivityItem {
   id: string;
