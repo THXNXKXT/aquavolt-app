@@ -50,7 +50,7 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
                     <div className="flex items-center justify-between text-[11px] mb-1">
                       <span className="text-ink font-medium">{r.roomNumber}</span>
                       <span className="font-semibold tabular-nums text-ink">
-                        {Number(r.electricUsage) || 0}
+                        {Number(r.electricUsage) || 0} kWh
                       </span>
                     </div>
                     <div className="h-1.5">
@@ -86,7 +86,7 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
                     <div className="flex items-center justify-between text-[11px] mb-1">
                       <span className="text-ink font-medium">{r.roomNumber}</span>
                       <span className="font-semibold tabular-nums text-ink">
-                        {Number(r.waterUsage) || 0}
+                        {Number(r.waterUsage) || 0} m³
                       </span>
                     </div>
                     <div className="h-1.5">
