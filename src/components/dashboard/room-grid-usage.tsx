@@ -29,7 +29,7 @@ export function RoomGridUsage({
   return (
     <div className="bg-white rounded-[14px] p-4 border border-divider-soft mb-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[13px] font-semibold text-ink">
+        <h3 className="text-[13px] font-semibold text-[#86868b]">
           {t("dashboard.roomStatus")}
         </h3>
         <button
@@ -83,7 +83,7 @@ export function RoomGridUsage({
             value: avgWater,
             unit: "m³",
             color: "#0066cc",
-            bg: "bg-[#f0f7ff]",
+            bg: "bg-[#f5f5f7]",
             pct: Math.min(100, avgWater * 4),
           },
           {

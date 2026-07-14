@@ -25,7 +25,7 @@ export function ContractStatusCard({ stats }: ContractStatusCardProps) {
   return (
     <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[13px] font-semibold text-ink">
+        <h3 className="text-[13px] font-semibold text-[#86868b]">
           {t("dashboard.contractStatus")}
         </h3>
         <span className="text-[10px] text-[#86868b]">

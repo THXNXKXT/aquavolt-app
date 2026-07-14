@@ -33,14 +33,14 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
   return (
     <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[13px] font-semibold text-ink">
+        <h3 className="text-[13px] font-semibold text-[#86868b]">
           {t("dashboard.recentActivity")}
         </h3>
         <button
           onClick={() => router.push("/activity")}
           className="text-[11px] text-primary hover:text-primary-focus transition-colors font-medium flex items-center gap-1"
         >
-          {t("dashboard.viewAll")} <ArrowRight className="w-3 h-3" />
+          {t("dashboard.viewAll")}
         </button>
       </div>
       <div className="space-y-1">

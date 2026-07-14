@@ -93,7 +93,7 @@ export function RevenueCard({
       {/* ═══ Header ═══ */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-[13px] font-semibold text-ink">
+          <h3 className="text-[13px] font-semibold text-[#86868b]">
             {t("dashboard.totalRevenue")}
           </h3>
           <div className="flex items-baseline gap-2 mt-1">
@@ -188,7 +188,7 @@ export function RevenueCard({
         {/* Summary pills */}
         {revenueByMonth.length >= 2 && (
           <div className="flex gap-2">
-            <div className="flex-1 bg-[#f0f7ff] rounded-md px-3 py-2 text-center">
+            <div className="flex-1 bg-[#f5f5f7] rounded-md px-3 py-2 text-center">
               <p className="text-[10px] text-[#86868b]">{t("dashboard.thisMonth")}</p>
               <p className="text-[13px] font-semibold text-primary">
                 <AnimatedNumber
