@@ -87,7 +87,7 @@ export const invoiceCreate = z.object({
   wifiCost: money.optional().default(0),
   dueDate: z.coerce.date(),
   paidDate: z.coerce.date().nullable().optional(),
-  invoiceNumber: z.string().min(1).max(60),
+  invoiceNumber: z.string().min(1).max(60).optional(),
 });
 
 // Whitelist of fields a client may change after creation. status + paidDate cover
