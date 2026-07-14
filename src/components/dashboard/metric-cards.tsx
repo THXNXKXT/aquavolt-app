@@ -14,6 +14,8 @@ interface MetricCardsProps {
   totalTenants: number;
   monthlyRevenue: number;
   currentInvoiceCount: number;
+  collectionRate: number;
+  paidCount: number;
   buildings?: { name: string }[];
 }
 
@@ -26,6 +28,8 @@ export function MetricCards({
   totalTenants,
   monthlyRevenue,
   currentInvoiceCount,
+  collectionRate,
+  paidCount,
 }: MetricCardsProps) {
   const t = useTranslations();
   const int = (n: number) => Math.round(n).toLocaleString();
@@ -75,21 +79,21 @@ export function MetricCards({
         </p>
       </div>
 
-      {/* This Month Bills (gradient) */}
+      {/* Collection Rate (gradient) */}
       <div className="bg-gradient-to-br from-[#0071e3] to-[#005bb5] rounded-[14px] p-4 border border-transparent">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-9 h-9 rounded-[10px] bg-white/15 flex items-center justify-center">
             <Receipt className="w-4 h-4 text-white" />
           </div>
           <span className="text-[11px] font-medium text-white/70 uppercase tracking-wider">
-            {t("nav.invoices")}
+            {t("dashboard.collectionRate")}
           </span>
         </div>
         <p className="text-[32px] font-semibold tracking-tight text-white leading-none">
-          <AnimatedNumber value={currentInvoiceCount} formatter={int} />
+          <AnimatedNumber value={collectionRate} formatter={(v) => `${Math.round(v)}%`} />
         </p>
         <p className="text-[11px] text-white/60 mt-3">
-          {formatCurrency(monthlyRevenue)}
+          {paidCount}/{currentInvoiceCount} {t("dashboard.paid")}
         </p>
       </div>
 

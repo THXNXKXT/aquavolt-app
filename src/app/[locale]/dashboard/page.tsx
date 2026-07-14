@@ -177,11 +177,12 @@ export default function DashboardPage() {
       <MetricCards totalRooms={totalRooms} occupiedRooms={occupiedRooms} vacantRooms={vacantRooms}
         maintenanceRooms={maintenanceRooms} totalBuildings={totalBuildings}
         totalTenants={tenantsData.length}
-        monthlyRevenue={monthlyRevenue} currentInvoiceCount={currentInvoices.length} />
+        monthlyRevenue={monthlyRevenue} currentInvoiceCount={currentInvoices.length}
+        collectionRate={collectionRate} paidCount={paidCount} />
 
-      {/* ═══ Row 3: Revenue (3-col) + Quick Actions sidebar (1-col) ═══ */}
-      <Reveal className="flex flex-col lg:flex-row gap-4 mb-6">
-        <Reveal.Item className="lg:flex-[3]">
+      {/* ═══ Row 3: Revenue (2-col) + Contract strip (2-col) ═══ */}
+      <Reveal className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        <Reveal.Item>
           <RevenueCard invoicesData={invoicesData} revenueByMonth={revenueByMonth} maxRevenue={maxRevenue}
             currentMonth={currentMonth} currentYear={currentYear}
             avg={revenueAvg}
@@ -189,7 +190,25 @@ export default function DashboardPage() {
             diffPct={revenueDiffPct}
             loading={loading} />
         </Reveal.Item>
-        <Reveal.Item className="lg:flex-1 flex flex-col gap-3">
+        <Reveal.Item className="flex flex-col gap-3">
+          <ContractStatusCard stats={useMemo(() => {
+            // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
+            const now = Date.now();
+            const monthMs = MS.DAY * 30;
+            let active = 0, expiring = 0, expired = 0, total = 0;
+            for (const t of tenantsData) {
+              if (!t.isActive) continue;
+              total++;
+              const e = new Date(t.moveInDate);
+              e.setFullYear(e.getFullYear() + Math.floor(t.contractDuration / 12));
+              e.setMonth(e.getMonth() + (t.contractDuration % 12));
+              const endTime = e.getTime();
+              if (endTime <= now) { expired++; }
+              else if (endTime - now <= monthMs) { expiring++; }
+              else { active++; }
+            }
+            return { active, expiring, expired, total };
+          }, [tenantsData])} />
           <QuickActions />
           <CollectionRate
             collectionRate={collectionRate}
@@ -207,27 +226,7 @@ export default function DashboardPage() {
       {/* ═══ Row 4: Alerts (if any) ═══ */}
       <OverdueAlert overdueInvoices={overdueInvoices} maxDaysOverdue={maxDaysOverdue} />
 
-      {/* ═══ Row 5: Contract strip ═══ */}
-      <ContractStatusCard stats={useMemo(() => {
-        // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
-        const now = Date.now();
-        const monthMs = MS.DAY * 30;
-        let active = 0, expiring = 0, expired = 0, total = 0;
-        for (const t of tenantsData) {
-          if (!t.isActive) continue;
-          total++;
-          const e = new Date(t.moveInDate);
-          e.setFullYear(e.getFullYear() + Math.floor(t.contractDuration / 12));
-          e.setMonth(e.getMonth() + (t.contractDuration % 12));
-          const endTime = e.getTime();
-          if (endTime <= now) { expired++; }
-          else if (endTime - now <= monthMs) { expiring++; }
-          else { active++; }
-        }
-        return { active, expiring, expired, total };
-      }, [tenantsData])} />
-
-      {/* ═══ Row 6: Room Grid (full width) ═══ */}
+      {/* ═══ Row 5: Room Grid (full width) ═══ */}
       <RoomGridUsage
         roomsData={roomsData}
         occupiedRooms={occupiedRooms}
