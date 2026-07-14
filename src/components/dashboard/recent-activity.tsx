@@ -23,33 +23,19 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
 
   const activityIcon = (type: string) => {
     switch (type) {
-      case "meter": return <Gauge className="w-3.5 h-3.5 text-primary" />;
-      case "invoice": return <FileText className="w-3.5 h-3.5 text-amber-600" />;
-      case "tenant": return <Users className="w-3.5 h-3.5 text-green-600" />;
-      default: return <Building2 className="w-3.5 h-3.5 text-[#86868b]" />;
-    }
-  };
-
-  const activityBg = (type: string) => {
-    switch (type) {
-      case "meter": return "bg-[#f0f7ff]";
-      case "invoice": return "bg-amber-50";
-      case "tenant": return "bg-green-50";
-      default: return "bg-canvas-parchment";
+      case "meter": return <Gauge className="w-4 h-4 text-primary" />;
+      case "invoice": return <FileText className="w-4 h-4 text-amber-600" />;
+      case "tenant": return <Users className="w-4 h-4 text-green-600" />;
+      default: return <Building2 className="w-4 h-4 text-[#86868b]" />;
     }
   };
 
   return (
     <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-[10px] bg-[#0071e3]/8 flex items-center justify-center">
-            <Activity className="w-4 h-4 text-primary" />
-          </div>
-          <h3 className="text-[13px] font-semibold text-ink">
-            {t("dashboard.recentActivity")}
-          </h3>
-        </div>
+        <h3 className="text-[13px] font-semibold text-ink">
+          {t("dashboard.recentActivity")}
+        </h3>
         <button
           onClick={() => router.push("/activity")}
           className="text-[11px] text-primary hover:text-primary-focus transition-colors font-medium flex items-center gap-1"
@@ -57,21 +43,21 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
           {t("dashboard.viewAll")} <ArrowRight className="w-3 h-3" />
         </button>
       </div>
-      <div className="space-y-1.5">
+      <div className="space-y-1">
         {activities.map((act) => (
           <div
             key={act.id}
-            className="flex items-start gap-2.5 px-2 py-2 rounded-[8px] hover:bg-canvas-parchment transition-colors"
+            className="flex items-center gap-3 py-2"
           >
-            <div className={`w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0 ${activityBg(act.type)}`}>
+            <div className="shrink-0">
               {activityIcon(act.type)}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[11px] text-ink truncate">{act.detail}</p>
-              <p className="text-[10px] text-[#86868b] mt-0.5" suppressHydrationWarning>
-                {timeAgo(act.timestamp || act.createdAt || "")}
-              </p>
             </div>
+            <p className="text-[10px] text-[#86868b] shrink-0" suppressHydrationWarning>
+              {timeAgo(act.timestamp || act.createdAt || "")}
+            </p>
           </div>
         ))}
       </div>

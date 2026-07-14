@@ -35,8 +35,8 @@ export function RecentInvoices({ invoices }: RecentInvoicesProps) {
   }, [invoices]);
 
   return (
-    <div className="bg-white rounded-[14px] border border-divider-soft overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-divider-soft">
+    <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
+      <div className="flex items-center justify-between mb-4">
         <h3 className="text-[13px] font-semibold text-ink">
           {t("dashboard.recentInvoices")}
         </h3>
@@ -48,11 +48,11 @@ export function RecentInvoices({ invoices }: RecentInvoicesProps) {
         </button>
       </div>
       {sortedInvoices.length > 0 ? (
-        <div className="divide-y divide-divider-soft">
+        <div className="space-y-1">
           {sortedInvoices.slice(0, 5).map((inv) => (
             <div
               key={inv.id}
-              className="flex items-center gap-3 px-4 py-2.5 hover:bg-canvas-parchment/50 transition-colors cursor-pointer"
+              className="flex items-center gap-3 py-2 hover:bg-canvas-parchment/50 rounded-[8px] px-2 -mx-2 transition-colors cursor-pointer"
               onClick={() => router.push(`/invoices/${inv.id}`)}
             >
               <div className="flex-1 min-w-0">
@@ -61,18 +61,16 @@ export function RecentInvoices({ invoices }: RecentInvoicesProps) {
                 </p>
                 <p className="text-[10px] text-[#86868b]">{inv.invoiceNumber}</p>
               </div>
-              <div className="text-right">
-                <p className="text-[11px] font-semibold text-ink">
-                  {formatCurrency(inv.totalAmount)}
-                </p>
-              </div>
+              <p className="text-[11px] font-semibold tabular-nums text-ink">
+                {formatCurrency(inv.totalAmount)}
+              </p>
               <StatusBadge status={inv.status} />
             </div>
           ))}
         </div>
       ) : (
-        <div className="px-4 py-8 text-center text-[11px] text-[#86868b]">
-          {t("invoices.noInvoices")}
+        <div className="py-8 text-center">
+          <p className="text-[11px] text-[#86868b]">{t("invoices.noInvoices")}</p>
         </div>
       )}
     </div>
