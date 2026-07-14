@@ -26,7 +26,7 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-[10px] bg-amber-50 flex items-center justify-center">
-            <Trophy className="w-4 h-4 text-[#d97706]" />
+            <Trophy className="w-4 h-4 text-amber-600" />
           </div>
           <h3 className="text-[13px] font-semibold text-ink">
             {t("dashboard.topUsage")}
@@ -41,7 +41,7 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
         <div className="border border-divider-soft rounded-md p-3">
           <div className="flex items-center gap-2 mb-3">
             <span className="inline-flex items-center gap-1 text-[10px] font-medium text-[#86868b] uppercase tracking-wider">
-              <Zap className="w-3 h-3 text-[#d97706]" /> {t("dashboard.electric")}
+              <Zap className="w-3 h-3 text-amber-600" /> {t("dashboard.electric")}
             </span>
             <span className="text-[10px] text-[#86868b] ml-auto">{t("dashboard.unitKwh")}</span>
           </div>

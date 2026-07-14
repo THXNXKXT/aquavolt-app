@@ -190,7 +190,7 @@ export default function ReportsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-60">
-        <p className="text-sm text-[#86868b]">{t("common.loading")}</p>
+        <p className="text-[13px] text-[#86868b]">{t("common.loading")}</p>
       </div>
     );
   }
@@ -208,19 +208,19 @@ export default function ReportsPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
             <p className="text-[11px] text-[#86868b]">{t("reports.totalInvoices")}</p>
-            <p className="text-2xl font-bold text-ink mt-1">{summary.totalInvoices}</p>
+            <p className="text-[24px] font-semibold text-ink mt-1">{summary.totalInvoices}</p>
           </div>
           <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
             <p className="text-[11px] text-[#86868b]">{t("reports.paid")}</p>
-            <p className="text-2xl font-bold text-green-600 mt-1">{summary.paidCount}</p>
+            <p className="text-[24px] font-semibold text-green-600 mt-1">{summary.paidCount}</p>
           </div>
           <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
             <p className="text-[11px] text-[#86868b]">{t("reports.totalRevenue")}</p>
-            <p className="text-2xl font-bold text-primary mt-1">{formatCurrency(summary.totalRevenue)}</p>
+            <p className="text-[24px] font-semibold text-primary mt-1">{formatCurrency(summary.totalRevenue)}</p>
           </div>
           <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
             <p className="text-[11px] text-[#86868b]">{t("reports.pendingAmount")}</p>
-            <p className="text-2xl font-bold text-amber-600 mt-1">{formatCurrency(summary.pendingAmount)}</p>
+            <p className="text-[24px] font-semibold text-amber-600 mt-1">{formatCurrency(summary.pendingAmount)}</p>
           </div>
         </div>
 
@@ -229,7 +229,7 @@ export default function ReportsPage() {
             const Icon = tab.icon;
             return (
               <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-[11px] font-medium whitespace-nowrap transition-all ${
                   activeTab === tab.key ? "bg-white text-ink shadow-sm" : "text-[#86868b] hover:text-ink"
                 }`}>
                 <Icon className="w-3.5 h-3.5" />
@@ -242,40 +242,40 @@ export default function ReportsPage() {
         {activeTab === "financial" && (
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h2 className="text-sm font-semibold text-ink">{t("reports.financialList")}</h2>
-              <button onClick={exportFinancial} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-primary-focus transition-all">
+              <h2 className="text-[13px] font-semibold text-ink">{t("reports.financialList")}</h2>
+              <button onClick={exportFinancial} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-[11px] font-medium rounded-full hover:bg-primary-focus transition-all">
                 <Download className="w-3.5 h-3.5" /> {t("reports.exportExcel")}
               </button>
             </div>
             <div className="bg-white rounded-[14px] border border-divider-soft overflow-x-auto">
-              <table className="w-full text-sm min-w-[850px]">
+              <table className="w-full text-[13px] min-w-[850px]">
                 <thead>
                   <tr className="border-b border-divider-soft">
-                    <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.invoiceNumber")}</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.room")}</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.tenant")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.rentalCharge")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.waterCharge")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.electricCharge")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.serviceCharge")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.wifiCharge")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.total")}</th>
-                    <th className="text-center px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.status")}</th>
+                    <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.invoiceNumber")}</th>
+                    <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.room")}</th>
+                    <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.tenant")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.rentalCharge")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.waterCharge")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.electricCharge")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.serviceCharge")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.wifiCharge")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.total")}</th>
+                    <th className="text-center px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.status")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {financialData.slice(0, 50).map((inv) => (
                     <tr key={inv.invoiceNumber} className="border-b border-divider-soft hover:bg-canvas-parchment/50">
-                      <td className="px-4 py-3 text-xs text-[#6e6e73]">{inv.invoiceNumber}</td>
-                      <td className="px-4 py-3 text-xs text-ink font-medium">{inv.roomNumber}</td>
-                      <td className="px-4 py-3 text-xs text-[#6e6e73]">{inv.tenantName}</td>
-                      <td className="px-4 py-3 text-xs text-right text-ink">{formatCurrency(inv.rentalCost)}</td>
-                      <td className="px-4 py-3 text-xs text-right text-ink">{formatCurrency(inv.waterCost)}</td>
-                      <td className="px-4 py-3 text-xs text-right text-ink">{formatCurrency(inv.electricCost)}</td>
-                      <td className="px-4 py-3 text-xs text-right text-ink">{formatCurrency(inv.serviceCharge)}</td>
-                      <td className="px-4 py-3 text-xs text-right text-ink">{formatCurrency(inv.wifiCost)}</td>
-                      <td className="px-4 py-3 text-xs text-right font-semibold text-ink">{formatCurrency(inv.totalAmount)}</td>
-                      <td className="px-4 py-3 text-xs text-center">
+                      <td className="px-4 py-3 text-[11px] text-[#86868b]">{inv.invoiceNumber}</td>
+                      <td className="px-4 py-3 text-[11px] text-ink font-medium">{inv.roomNumber}</td>
+                      <td className="px-4 py-3 text-[11px] text-[#86868b]">{inv.tenantName}</td>
+                      <td className="px-4 py-3 text-[11px] text-right text-ink">{formatCurrency(inv.rentalCost)}</td>
+                      <td className="px-4 py-3 text-[11px] text-right text-ink">{formatCurrency(inv.waterCost)}</td>
+                      <td className="px-4 py-3 text-[11px] text-right text-ink">{formatCurrency(inv.electricCost)}</td>
+                      <td className="px-4 py-3 text-[11px] text-right text-ink">{formatCurrency(inv.serviceCharge)}</td>
+                      <td className="px-4 py-3 text-[11px] text-right text-ink">{formatCurrency(inv.wifiCost)}</td>
+                      <td className="px-4 py-3 text-[11px] text-right font-semibold text-ink">{formatCurrency(inv.totalAmount)}</td>
+                      <td className="px-4 py-3 text-[11px] text-center">
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
                           inv.status === t("invoices.paid") ? "bg-green-50 text-green-700" :
                           inv.status === t("invoices.overdue") ? "bg-red-50 text-red-700" :
@@ -293,37 +293,37 @@ export default function ReportsPage() {
         {activeTab === "outstanding" && (
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h2 className="text-sm font-semibold text-ink">{t("reports.outstandingList")}</h2>
-              <button onClick={exportOutstanding} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-primary-focus transition-all">
+              <h2 className="text-[13px] font-semibold text-ink">{t("reports.outstandingList")}</h2>
+              <button onClick={exportOutstanding} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-[11px] font-medium rounded-full hover:bg-primary-focus transition-all">
                 <Download className="w-3.5 h-3.5" /> {t("reports.exportExcel")}
               </button>
             </div>
             {outstandingData.length > 0 ? (
               <div className="bg-white rounded-[14px] border border-divider-soft overflow-x-auto">
-                <table className="w-full text-sm min-w-[600px]">
+                <table className="w-full text-[13px] min-w-[600px]">
                   <thead>
                     <tr className="border-b border-divider-soft">
-                      <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.invoiceNumber")}</th>
-                      <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.room")}</th>
-                      <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.tenant")}</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("reports.pendingAmount")}</th>
-                      <th className="text-center px-4 py-3 text-xs font-medium text-[#86868b]">{t("reports.overdueDays")}</th>
-                      <th className="text-center px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.status")}</th>
+                      <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.invoiceNumber")}</th>
+                      <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.room")}</th>
+                      <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.tenant")}</th>
+                      <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("reports.pendingAmount")}</th>
+                      <th className="text-center px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("reports.overdueDays")}</th>
+                      <th className="text-center px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.status")}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {outstandingData.map((inv) => (
                       <tr key={inv.invoiceNumber} className="border-b border-divider-soft hover:bg-canvas-parchment/50">
-                        <td className="px-4 py-3 text-xs text-[#6e6e73]">{inv.invoiceNumber}</td>
-                        <td className="px-4 py-3 text-xs text-ink font-medium">{inv.roomNumber}</td>
-                        <td className="px-4 py-3 text-xs text-[#6e6e73]">{inv.tenantName}</td>
-                        <td className="px-4 py-3 text-xs text-right font-semibold text-ink">{formatCurrency(inv.totalAmount)}</td>
-                        <td className="px-4 py-3 text-xs text-center">
+                        <td className="px-4 py-3 text-[11px] text-[#86868b]">{inv.invoiceNumber}</td>
+                        <td className="px-4 py-3 text-[11px] text-ink font-medium">{inv.roomNumber}</td>
+                        <td className="px-4 py-3 text-[11px] text-[#86868b]">{inv.tenantName}</td>
+                        <td className="px-4 py-3 text-[11px] text-right font-semibold text-ink">{formatCurrency(inv.totalAmount)}</td>
+                        <td className="px-4 py-3 text-[11px] text-center">
                           <span className={`font-medium ${inv.daysOverdue > 7 ? "text-red-600" : "text-amber-600"}`}>
                             {inv.daysOverdue > 0 ? t("reports.daysOverdue", { days: inv.daysOverdue }) : t("reports.notOverdue")}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-xs text-center">
+                        <td className="px-4 py-3 text-[11px] text-center">
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
                             inv.status === t("invoices.overdue") ? "bg-red-50 text-red-700" : "bg-amber-50 text-amber-700"
                           }`}>{inv.status}</span>
@@ -334,7 +334,7 @@ export default function ReportsPage() {
                 </table>
               </div>
             ) : (
-              <div className="bg-white rounded-[14px] p-8 text-center text-sm text-[#86868b] border border-divider-soft">
+              <div className="bg-white rounded-[14px] p-8 text-center text-[13px] text-[#86868b] border border-divider-soft">
                 {t("reports.noOutstanding")}
               </div>
             )}
@@ -344,30 +344,30 @@ export default function ReportsPage() {
         {activeTab === "utility" && (
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h2 className="text-sm font-semibold text-ink">{t("reports.utilityList")}</h2>
-              <button onClick={exportUtility} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-primary-focus transition-all">
+              <h2 className="text-[13px] font-semibold text-ink">{t("reports.utilityList")}</h2>
+              <button onClick={exportUtility} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-[11px] font-medium rounded-full hover:bg-primary-focus transition-all">
                 <Download className="w-3.5 h-3.5" /> {t("reports.exportExcel")}
               </button>
             </div>
             <div className="bg-white rounded-[14px] border border-divider-soft overflow-x-auto">
-              <table className="w-full text-sm min-w-[500px]">
+              <table className="w-full text-[13px] min-w-[500px]">
                 <thead>
                   <tr className="border-b border-divider-soft">
-                    <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.room")}</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("buildings.buildingName")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.waterCharge")} (m³)</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.electricCharge")} (kWh)</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("invoices.total")}</th>
+                    <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.room")}</th>
+                    <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("buildings.buildingName")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.waterCharge")} (m³)</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.electricCharge")} (kWh)</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("invoices.total")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {utilityData.slice(0, 100).map((m, i) => (
                     <tr key={i} className="border-b border-divider-soft hover:bg-canvas-parchment/50">
-                      <td className="px-4 py-3 text-xs text-ink font-medium">{m.roomNumber}</td>
-                      <td className="px-4 py-3 text-xs text-[#6e6e73]">{m.buildingName}</td>
-                      <td className="px-4 py-3 text-xs text-right text-ink">{m.waterUsage}</td>
-                      <td className="px-4 py-3 text-xs text-right text-ink">{m.electricUsage}</td>
-                      <td className="px-4 py-3 text-xs text-right font-semibold text-ink">{m.waterUsage + m.electricUsage}</td>
+                      <td className="px-4 py-3 text-[11px] text-ink font-medium">{m.roomNumber}</td>
+                      <td className="px-4 py-3 text-[11px] text-[#86868b]">{m.buildingName}</td>
+                      <td className="px-4 py-3 text-[11px] text-right text-ink">{m.waterUsage}</td>
+                      <td className="px-4 py-3 text-[11px] text-right text-ink">{m.electricUsage}</td>
+                      <td className="px-4 py-3 text-[11px] text-right font-semibold text-ink">{m.waterUsage + m.electricUsage}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -379,8 +379,8 @@ export default function ReportsPage() {
         {activeTab === "occupancy" && (
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h2 className="text-sm font-semibold text-ink">{t("reports.occupancyList")}</h2>
-              <button onClick={exportOccupancy} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-primary-focus transition-all">
+              <h2 className="text-[13px] font-semibold text-ink">{t("reports.occupancyList")}</h2>
+              <button onClick={exportOccupancy} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-[11px] font-medium rounded-full hover:bg-primary-focus transition-all">
                 <Download className="w-3.5 h-3.5" /> {t("reports.exportExcel")}
               </button>
             </div>
@@ -388,31 +388,31 @@ export default function ReportsPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
               <div className="bg-white rounded-[14px] p-4 border border-divider-soft text-center">
                 <p className="text-[11px] text-[#86868b]">{t("reports.totalAll")}</p>
-                <p className="text-2xl font-bold text-ink mt-1">{occupancyData.total}</p>
+                <p className="text-[24px] font-semibold text-ink mt-1">{occupancyData.total}</p>
               </div>
               <div className="bg-white rounded-[14px] p-4 border border-divider-soft text-center">
                 <p className="text-[11px] text-[#86868b]">{t("reports.occupied")}</p>
-                <p className="text-2xl font-bold text-green-600 mt-1">{occupancyData.occupied}</p>
+                <p className="text-[24px] font-semibold text-green-600 mt-1">{occupancyData.occupied}</p>
               </div>
               <div className="bg-white rounded-[14px] p-4 border border-divider-soft text-center">
                 <p className="text-[11px] text-[#86868b]">{t("reports.vacant")}</p>
-                <p className="text-2xl font-bold text-blue-500 mt-1">{occupancyData.vacant}</p>
+                <p className="text-[24px] font-semibold text-primary mt-1">{occupancyData.vacant}</p>
               </div>
               <div className="bg-white rounded-[14px] p-4 border border-divider-soft text-center">
                 <p className="text-[11px] text-[#86868b]">{t("reports.occupancyRate")}</p>
-                <p className="text-2xl font-bold text-primary mt-1">{occupancyData.occupancyRate}%</p>
+                <p className="text-[24px] font-semibold text-primary mt-1">{occupancyData.occupancyRate}%</p>
               </div>
             </div>
 
             <div className="bg-white rounded-[14px] border border-divider-soft overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-[13px]">
                 <thead>
                   <tr className="border-b border-divider-soft">
-                    <th className="text-left px-4 py-3 text-xs font-medium text-[#86868b]">{t("buildings.buildingName")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("reports.totalAll")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("reports.occupied")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("reports.vacant")}</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-[#86868b]">{t("reports.occupancyRate")} %</th>
+                    <th className="text-left px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("buildings.buildingName")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("reports.totalAll")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("reports.occupied")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("reports.vacant")}</th>
+                    <th className="text-right px-4 py-3 text-[11px] font-medium text-[#86868b]">{t("reports.occupancyRate")} %</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -423,11 +423,11 @@ export default function ReportsPage() {
                     const rate = buildingRooms.length > 0 ? Math.round((occ / buildingRooms.length) * 100) : 0;
                     return (
                       <tr key={b} className="border-b border-divider-soft hover:bg-canvas-parchment/50">
-                        <td className="px-4 py-3 text-xs text-ink font-medium">{b}</td>
-                        <td className="px-4 py-3 text-xs text-right text-ink">{buildingRooms.length}</td>
-                        <td className="px-4 py-3 text-xs text-right text-green-600 font-medium">{occ}</td>
-                        <td className="px-4 py-3 text-xs text-right text-blue-500">{vac}</td>
-                        <td className="px-4 py-3 text-xs text-right font-semibold text-ink">{rate}%</td>
+                        <td className="px-4 py-3 text-[11px] text-ink font-medium">{b}</td>
+                        <td className="px-4 py-3 text-[11px] text-right text-ink">{buildingRooms.length}</td>
+                        <td className="px-4 py-3 text-[11px] text-right text-green-600 font-medium">{occ}</td>
+                        <td className="px-4 py-3 text-[11px] text-right text-primary">{vac}</td>
+                        <td className="px-4 py-3 text-[11px] text-right font-semibold text-ink">{rate}%</td>
                       </tr>
                     );
                   })}

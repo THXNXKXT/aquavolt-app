@@ -27,7 +27,7 @@ export function ConfirmDialog({
     <Modal isOpen={isOpen} onClose={onCancel} maxWidthClassName="max-w-sm" label={title}>
       <div className="p-5">
         <h3 className="text-[17px] font-semibold text-ink mb-2">{title}</h3>
-        <p className="text-[13px] text-[#6e6e73] mb-6">{message}</p>
+        <p className="text-[13px] text-[#86868b] mb-6">{message}</p>
         <div className="flex justify-end gap-2">
           <button
             onClick={onCancel}

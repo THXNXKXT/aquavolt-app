@@ -93,7 +93,7 @@ export default function BuildingsPage() {
           </div>
           <button
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
           >
             <Plus className="w-4 h-4" />
             {t("buildings.addBuilding")}
@@ -111,7 +111,7 @@ export default function BuildingsPage() {
             action={
               <button
                 onClick={openCreate}
-                className="px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus transition-all"
+                className="px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus transition-all"
               >
                 {t("buildings.addBuilding")}
               </button>
@@ -134,7 +134,7 @@ export default function BuildingsPage() {
                         <Building2 className="w-4 h-4 text-primary" />
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-base font-bold text-ink truncate">
+                        <h3 className="text-[15px] font-semibold text-ink truncate">
                           {building.name}
                         </h3>
                         <p className="text-[11px] text-[#86868b]">
@@ -155,7 +155,7 @@ export default function BuildingsPage() {
                         className="p-1.5 rounded-full hover:bg-red-50 transition-colors"
                         title={t("common.delete")}
                       >
-                        <Trash2 className="w-3.5 h-3.5 text-[#a1a1a6] hover:text-red-500" />
+                        <Trash2 className="w-3.5 h-3.5 text-[#86868b] hover:text-red-500" />
                       </button>
                     </div>
                   </div>
@@ -163,7 +163,7 @@ export default function BuildingsPage() {
                   {/* Address */}
                   {building.address && (
                     <div className="rounded-md bg-canvas-parchment p-3">
-                      <p className="text-[11px] text-[#6e6e73] leading-relaxed">
+                      <p className="text-[11px] text-[#86868b] leading-relaxed">
                         {building.address}
                       </p>
                     </div>
@@ -185,7 +185,7 @@ export default function BuildingsPage() {
                 <Building2 className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h3 className="text-[17px] font-bold text-ink">
+                <h3 className="text-[17px] font-semibold text-ink">
                   {editBuilding ? t("buildings.editBuilding") : t("buildings.addBuilding")}
                 </h3>
                 <p className="text-[11px] text-[#86868b] mt-0.5">
@@ -202,32 +202,32 @@ export default function BuildingsPage() {
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
-                  <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                     {t("buildings.buildingName")} <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
-                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
                     <input
                       value={formName}
                       onChange={(e) => { setFormName(e.target.value); if (formErrors.name) setFormErrors({}); }}
                       placeholder={t("buildings.buildingName")}
-                      className={`w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${formErrors.name ? "border-red-400 bg-red-50" : "border-hairline"}`}
+                      className={`w-full pl-9 pr-4 py-2.5 rounded-lg border text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${formErrors.name ? "border-red-400 bg-red-50" : "border-hairline"}`}
                     />
                   </div>
                   <FieldError message={formErrors.name} />
                 </div>
                 <div className="p-4">
-                  <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                     {t("buildings.address")}
                   </label>
                   <div className="relative">
-                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-[#a1a1a6]" />
+                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-[#86868b]" />
                     <textarea
                       value={formAddress}
                       onChange={(e) => setFormAddress(e.target.value)}
                       rows={3}
                       placeholder={t("buildings.address")}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors resize-none"
+                      className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-hairline text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors resize-none"
                     />
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export default function BuildingsPage() {
               <button
                 onClick={handleSave}
                 disabled={formSaving}
-                className="px-6 py-2.5 text-sm font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-2"
+                className="px-6 py-2.5 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-2"
               >
                 {formSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                 {formSaving ? t("common.saving") : t("common.save")}

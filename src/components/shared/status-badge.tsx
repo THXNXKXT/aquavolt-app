@@ -15,9 +15,9 @@ const statusStyles: Record<string, string> = {
   pending: "bg-amber-50 text-amber-700 border-amber-200",
   paid: "bg-green-50 text-green-700 border-green-200",
   overdue: "bg-red-50 text-red-700 border-red-200",
-  cancelled: "bg-zinc-50 text-zinc-500 border-zinc-200",
+  cancelled: "bg-[#f5f5f7] text-[#86868b] border-divider-soft",
   active: "bg-green-50 text-green-700 border-green-200",
-  inactive: "bg-zinc-50 text-zinc-500 border-zinc-200",
+  inactive: "bg-[#f5f5f7] text-[#86868b] border-divider-soft",
 };
 
 // Map status key → i18n key
@@ -41,7 +41,7 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     <span
       className={cn(
         "inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium border",
-        statusStyles[status] || "bg-zinc-50 text-zinc-600 border-zinc-200",
+        statusStyles[status] || "bg-[#f5f5f7] text-[#86868b] border-divider-soft",
         className
       )}
     >

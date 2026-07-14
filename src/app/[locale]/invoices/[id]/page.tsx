@@ -53,7 +53,7 @@ export default function InvoiceDetailPage() {
   if (!invoice) {
     return (
       <div className="max-w-300 mx-auto px-6 py-10">
-        <p className="text-zinc-500">{t("common.noData")}</p>
+        <p className="text-[#86868b]">{t("common.noData")}</p>
       </div>
     );
   }
@@ -87,7 +87,7 @@ export default function InvoiceDetailPage() {
       <SubNav title={t("invoices.title")}>
         <button
           onClick={() => router.push("/invoices")}
-          className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-800 transition-colors"
+          className="inline-flex items-center gap-1.5 text-[13px] text-[#86868b] hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           {t("common.back")}
@@ -104,26 +104,26 @@ export default function InvoiceDetailPage() {
                 <Receipt className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h1 className="text-[17px] font-bold text-ink">{invoice.invoiceNumber}</h1>
-                <p className="text-xs text-[#86868b] mt-0.5">{getMonthName(invoice.month)} {invoice.year}</p>
+                <h1 className="text-[17px] font-semibold text-ink">{invoice.invoiceNumber}</h1>
+                <p className="text-[11px] text-[#86868b] mt-0.5">{getMonthName(invoice.month)} {invoice.year}</p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={handlePrint}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-[#6e6e73] bg-white border border-hairline rounded-full hover:bg-canvas-parchment active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-[#86868b] bg-white border border-hairline rounded-full hover:bg-canvas-parchment active:scale-[0.97] transition-all"
               >
                 <Printer className="w-3.5 h-3.5" />
                 {t("invoices.print")}
               </button>
-              <button className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-[#06c755] rounded-full hover:bg-[#05b54c] active:scale-[0.97] transition-all">
+              <button className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-[#06c755] rounded-full hover:bg-[#05b54c] active:scale-[0.97] transition-all">
                 <Send className="w-3.5 h-3.5" />
                 {t("invoices.sendLine")}
               </button>
               {status === "pending" && (
                 <button
                   onClick={handleMarkPaid}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
                 >
                   <CheckCircle className="w-3.5 h-3.5" />
                   {t("invoices.markPaid")}
@@ -138,7 +138,7 @@ export default function InvoiceDetailPage() {
           }`}>
             <div className="flex items-center gap-2.5 text-[13px]">
               <StatusBadge status={status} />
-              {status === "pending" && <span className="text-[#6e6e73]">{t("invoices.dueDateLabel")}: {formatDate(invoice.dueDate, locale === "th" ? "th" : "en")}</span>}
+              {status === "pending" && <span className="text-[#86868b]">{t("invoices.dueDateLabel")}: {formatDate(invoice.dueDate, locale === "th" ? "th" : "en")}</span>}
               {status === "paid" && <span className="text-green-700 font-medium">{t("invoices.paidDate")}: {formatDate(invoice.paidDate || invoice.issuedDate, locale === "th" ? "th" : "en")}</span>}
               {/* eslint-disable-next-line react-hooks/purity -- overdue days needs current time */}
               {status === "overdue" && <span className="text-red-600">{t("invoices.overdueDaysCount", { days: Math.ceil((Date.now() - new Date(invoice.dueDate).getTime()) / (1000*60*60*24)) })}</span>}
@@ -150,11 +150,11 @@ export default function InvoiceDetailPage() {
             <div className="bg-white rounded-[14px] border border-divider-soft p-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-canvas-parchment flex items-center justify-center">
-                  <User className="w-5 h-5 text-[#6e6e73]" />
+                  <User className="w-5 h-5 text-[#86868b]" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-ink">{invoice.tenantName}</p>
-                  <p className="text-xs text-[#86868b] mt-0.5">
+                  <p className="text-[13px] font-semibold text-ink">{invoice.tenantName}</p>
+                  <p className="text-[11px] text-[#86868b] mt-0.5">
                     {t("invoices.room")} {invoice.roomNumber} · {invoice.buildingName}
                   </p>
                 </div>
@@ -163,9 +163,9 @@ export default function InvoiceDetailPage() {
             <div className="bg-white rounded-[14px] border border-divider-soft p-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-canvas-parchment flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-[#6e6e73]" />
+                  <Calendar className="w-5 h-5 text-[#86868b]" />
                 </div>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-xs">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-[11px]">
                   <span className="text-[#86868b]">{t("invoices.issueDate")}</span>
                   <span className="font-medium text-ink">{formatDate(invoice.issuedDate, locale === "th" ? "th" : "en")}</span>
                   <span className="text-[#86868b]">{t("invoices.dueDateLabel")}</span>
@@ -197,13 +197,13 @@ export default function InvoiceDetailPage() {
                 </div>
                 <div className="bg-[#fffdfa] rounded-md p-3 border border-[#ffe4b3]">
                   <div className="flex items-center gap-1.5 mb-2">
-                    <Zap className="w-3.5 h-3.5 text-[#d97706]" />
-                    <span className="text-[11px] font-semibold text-[#d97706]">{t("meters.electric")}</span>
+                    <Zap className="w-3.5 h-3.5 text-amber-600" />
+                    <span className="text-[11px] font-semibold text-amber-600">{t("meters.electric")}</span>
                   </div>
                   <div className="flex gap-1 text-[10px] text-center">
                     <div className="flex-1"><p className="text-[#86868b]">← {t("invoices.printOld")}</p><p className="font-bold text-ink text-[11px]">{meterReading.electricPrevious}</p></div>
                     <div className="flex-1"><p className="text-[#86868b]">→ {t("invoices.printNew")}</p><p className="font-bold text-ink text-[11px]">{meterReading.electricCurrent}</p></div>
-                    <div className="flex-1"><p className="text-[#d97706] font-semibold">{t("invoices.printUnit")}</p><p className="font-bold text-[#d97706] text-[11px]">{meterReading.electricUsage}</p></div>
+                    <div className="flex-1"><p className="text-amber-600 font-semibold">{t("invoices.printUnit")}</p><p className="font-bold text-amber-600 text-[11px]">{meterReading.electricUsage}</p></div>
                     <div className="flex-1"><p className="text-[#86868b]">{t("invoices.printRate")}</p><p className="font-bold text-ink text-[11px]">{electricRate}฿</p></div>
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function InvoiceDetailPage() {
             <div className="divide-y divide-[#f0f0f0]">
               <div className="px-5 py-3 flex items-center justify-between">
                 <span className="flex items-center gap-2.5 text-[13px] text-ink">
-                  <Home className="w-4 h-4 text-[#6e6e73]" />
+                  <Home className="w-4 h-4 text-[#86868b]" />
                   {t("invoices.rentalCharge")}
                 </span>
                 <span className="text-[13px] font-semibold text-ink">{formatCurrency(invoice.rentalCost)}</span>
@@ -235,7 +235,7 @@ export default function InvoiceDetailPage() {
               </div>
               <div className="px-5 py-3 flex items-center justify-between">
                 <span className="flex items-center gap-2.5 text-[13px] text-ink">
-                  <Zap className="w-4 h-4 text-[#d97706]" />
+                  <Zap className="w-4 h-4 text-amber-600" />
                   {t("invoices.electricCharge")}
                   <span className="text-[11px] text-[#86868b]">({meterReading?.electricUsage ?? "-"} kWh × {electricRate}฿)</span>
                 </span>
@@ -243,7 +243,7 @@ export default function InvoiceDetailPage() {
               </div>
               <div className="px-5 py-3 flex items-center justify-between">
                 <span className="flex items-center gap-2.5 text-[13px] text-ink">
-                  <Building2 className="w-4 h-4 text-[#6e6e73]" />
+                  <Building2 className="w-4 h-4 text-[#86868b]" />
                   {t("invoices.serviceCharge")}
                 </span>
                 <span className="text-[13px] font-semibold text-ink">{formatCurrency(invoice.serviceCharge)}</span>
@@ -259,8 +259,8 @@ export default function InvoiceDetailPage() {
               )}
             </div>
             <div className="px-5 py-4 border-t-2 border-ink flex items-center justify-between bg-[#fafafa]">
-              <span className="text-[15px] font-bold text-ink">{t("invoices.total")}</span>
-              <span className="text-[18px] font-bold text-primary">{formatCurrency(invoice.totalAmount)}</span>
+              <span className="text-[15px] font-semibold text-ink">{t("invoices.total")}</span>
+              <span className="text-[18px] font-semibold text-primary">{formatCurrency(invoice.totalAmount)}</span>
             </div>
           </div>
 
@@ -270,7 +270,7 @@ export default function InvoiceDetailPage() {
               <CreditCard className="w-4 h-4 text-primary" />
               <h3 className="text-[13px] font-semibold text-ink">{t("invoices.printPaymentMethods")}</h3>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[11px]">
               <div className="bg-canvas-parchment rounded-md p-3">
                 <div className="flex items-center gap-1.5 mb-1">
                   <Landmark className="w-3.5 h-3.5 text-primary" />
@@ -371,13 +371,13 @@ export default function InvoiceDetailPage() {
               </div>
               <div className="border border-[#ffe4b3] rounded p-2 bg-[#fffdfa]">
                 <div className="flex items-center gap-1 mb-1.5">
-                  <Zap className="w-3 h-3 text-[#d97706]" />
-                  <p className="text-[8px] font-semibold text-[#d97706] uppercase tracking-wider">{t("invoices.printElectricMeter")}</p>
+                  <Zap className="w-3 h-3 text-amber-600" />
+                  <p className="text-[8px] font-semibold text-amber-600 uppercase tracking-wider">{t("invoices.printElectricMeter")}</p>
                 </div>
                 <div className="flex text-[10px] text-center">
                   <div className="flex-1"><p className="text-[#86868b] text-[8px]">{t("invoices.printOld")}</p><p className="font-bold text-ink">{meterReading.electricPrevious}</p></div>
                   <div className="flex-1"><p className="text-[#86868b] text-[8px]">{t("invoices.printNew")}</p><p className="font-bold text-ink">{meterReading.electricCurrent}</p></div>
-                  <div className="flex-1"><p className="text-[#86868b] text-[8px]">{t("invoices.printUnit")}</p><p className="font-bold text-[#d97706]">{meterReading.electricUsage}</p></div>
+                  <div className="flex-1"><p className="text-[#86868b] text-[8px]">{t("invoices.printUnit")}</p><p className="font-bold text-amber-600">{meterReading.electricUsage}</p></div>
                   <div className="flex-1"><p className="text-[#86868b] text-[8px]">{t("invoices.printRate")}</p><p className="font-bold text-ink">{electricRate}</p></div>
                 </div>
               </div>
@@ -396,7 +396,7 @@ export default function InvoiceDetailPage() {
             </thead>
             <tbody>
               <tr style={{ borderBottom: "1px solid #e0e0e0" }}>
-                <td className="py-1.5 text-ink"><Home className="w-3 h-3 inline mr-1 text-[#6e6e73]" />{t("invoices.rentalCharge")}</td>
+                <td className="py-1.5 text-ink"><Home className="w-3 h-3 inline mr-1 text-[#86868b]" />{t("invoices.rentalCharge")}</td>
                 <td className="py-1.5 text-center text-[#86868b]">{t("invoices.printOneMonth")}</td>
                 <td className="py-1.5 text-right text-[#86868b]">{formatCurrency(invoice.rentalCost)}</td>
                 <td className="py-1.5 text-right font-semibold text-ink">{formatCurrency(invoice.rentalCost)}</td>
@@ -408,13 +408,13 @@ export default function InvoiceDetailPage() {
                 <td className="py-1.5 text-right font-semibold text-ink">{formatCurrency(invoice.waterCost)}</td>
               </tr>
               <tr style={{ borderBottom: "1px solid #e0e0e0" }}>
-                <td className="py-1.5 text-ink"><Zap className="w-3 h-3 inline mr-1 text-[#d97706]" />{t("invoices.electricCharge")}</td>
+                <td className="py-1.5 text-ink"><Zap className="w-3 h-3 inline mr-1 text-amber-600" />{t("invoices.electricCharge")}</td>
                 <td className="py-1.5 text-center text-[#86868b]">{meterReading?.electricUsage ?? "-"} kWh</td>
                 <td className="py-1.5 text-right text-[#86868b]">{formatCurrency(electricRate)}/kWh</td>
                 <td className="py-1.5 text-right font-semibold text-ink">{formatCurrency(invoice.electricCost)}</td>
               </tr>
               <tr style={{ borderBottom: "1px solid #e0e0e0" }}>
-                <td className="py-1.5 text-ink"><Building2 className="w-3 h-3 inline mr-1 text-[#6e6e73]" />{t("invoices.serviceCharge")}</td>
+                <td className="py-1.5 text-ink"><Building2 className="w-3 h-3 inline mr-1 text-[#86868b]" />{t("invoices.serviceCharge")}</td>
                 <td className="py-1.5 text-center text-[#86868b]">{t("invoices.printOneMonth")}</td>
                 <td className="py-1.5 text-right text-[#86868b]">{formatCurrency(invoice.serviceCharge)}</td>
                 <td className="py-1.5 text-right font-semibold text-ink">{formatCurrency(invoice.serviceCharge)}</td>
@@ -477,7 +477,7 @@ export default function InvoiceDetailPage() {
           <div className="border-t border-dashed border-surface-chip mb-3" />
 
           {/* ── Footer ── */}
-          <div className="flex justify-between items-center text-[8px] text-[#a1a1a6]">
+          <div className="flex justify-between items-center text-[8px] text-[#86868b]">
             <p>{settings.dormitoryName} · {t("app.tagline")}</p>
             <p className="text-right">{t("invoices.printAutoGen")}</p>
           </div>

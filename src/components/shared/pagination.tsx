@@ -27,7 +27,7 @@ export function Pagination({ currentPage, totalItems, pageSize, onPageChange }: 
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 pt-5 mt-5 border-t border-divider-soft">
-      <p className="text-xs text-[#86868b]">
+      <p className="text-[11px] text-[#86868b]">
         Showing <span className="font-medium text-ink">{start}</span>–<span className="font-medium text-ink">{end}</span> of{" "}
         <span className="font-medium text-ink">{totalItems}</span>
       </p>
@@ -37,19 +37,19 @@ export function Pagination({ currentPage, totalItems, pageSize, onPageChange }: 
           disabled={currentPage <= 1}
           className="p-2 rounded-full hover:bg-canvas-parchment transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         >
-          <ChevronLeft className="w-4 h-4 text-[#6e6e73]" />
+          <ChevronLeft className="w-4 h-4 text-[#86868b]" />
         </button>
         {pages.map((p, i) =>
           p === -1 ? (
-            <span key={`e-${i}`} className="w-7 text-center text-xs text-surface-chip">...</span>
+            <span key={`e-${i}`} className="w-7 text-center text-[11px] text-surface-chip">...</span>
           ) : (
             <button
               key={p}
               onClick={() => onPageChange(p)}
-              className={`w-7 h-7 rounded-full text-xs font-medium transition-all ${
+              className={`w-7 h-7 rounded-full text-[11px] font-medium transition-all ${
                 p === currentPage
                   ? "bg-primary text-white"
-                  : "text-[#6e6e73] hover:bg-canvas-parchment"
+                  : "text-[#86868b] hover:bg-canvas-parchment"
               }`}
             >
               {p}
@@ -61,7 +61,7 @@ export function Pagination({ currentPage, totalItems, pageSize, onPageChange }: 
           disabled={currentPage >= totalPages}
           className="p-2 rounded-full hover:bg-canvas-parchment transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         >
-          <ChevronRight className="w-4 h-4 text-[#6e6e73]" />
+          <ChevronRight className="w-4 h-4 text-[#86868b]" />
         </button>
       </div>
     </div>

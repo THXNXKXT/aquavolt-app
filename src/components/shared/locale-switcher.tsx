@@ -21,7 +21,7 @@ export function LocaleSwitcher() {
     <button
       onClick={toggleLocale}
       disabled={isPending}
-      className="text-xs text-zinc-400 hover:text-white transition-colors disabled:opacity-50"
+      className="text-[11px] text-white/60 hover:text-white transition-colors disabled:opacity-50"
     >
       {locale === "th" ? "EN" : "TH"}
     </button>

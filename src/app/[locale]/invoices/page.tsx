@@ -184,7 +184,7 @@ export default function InvoicesPage() {
           </div>
           <button
             onClick={() => { setCreateForm({ roomId: occupiedRooms[0]?.id || "", month: currentMonth, year: currentYear }); setShowCreate(true); }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
           >
             <Plus className="w-4 h-4" />
             {t("invoices.createInvoiceBtn")}
@@ -194,9 +194,9 @@ export default function InvoicesPage() {
         {/* Filters */}
         <div className="flex flex-wrap gap-3 mb-6">
           <div className="relative w-full sm:w-auto">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
             <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("common.search")}
-              className="pl-9 pr-4 py-2.5 rounded-full border border-hairline text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary w-48" />
+              className="pl-9 pr-4 py-2.5 rounded-full border border-hairline text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-primary w-48" />
           </div>
           <SelectApple value={filterMonth} onChange={setFilterMonth}
             options={[{ value: "all", label: t("invoices.filterMonth") }, ...monthOptions.map((m) => { const [mo, yr] = m.split("-"); return { value: m, label: `${getMonthName(parseInt(mo))} ${yr}` }; })]}
@@ -215,15 +215,15 @@ export default function InvoicesPage() {
           <EmptyState icon={<FileText className="w-12 h-12" />} title={t("invoices.noInvoices")} />
         ) : (
           <><div className="bg-white rounded-[14px] border border-divider-soft overflow-hidden overflow-x-auto">
-            <table className="w-full text-sm min-w-150">
+            <table className="w-full text-[13px] min-w-150">
               <thead>
                 <tr className="border-b border-divider-soft">
-                  <th className="text-left px-6 py-3.5 text-xs font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.invoiceNumber")}</th>
-                  <th className="text-left px-6 py-3.5 text-xs font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.room")}</th>
-                  <th className="text-left px-6 py-3.5 text-xs font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.tenant")}</th>
-                  <th className="text-left px-6 py-3.5 text-xs font-medium text-[#86868b] uppercase tracking-wider hidden md:table-cell">{t("invoices.issueDate")}</th>
-                  <th className="text-right px-6 py-3.5 text-xs font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.total")}</th>
-                  <th className="text-center px-6 py-3.5 text-xs font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.status")}</th>
+                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.invoiceNumber")}</th>
+                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.room")}</th>
+                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.tenant")}</th>
+                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider hidden md:table-cell">{t("invoices.issueDate")}</th>
+                  <th className="text-right px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.total")}</th>
+                  <th className="text-center px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.status")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -238,8 +238,8 @@ export default function InvoicesPage() {
                     key={inv.id} className="border-b border-divider-soft hover:bg-canvas-parchment/50 transition-colors cursor-pointer"
                     onClick={() => router.push(`/invoices/${inv.id}`)}>
                     <td className="px-6 py-4 font-medium text-ink">{inv.invoiceNumber}</td>
-                    <td className="px-6 py-4 text-[#6e6e73]">{inv.roomNumber}</td>
-                    <td className="px-6 py-4 text-[#6e6e73]">{inv.tenantName}</td>
+                    <td className="px-6 py-4 text-[#86868b]">{inv.roomNumber}</td>
+                    <td className="px-6 py-4 text-[#86868b]">{inv.tenantName}</td>
                     <td className="px-6 py-4 text-[#86868b] hidden md:table-cell">{formatDateShort(inv.issuedDate)}</td>
                     <td className="px-6 py-4 text-right font-medium text-ink">{formatCurrency(inv.totalAmount)}</td>
                     <td className="px-6 py-4 text-center"><StatusBadge status={inv.status} /></td>
@@ -272,7 +272,7 @@ export default function InvoicesPage() {
             {/* Room + Period */}
             <div className="grid grid-cols-2 gap-3 mb-4">
               <div className="col-span-2">
-                <label className="block text-xs font-medium text-[#6e6e73] mb-1">{t("invoices.formRoom")}</label>
+                <label className="block text-[11px] font-medium text-[#86868b] mb-1">{t("invoices.formRoom")}</label>
                 <SelectApple variant="input" className="w-full" value={createForm.roomId}
                   onChange={(v) => setCreateForm((prev) => ({ ...prev, roomId: v }))}
                   options={occupiedRooms.map((r) => {
@@ -286,23 +286,23 @@ export default function InvoicesPage() {
                   })} />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#6e6e73] mb-1">{t("invoices.formMonth")}</label>
+                <label className="block text-[11px] font-medium text-[#86868b] mb-1">{t("invoices.formMonth")}</label>
                 <input type="number" min={1} max={12} value={createForm.month}
                   onChange={(e) => setCreateForm((prev) => ({ ...prev, month: parseInt(e.target.value) || currentMonth }))}
-                  className="w-full px-3 py-2.5 rounded-md border border-hairline text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                  className="w-full px-3 py-2.5 rounded-md border border-hairline text-[13px] focus:outline-none focus:ring-2 focus:ring-primary" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#6e6e73] mb-1">{t("invoices.formYear")}</label>
+                <label className="block text-[11px] font-medium text-[#86868b] mb-1">{t("invoices.formYear")}</label>
                 <input type="number" value={createForm.year}
                   onChange={(e) => setCreateForm((prev) => ({ ...prev, year: parseInt(e.target.value) || currentYear }))}
-                  className="w-full px-3 py-2.5 rounded-md border border-hairline text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                  className="w-full px-3 py-2.5 rounded-md border border-hairline text-[13px] focus:outline-none focus:ring-2 focus:ring-primary" />
               </div>
             </div>
 
             {/* Preview */}
             {selectedRoom && calcPreview && (
               <div className="bg-canvas-parchment rounded-[14px] p-4 space-y-2">
-                <p className="text-xs font-semibold text-ink mb-2 flex items-center gap-1.5">
+                <p className="text-[11px] font-semibold text-ink mb-2 flex items-center gap-1.5">
                   <DollarSign className="w-3.5 h-3.5 text-primary" />
                   {t("invoices.invoicePreview")}
                 </p>
@@ -311,36 +311,36 @@ export default function InvoicesPage() {
                   <div className="flex items-center gap-4 text-[11px] pb-2 border-b border-hairline">
                     <div className="flex items-center gap-1"><Gauge className="w-3 h-3 text-primary" /> {getMonthName(meterReading.month)} {meterReading.year}</div>
                     <div className="flex items-center gap-1"><Droplets className="w-3 h-3 text-primary" /> {meterReading.waterUsage} m³</div>
-                    <div className="flex items-center gap-1"><Zap className="w-3 h-3 text-[#d97706]" /> {meterReading.electricUsage} kWh</div>
+                    <div className="flex items-center gap-1"><Zap className="w-3 h-3 text-amber-600" /> {meterReading.electricUsage} kWh</div>
                   </div>
                 )}
 
-                <div className="flex justify-between text-xs">
-                  <span className="flex items-center gap-1.5 text-[#6e6e73]"><Home className="w-3 h-3" /> {t("invoices.rentalChargeLabel")}</span>
+                <div className="flex justify-between text-[11px]">
+                  <span className="flex items-center gap-1.5 text-[#86868b]"><Home className="w-3 h-3" /> {t("invoices.rentalChargeLabel")}</span>
                   <span className="font-medium text-ink">{formatCurrency(calcPreview.rentalCost)}</span>
                 </div>
-                <div className="flex justify-between text-xs">
-                  <span className="flex items-center gap-1.5 text-[#6e6e73]"><Droplets className="w-3 h-3 text-primary" /> {t("invoices.waterCharge")} ({calcPreview.waterUsage} m³)</span>
+                <div className="flex justify-between text-[11px]">
+                  <span className="flex items-center gap-1.5 text-[#86868b]"><Droplets className="w-3 h-3 text-primary" /> {t("invoices.waterCharge")} ({calcPreview.waterUsage} m³)</span>
                   <span className="font-medium text-ink">{formatCurrency(calcPreview.waterCost)}</span>
                 </div>
-                <div className="flex justify-between text-xs">
-                  <span className="flex items-center gap-1.5 text-[#6e6e73]"><Zap className="w-3 h-3 text-[#d97706]" /> {t("invoices.electricCharge")} ({calcPreview.electricUsage} kWh)</span>
+                <div className="flex justify-between text-[11px]">
+                  <span className="flex items-center gap-1.5 text-[#86868b]"><Zap className="w-3 h-3 text-amber-600" /> {t("invoices.electricCharge")} ({calcPreview.electricUsage} kWh)</span>
                   <span className="font-medium text-ink">{formatCurrency(calcPreview.electricCost)}</span>
                 </div>
-                <div className="flex justify-between text-xs">
-                  <span className="flex items-center gap-1.5 text-[#6e6e73]"><Building2 className="w-3 h-3" /> {t("invoices.serviceChargeLabel")}</span>
+                <div className="flex justify-between text-[11px]">
+                  <span className="flex items-center gap-1.5 text-[#86868b]"><Building2 className="w-3 h-3" /> {t("invoices.serviceChargeLabel")}</span>
                   <span className="font-medium text-ink">{formatCurrency(calcPreview.serviceCharge)}</span>
                 </div>
                 {calcPreview.wifiCost > 0 && (
-                  <div className="flex justify-between text-xs">
-                    <span className="flex items-center gap-1.5 text-[#6e6e73]">
+                  <div className="flex justify-between text-[11px]">
+                    <span className="flex items-center gap-1.5 text-[#86868b]">
                       <span className="w-3 h-3 text-primary font-bold text-[8px] flex items-center justify-center">WiFi</span>
                       {t("invoices.wifiCharge")}
                     </span>
                     <span className="font-medium text-ink">{formatCurrency(calcPreview.wifiCost)}</span>
                   </div>
                 )}
-                <div className="border-t border-hairline pt-2 flex justify-between text-[13px] font-bold">
+                <div className="border-t border-hairline pt-2 flex justify-between text-[13px] font-semibold">
                   <span className="text-ink">{t("invoices.totalLabel")}</span>
                   <span className="text-primary">{formatCurrency(calcPreview.totalAmount)}</span>
                 </div>
@@ -348,7 +348,7 @@ export default function InvoicesPage() {
             )}
 
             {alreadyHasInvoice && (
-              <p className="text-xs text-amber-700 bg-amber-50 rounded-md px-3 py-2 mt-3">
+              <p className="text-[11px] text-amber-700 bg-amber-50 rounded-md px-3 py-2 mt-3">
                 ⚠️ {t("invoices.alreadyHasInvoice")}
               </p>
             )}

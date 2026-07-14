@@ -145,7 +145,7 @@ export function GlobalNav() {
                           className={`flex items-center gap-2.5 px-4 py-2.5 text-[13px] transition-colors ${
                             isItemActive
                               ? "bg-[#0071e3]/8 text-primary font-medium"
-                              : "text-[#6e6e73] hover:text-ink hover:bg-canvas-parchment"
+                              : "text-[#86868b] hover:text-ink hover:bg-canvas-parchment"
                           }`}>
                           <ItemIcon className="w-4 h-4" />
                           <span>{t(item.labelKey)}</span>
@@ -218,8 +218,8 @@ export function GlobalNav() {
               return (
                 <div key={group.labelKey}>
                   <div className="flex items-center gap-2 px-3 py-2 mt-2 mb-0.5">
-                    <GroupIcon className="w-3.5 h-3.5 text-[#a1a1a6]" />
-                    <span className="text-[11px] font-medium text-[#a1a1a6] uppercase tracking-wider">{t(group.labelKey)}</span>
+                    <GroupIcon className="w-3.5 h-3.5 text-[#86868b]" />
+                    <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t(group.labelKey)}</span>
                   </div>
                   {group.items.map((item) => {
                     const isActive = pathname.startsWith(item.href);

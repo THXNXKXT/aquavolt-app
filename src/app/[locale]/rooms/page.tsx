@@ -160,16 +160,16 @@ export default function RoomsPage() {
         {/* Stats bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 text-green-700">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium bg-green-50 text-green-700">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
               {rooms.filter(r => r.status === "occupied").length} {t("rooms.occupied").toLowerCase()}
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-600">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
               {rooms.filter(r => r.status === "vacant").length} {t("rooms.vacant").toLowerCase()}
             </span>
             {rooms.filter(r => r.status === "maintenance").length > 0 && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium bg-amber-50 text-amber-700">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                 {rooms.filter(r => r.status === "maintenance").length} {t("rooms.maintenance").toLowerCase()}
               </span>
@@ -177,7 +177,7 @@ export default function RoomsPage() {
           </div>
           <button
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
           >
             <Plus className="w-4 h-4" />
             {t("rooms.addRoom")}
@@ -187,12 +187,12 @@ export default function RoomsPage() {
         {/* Filters */}
         <div className="flex flex-wrap gap-3 mb-8">
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("common.search")}
-              className="pl-9 pr-4 py-2.5 rounded-full border border-hairline text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+              className="pl-9 pr-4 py-2.5 rounded-full border border-hairline text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <SelectApple
@@ -224,7 +224,7 @@ export default function RoomsPage() {
             action={
               <button
                 onClick={openCreate}
-                className="px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus transition-all"
+                className="px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus transition-all"
               >
                 {t("rooms.addRoom")}
               </button>
@@ -260,7 +260,7 @@ export default function RoomsPage() {
                   <div className="flex items-start justify-between gap-2 mb-1.5">
                     <div className="flex items-center gap-2 min-w-0">
                       <span className={`w-2.5 h-2.5 rounded-full ${statusDot} shrink-0`} />
-                      <h3 className="text-[20px] font-bold tracking-tight text-ink">
+                      <h3 className="text-[20px] font-semibold tracking-tight text-ink">
                         {room.roomNumber}
                       </h3>
                     </div>
@@ -278,7 +278,7 @@ export default function RoomsPage() {
                           className="p-1.5 rounded-full hover:bg-red-50 transition-colors"
                           title={t("common.delete")}
                         >
-                          <Trash2 className="w-3.5 h-3.5 text-[#a1a1a6] hover:text-red-500" />
+                          <Trash2 className="w-3.5 h-3.5 text-[#86868b] hover:text-red-500" />
                         </button>
                       </div>
                       <StatusBadge status={room.status} />
@@ -286,7 +286,7 @@ export default function RoomsPage() {
                   </div>
 
                   {/* Building + Floor */}
-                  <p className="text-xs text-[#86868b] mb-3 ml-[18px]">
+                  <p className="text-[11px] text-[#86868b] mb-3 ml-[18px]">
                     {room.buildingName} · {t("rooms.floor")} {room.floor}
                   </p>
 
@@ -299,25 +299,25 @@ export default function RoomsPage() {
                             <User className="w-3.5 h-3.5 text-primary" />
                           </div>
                           <div className="min-w-0">
-                            <p className="text-xs font-medium text-ink truncate">{tenantsMap[room.id]}</p>
+                            <p className="text-[11px] font-medium text-ink truncate">{tenantsMap[room.id]}</p>
                             <p className="text-[10px] text-[#86868b]">{t("rooms.currentTenant")}</p>
                           </div>
                         </div>
                         <div className="text-right shrink-0">
-                          <p className="text-[13px] font-bold text-primary">{room.rentalFee.toLocaleString()}</p>
-                          <p className="text-[9px] text-[#86868b]">{t("common.perMonth") || "฿/เดือน"}</p>
+                          <p className="text-[13px] font-semibold text-primary">{room.rentalFee.toLocaleString()}</p>
+                          <p className="text-[10px] text-[#86868b]">{t("common.perMonth") || "฿/เดือน"}</p>
                         </div>
                       </div>
                     ) : (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <DoorOpen className="w-4 h-4 text-[#86868b]" />
-                          <span className="text-xs text-[#86868b]">
+                          <span className="text-[11px] text-[#86868b]">
                             {room.status === "vacant" ? t("rooms.vacant") : t("rooms.maintenance")}
                           </span>
                         </div>
                         {room.rentalFee > 0 && (
-                          <span className="text-xs font-medium text-[#86868b]">{room.rentalFee.toLocaleString()} ฿/เดือน</span>
+                          <span className="text-[11px] font-medium text-[#86868b]">{room.rentalFee.toLocaleString()} ฿/เดือน</span>
                         )}
                       </div>
                     )}
@@ -349,7 +349,7 @@ export default function RoomsPage() {
                 <DoorOpen className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h3 className="text-[17px] font-bold text-ink">
+                <h3 className="text-[17px] font-semibold text-ink">
                   {editRoom ? t("rooms.editRoom") : t("rooms.addRoom")}
                 </h3>
                 <p className="text-[11px] text-[#86868b] mt-0.5">
@@ -366,11 +366,11 @@ export default function RoomsPage() {
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
-                  <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                     {t("rooms.building")} <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
-                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
                     <SelectApple
                       value={formData.buildingId}
                       onChange={(v) => setFormData((prev) => ({ ...prev, buildingId: v }))}
@@ -383,11 +383,11 @@ export default function RoomsPage() {
                 <div className="p-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                      <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                         {t("rooms.roomNumber")} <span className="text-red-400">*</span>
                       </label>
                       <div className="relative">
-                        <DoorOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+                        <DoorOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
                         <input
                           value={formData.roomNumber}
                           onChange={(e) => {
@@ -395,13 +395,13 @@ export default function RoomsPage() {
                             if (formErrors.roomNumber) setFormErrors({});
                           }}
                           placeholder="A101"
-                          className={`w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${formErrors.roomNumber ? "border-red-400 bg-red-50" : "border-hairline"}`}
+                          className={`w-full pl-9 pr-4 py-2.5 rounded-lg border text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${formErrors.roomNumber ? "border-red-400 bg-red-50" : "border-hairline"}`}
                         />
                       </div>
                       <FieldError message={formErrors.roomNumber} />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                      <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                         {t("rooms.floor")}
                       </label>
                       <input
@@ -409,7 +409,7 @@ export default function RoomsPage() {
                         min={1}
                         value={formData.floor}
                         onChange={(e) => setFormData((prev) => ({ ...prev, floor: parseInt(e.target.value) || 1 }))}
-                        className="w-full px-4 py-2.5 rounded-lg border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                        className="w-full px-4 py-2.5 rounded-lg border border-hairline text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                       />
                     </div>
                   </div>
@@ -425,31 +425,31 @@ export default function RoomsPage() {
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
-                  <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                     {t("rooms.rentalFee")}
                   </label>
                   <div className="relative">
-                    <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+                    <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
                     <input
                       type="number"
                       min={0}
                       step={100}
                       value={formData.rentalFee}
                       onChange={(e) => setFormData((prev) => ({ ...prev, rentalFee: parseInt(e.target.value) || 0 }))}
-                      className="w-full pl-9 pr-12 py-2.5 rounded-lg border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                      className="w-full pl-9 pr-12 py-2.5 rounded-lg border border-hairline text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-[#a1a1a6]">{t("settings.bahtPerMonth")}</span>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-medium text-[#86868b]">{t("settings.bahtPerMonth")}</span>
                   </div>
                 </div>
                 <div className="p-4">
-                  <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                     {t("rooms.status")}
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {(["vacant", "occupied", "maintenance"] as RoomStatus[]).map((s) => (
                       <label
                         key={s}
-                        className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg border cursor-pointer transition-all text-xs font-medium ${
+                        className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg border cursor-pointer transition-all text-[11px] font-medium ${
                           formData.status === s
                             ? s === "vacant" ? "border-blue-400 bg-blue-50 text-blue-700"
                               : s === "occupied" ? "border-green-400 bg-green-50 text-green-700"
@@ -486,7 +486,7 @@ export default function RoomsPage() {
               <button
                 onClick={handleSave}
                 disabled={formSaving}
-                className="px-6 py-2.5 text-sm font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-2"
+                className="px-6 py-2.5 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-2"
               >
                 {formSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                 {formSaving ? t("common.saving") : t("common.save")}

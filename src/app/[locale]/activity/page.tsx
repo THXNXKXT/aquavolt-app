@@ -34,7 +34,7 @@ export default function ActivityPage() {
     room: {
       icon: <Building2 className="w-3.5 h-3.5" />,
       bg: "bg-canvas-parchment",
-      badge: "text-[#6e6e73] bg-divider-soft",
+      badge: "text-[#86868b] bg-divider-soft",
       label: t("rooms.title"),
     },
   };
@@ -126,21 +126,21 @@ export default function ActivityPage() {
   return (
     <div>
       <SubNav title={t("dashboard.recentActivity")}>
-        <span className="text-xs text-[#86868b]">{filtered.length} {t("common.items")}</span>
+        <span className="text-[11px] text-[#86868b]">{filtered.length} {t("common.items")}</span>
       </SubNav>
       <Reveal className="max-w-200 mx-auto px-5 sm:px-8 py-8 sm:py-12">
         {/* Search + Filters */}
         <div className="flex flex-col sm:flex-row gap-3 mb-8">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
             <input value={search} onChange={(e) => setSearch(e.target.value)}
               placeholder={t("common.search")}
-              className="w-full pl-9 pr-4 py-2.5 rounded-full border border-hairline text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary" />
+              className="w-full pl-9 pr-4 py-2.5 rounded-full border border-hairline text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-primary" />
           </div>
           <div className="flex gap-1 p-1 bg-divider-soft rounded-full flex-wrap">
             {typeFilters.map((opt) => (
               <button key={opt.value} onClick={() => setFilterType(opt.value)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
+                className={`px-3.5 py-1.5 rounded-full text-[11px] font-medium transition-all whitespace-nowrap ${
                   filterType === opt.value ? "bg-white text-ink shadow-sm" : "text-[#86868b] hover:text-ink"
                 }`}>
                 {opt.label}
@@ -196,7 +196,7 @@ export default function ActivityPage() {
                           className="relative flex items-start gap-3 px-4 py-3 rounded-[14px] border border-divider-soft bg-white hover:border-hairline transition-colors group">
                           {/* Time dot on timeline */}
                           <div className="absolute -left-8.75 top-4.5 w-2.5 h-2.5 rounded-full border-2 border-white shadow-sm"
-                            style={{ backgroundColor: act.type === "meter" ? "#0066cc" : act.type === "invoice" ? "#d97706" : act.type === "tenant" ? "#16a34a" : "#a1a1a6" }} />
+                            style={{ backgroundColor: act.type === "meter" ? "#0066cc" : act.type === "invoice" ? "#d97706" : act.type === "tenant" ? "#16a34a" : "#86868b" }} />
 
                           {/* Icon */}
                           <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${cfg.bg}`}>
@@ -209,7 +209,7 @@ export default function ActivityPage() {
                               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${cfg.badge}`}>
                                 {cfg.label}
                               </span>
-                              <span className="text-[11px] text-[#a1a1a6]" suppressHydrationWarning>{timeAgo(getTs(act))}</span>
+                              <span className="text-[11px] text-[#86868b]" suppressHydrationWarning>{timeAgo(getTs(act))}</span>
                             </div>
                             <p className="text-[13px] text-ink">{act.detail}</p>
                           </div>

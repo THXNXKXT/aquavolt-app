@@ -242,19 +242,19 @@ export default function TenantsPage() {
         {/* Stats bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 text-green-700">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium bg-green-50 text-green-700">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
               {tenants.filter(t => t.isActive).length} {t("tenants.status.active").toLowerCase()}
             </span>
             {tenants.filter(t => !t.isActive).length > 0 && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-zinc-50 text-zinc-500">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium bg-[#f5f5f7] text-[#86868b]">
                 {tenants.filter(t => !t.isActive).length} {t("tenants.status.inactive").toLowerCase()}
               </span>
             )}
           </div>
           <button
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
           >
             <Plus className="w-4 h-4" />
             {t("tenants.addTenant")}
@@ -262,12 +262,12 @@ export default function TenantsPage() {
         </div>
 
         <div className="relative mb-6 w-full sm:max-w-xs">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t("common.search")}
-            className="w-full pl-9 pr-4 py-2.5 rounded-full border border-zinc-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full pl-9 pr-4 py-2.5 rounded-full border border-divider-soft text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -282,7 +282,7 @@ export default function TenantsPage() {
             action={
               <button
                 onClick={openCreate}
-                className="px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus transition-all"
+                className="px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus transition-all"
               >
                 {t("tenants.addTenant")}
               </button>
@@ -290,7 +290,7 @@ export default function TenantsPage() {
           />
         ) : (
           <div className="bg-white rounded-[14px] border border-divider-soft overflow-hidden overflow-x-auto">
-            <table className="w-full text-sm min-w-[700px]">
+            <table className="w-full text-[13px] min-w-[700px]">
               <thead>
                 <tr className="border-b border-divider-soft">
                   <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">
@@ -334,7 +334,7 @@ export default function TenantsPage() {
                     <td className="px-5 py-3.5">
                       <span className="text-[13px] font-medium text-ink">{tenant.name}</span>
                     </td>
-                    <td className="px-5 py-3.5 text-[13px] text-[#6e6e73]">{tenant.roomNumber}</td>
+                    <td className="px-5 py-3.5 text-[13px] text-[#86868b]">{tenant.roomNumber}</td>
                     <td className="px-5 py-3.5">
                       {tenant.phone ? (
                         <a
@@ -364,7 +364,7 @@ export default function TenantsPage() {
                       )}
                     </td>
                     <td className="px-5 py-3.5 hidden md:table-cell">
-                      <span className="text-xs text-[#86868b]">
+                      <span className="text-[11px] text-[#86868b]">
                         {tenant.isActive ? getDuration(tenant.moveInDate, locale) : "—"}
                       </span>
                     </td>
@@ -388,7 +388,7 @@ export default function TenantsPage() {
                           className="p-1.5 rounded-full hover:bg-red-50 transition-colors"
                           title={t("common.delete")}
                         >
-                          <Trash2 className="w-3.5 h-3.5 text-[#a1a1a6] hover:text-red-500" />
+                          <Trash2 className="w-3.5 h-3.5 text-[#86868b] hover:text-red-500" />
                         </button>
                       </div>
                     </td>
@@ -418,7 +418,7 @@ export default function TenantsPage() {
                 <Users className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h3 className="text-[17px] font-bold text-ink">
+                <h3 className="text-[17px] font-semibold text-ink">
                   {editTenant ? t("tenants.editTenant") : t("tenants.addTenant")}
                 </h3>
                 <p className="text-[11px] text-[#86868b] mt-0.5">
@@ -435,11 +435,11 @@ export default function TenantsPage() {
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
-                  <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                     {t("tenants.name")} <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
-                    <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+                    <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
                     <input
                       value={formData.name}
                       onChange={(e) => {
@@ -447,18 +447,18 @@ export default function TenantsPage() {
                         if (formErrors.name) setFormErrors({});
                       }}
                       placeholder="ชื่อ-นามสกุล"
-                      className={`w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${formErrors.name ? "border-red-400 bg-red-50" : "border-hairline"}`}
+                      className={`w-full pl-9 pr-4 py-2.5 rounded-lg border text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${formErrors.name ? "border-red-400 bg-red-50" : "border-hairline"}`}
                     />
                   </div>
                   <FieldError message={formErrors.name} />
                 </div>
                 <div className="p-4">
-                  <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                     {t("tenants.phone")} <span className="text-red-400">*</span>
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
                       <input
                         value={formData.phone}
                         onChange={(e) => {
@@ -466,16 +466,16 @@ export default function TenantsPage() {
                           if (formErrors.phone) setFormErrors({});
                         }}
                         placeholder="08X-XXX-XXXX"
-                        className={`w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${formErrors.phone ? "border-red-400 bg-red-50" : "border-hairline"}`}
+                        className={`w-full pl-9 pr-4 py-2.5 rounded-lg border text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${formErrors.phone ? "border-red-400 bg-red-50" : "border-hairline"}`}
                       />
                     </div>
                     <div className="relative">
-                      <MessageCircle className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1a6]" />
+                      <MessageCircle className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
                       <input
                         value={formData.lineId}
                         onChange={(e) => setFormData((prev) => ({ ...prev, lineId: e.target.value }))}
                         placeholder="LINE ID"
-                        className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                        className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-hairline text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                       />
                     </div>
                   </div>
@@ -492,7 +492,7 @@ export default function TenantsPage() {
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
-                  <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                     {t("tenants.room")} <span className="text-red-400">*</span>
                   </label>
                   <SelectApple
@@ -515,18 +515,18 @@ export default function TenantsPage() {
                 <div className="p-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                      <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                         {t("tenants.moveInDate")}
                       </label>
                       <input
                         type="date"
                         value={formData.moveInDate}
                         onChange={(e) => setFormData((prev) => ({ ...prev, moveInDate: e.target.value }))}
-                        className="w-full px-4 py-2.5 rounded-lg border border-hairline text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                        className="w-full px-4 py-2.5 rounded-lg border border-hairline text-[13px] text-ink focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-[#6e6e73] mb-1.5">
+                      <label className="block text-[11px] font-medium text-[#86868b] mb-1.5">
                         {t("tenants.contractDuration")}
                       </label>
                       <SelectApple
@@ -565,7 +565,7 @@ export default function TenantsPage() {
                       {formData.isActive && <Check className="w-3.5 h-3.5 text-white" />}
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-ink">{t("tenants.isActive")}</p>
+                      <p className="text-[11px] font-medium text-ink">{t("tenants.isActive")}</p>
                       <p className="text-[10px] text-[#86868b]">{t("tenants.isActiveDesc")}</p>
                     </div>
                   </label>
@@ -580,7 +580,7 @@ export default function TenantsPage() {
                       {formData.wifiEnabled && <Check className="w-3.5 h-3.5 text-white" />}
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-ink">
+                      <p className="text-[11px] font-medium text-ink">
                         <span className="text-primary font-bold text-[10px]">WiFi</span> {t("tenants.wifiLabel")}
                       </p>
                       <p className="text-[10px] text-[#86868b]">{t("tenants.wifiDesc")}</p>
@@ -601,7 +601,7 @@ export default function TenantsPage() {
               <button
                 onClick={handleSave}
                 disabled={formSaving}
-                className="px-6 py-2.5 text-sm font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-2"
+                className="px-6 py-2.5 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-2"
               >
                 {formSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                 {formSaving ? t("common.saving") : t("common.save")}

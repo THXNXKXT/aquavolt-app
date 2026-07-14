@@ -58,7 +58,7 @@ export function SelectApple({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className={`w-full flex items-center justify-between gap-2 px-4 py-2.5 ${shapeClass} border border-hairline bg-white text-sm text-ink
+        className={`w-full flex items-center justify-between gap-2 px-4 py-2.5 ${shapeClass} border border-hairline bg-white text-[13px] text-ink
                    focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
                    hover:border-[#c7c7c7] transition-all cursor-pointer`}
       >
@@ -77,7 +77,7 @@ export function SelectApple({
           style={{ maxHeight: "280px", overflowY: "auto" }}
         >
           {options.length === 0 && (
-            <div className="px-4 py-3 text-sm text-[#86868b] text-center">
+            <div className="px-4 py-3 text-[13px] text-[#86868b] text-center">
               No options
             </div>
           )}
@@ -89,7 +89,7 @@ export function SelectApple({
                 type="button"
                 disabled={opt.disabled}
                 onClick={() => handleSelect(opt)}
-                className={`w-full text-left px-4 py-2.5 text-sm transition-colors
+                className={`w-full text-left px-4 py-2.5 text-[13px] transition-colors
                   ${isSelected ? "bg-canvas-parchment text-ink font-medium" : "text-ink"}
                   ${opt.disabled ? "opacity-40 cursor-not-allowed" : "hover:bg-canvas-parchment cursor-pointer"}
                 `}

@@ -37,7 +37,7 @@ export default function LoginPage() {
         <div className="max-w-md text-center lg:text-left">
           <div className="flex items-center justify-center lg:justify-start gap-2 mb-4">
             <Grip className="w-5 h-5 text-primary" />
-            <span className="text-sm font-semibold tracking-tight text-ink">
+            <span className="text-[13px] font-semibold tracking-tight text-ink">
               AquaVolt
             </span>
           </div>
@@ -56,7 +56,7 @@ export default function LoginPage() {
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Grip className="w-5 h-5 text-primary" />
-              <span className="text-lg font-semibold tracking-tight text-ink">
+              <span className="text-[17px] font-semibold tracking-tight text-ink">
                 AquaVolt
               </span>
             </div>
@@ -69,7 +69,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-[13px] font-medium text-[#6e6e73] mb-1.5 tracking-[-0.12px]">
+              <label className="block text-[13px] font-medium text-[#86868b] mb-1.5 tracking-[-0.12px]">
                 {t("email")}
               </label>
               <input
@@ -77,13 +77,13 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t("placeholder.email")}
-                className="w-full px-4 py-3 rounded-md border border-hairline text-sm text-ink bg-surface-pearl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:bg-white transition-all"
+                className="w-full px-4 py-3 rounded-md border border-hairline text-[13px] text-ink bg-surface-pearl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:bg-white transition-all"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-[13px] font-medium text-[#6e6e73] mb-1.5 tracking-[-0.12px]">
+              <label className="block text-[13px] font-medium text-[#86868b] mb-1.5 tracking-[-0.12px]">
                 {t("password")}
               </label>
               <input
@@ -91,13 +91,13 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t("placeholder.password")}
-                className="w-full px-4 py-3 rounded-md border border-hairline text-sm text-ink bg-surface-pearl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:bg-white transition-all"
+                className="w-full px-4 py-3 rounded-md border border-hairline text-[13px] text-ink bg-surface-pearl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:bg-white transition-all"
                 required
               />
             </div>
 
             {error && (
-              <p className="text-sm text-red-600 bg-red-50 px-4 py-2.5 rounded-md">
+              <p className="text-[13px] text-red-600 bg-red-50 px-4 py-2.5 rounded-md">
                 {error}
               </p>
             )}
@@ -132,7 +132,7 @@ export default function LoginPage() {
               )}
             </button>
 
-            <p className="text-xs text-[#86868b] text-center mt-6">
+            <p className="text-[11px] text-[#86868b] text-center mt-6">
               {t("hint") || ""}
             </p>
           </form>

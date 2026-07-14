@@ -33,8 +33,8 @@ export default function RatesPage() {
     },
     {
       icon: Building2,
-      iconBg: "bg-zinc-100",
-      iconColor: "text-[#6e6e73]",
+      iconBg: "bg-[#f5f5f7]",
+      iconColor: "text-[#86868b]",
       name: t("rates.service"),
       rate: serviceCharge,
       unit: t("rates.perMonth"),
@@ -46,7 +46,7 @@ export default function RatesPage() {
       <SubNav title={t("rates.title")}>
         <button
           onClick={() => router.push("/settings")}
-          className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary-focus transition-colors"
+          className="inline-flex items-center gap-1.5 text-[13px] text-primary hover:text-primary-focus transition-colors"
         >
           <Settings className="w-4 h-4" />
           {t("settings.title")}
@@ -60,7 +60,7 @@ export default function RatesPage() {
           </div>
           <button
             onClick={() => router.push("/settings")}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
           >
             <Settings className="w-4 h-4" />
             {t("settings.title")}
@@ -80,11 +80,11 @@ export default function RatesPage() {
                 >
                   <Icon className={`w-6 h-6 ${item.iconColor}`} />
                 </div>
-                <p className="text-sm text-[#86868b] mb-1">{item.name}</p>
+                <p className="text-[13px] text-[#86868b] mb-1">{item.name}</p>
                 <p className="text-[28px] font-semibold tracking-tight text-ink">
                   {formatCurrency(item.rate)}
                 </p>
-                <p className="text-xs text-[#a1a1a6] mt-0.5">{item.unit}</p>
+                <p className="text-[11px] text-[#86868b] mt-0.5">{item.unit}</p>
               </div>
             );
           })}
@@ -96,7 +96,7 @@ export default function RatesPage() {
               <h3 className="text-[17px] font-semibold text-ink">
                 {t("rates.title")}
               </h3>
-              <p className="text-sm text-[#86868b] mt-0.5">
+              <p className="text-[13px] text-[#86868b] mt-0.5">
                 {t("common.total")}:{" "}
                 <span className="font-semibold text-primary">
                   {formatCurrency(waterRate + electricRate + serviceCharge)}
@@ -106,7 +106,7 @@ export default function RatesPage() {
             </div>
             <button
               onClick={() => router.push("/settings")}
-              className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-focus transition-colors"
+              className="inline-flex items-center gap-1 text-[13px] text-primary hover:text-primary-focus transition-colors"
             >
               {t("common.edit")}
               <ArrowRight className="w-4 h-4" />

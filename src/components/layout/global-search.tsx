@@ -131,7 +131,7 @@ export function GlobalSearch() {
       >
         <Search className="w-3 h-3" />
         <span className="hidden sm:inline">{t("common.search")}</span>
-        <kbd className="hidden sm:inline text-[9px] text-[#a1a1a6] border border-surface-chip rounded px-1">⌘K</kbd>
+        <kbd className="hidden sm:inline text-[10px] text-[#86868b] border border-surface-chip rounded px-1">⌘K</kbd>
       </button>
 
       {/* Modal overlay */}
@@ -154,20 +154,20 @@ export function GlobalSearch() {
           >
             {/* Search input */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-divider-soft">
-              <Search className="w-4 h-4 text-[#a1a1a6] shrink-0" />
+              <Search className="w-4 h-4 text-[#86868b] shrink-0" />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("search.placeholder")}
-                className="flex-1 text-sm text-ink outline-none placeholder:text-[#a1a1a6]"
+                className="flex-1 text-[13px] text-ink outline-none placeholder:text-[#86868b]"
               />
               {query && (
                 <button onClick={() => setQuery("")} className="p-1 rounded-full hover:bg-canvas-parchment">
-                  <X className="w-3.5 h-3.5 text-[#a1a1a6]" />
+                  <X className="w-3.5 h-3.5 text-[#86868b]" />
                 </button>
               )}
-              <kbd className="text-[10px] text-[#a1a1a6] border border-surface-chip rounded px-1.5 py-0.5">ESC</kbd>
+              <kbd className="text-[10px] text-[#86868b] border border-surface-chip rounded px-1.5 py-0.5">ESC</kbd>
             </div>
 
             {/* Results */}

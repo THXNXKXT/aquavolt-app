@@ -196,7 +196,7 @@ export default function MetersPage() {
           </div>
           <button
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
           >
             <Plus className="w-4 h-4" />
             {t("meters.recordMeter")}
@@ -205,7 +205,7 @@ export default function MetersPage() {
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
-          <label className="text-[13px] font-medium text-[#6e6e73]">
+          <label className="text-[13px] font-medium text-[#86868b]">
             {t("meters.selectRoom")}:
           </label>
           <SelectApple
@@ -220,7 +220,7 @@ export default function MetersPage() {
             ]}
             className="min-w-[220px]"
           />
-          <label className="text-[13px] font-medium text-[#6e6e73] ml-2">
+          <label className="text-[13px] font-medium text-[#86868b] ml-2">
             {t("common.month")}:
           </label>
           <SelectApple
@@ -242,8 +242,8 @@ export default function MetersPage() {
         ) : filteredReadings.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-center bg-white rounded-[14px] border border-hairline">
             <Inbox className="w-10 h-10 text-surface-chip mb-3" />
-            <p className="text-sm font-medium text-[#86868b]">{t("meters.noReadings")}</p>
-            <button onClick={openCreate} className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-primary rounded-full hover:bg-primary-focus transition-all">
+            <p className="text-[13px] font-medium text-[#86868b]">{t("meters.noReadings")}</p>
+            <button onClick={openCreate} className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus transition-all">
               <Plus className="w-3.5 h-3.5" />
               {t("meters.recordMeter")}
             </button>
@@ -251,25 +251,25 @@ export default function MetersPage() {
         ) : (
           <div className="space-y-3">
           <div className="bg-white rounded-[14px] border border-hairline overflow-hidden overflow-x-auto">
-            <table className="w-full text-sm min-w-[700px]">
+            <table className="w-full text-[13px] min-w-[700px]">
               <thead>
                 <tr className="border-b border-hairline">
-                  <th rowSpan={2} className="text-left px-4 py-3 text-[11px] font-semibold text-[#6e6e73] uppercase tracking-wider border-r border-divider-soft">{t("common.month")}</th>
-                  <th rowSpan={2} className="text-left px-4 py-3 text-[11px] font-semibold text-[#6e6e73] uppercase tracking-wider border-r border-divider-soft">{t("meters.room")}</th>
+                  <th rowSpan={2} className="text-left px-4 py-3 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider border-r border-divider-soft">{t("common.month")}</th>
+                  <th rowSpan={2} className="text-left px-4 py-3 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider border-r border-divider-soft">{t("meters.room")}</th>
                   <th colSpan={3} className="text-center px-2 py-2.5 text-[11px] font-semibold text-primary uppercase tracking-wider bg-[#f0f7ff] border-r border-[#cce4ff]">
                     <span className="inline-flex items-center gap-1"><Droplets className="w-3 h-3" />{t("meters.water")}</span>
                   </th>
-                  <th colSpan={3} className="text-center px-2 py-2.5 text-[11px] font-semibold text-[#d97706] uppercase tracking-wider bg-[#fff8ed]">
+                  <th colSpan={3} className="text-center px-2 py-2.5 text-[11px] font-semibold text-amber-600 uppercase tracking-wider bg-[#fff8ed]">
                     <span className="inline-flex items-center gap-1"><Zap className="w-3 h-3" />{t("meters.electric")}</span>
                   </th>
                 </tr>
                 <tr className="border-b border-hairline">
-                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#6e6e73] bg-[#f0f7ff] border-r border-[#cce4ff]">← {t("meters.waterPrevious")}</th>
-                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#6e6e73] bg-[#f0f7ff] border-r border-[#cce4ff]">→ {t("meters.waterCurrent")}</th>
+                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#86868b] bg-[#f0f7ff] border-r border-[#cce4ff]">← {t("meters.waterPrevious")}</th>
+                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#86868b] bg-[#f0f7ff] border-r border-[#cce4ff]">→ {t("meters.waterCurrent")}</th>
                   <th className="text-right px-3 py-2.5 text-[11px] font-medium text-primary bg-[#f0f7ff] border-r border-[#cce4ff]">= {t("meters.waterUsage")}</th>
-                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#6e6e73] bg-[#fff8ed] border-r border-[#ffe4b3]">← {t("meters.electricPrevious")}</th>
-                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#6e6e73] bg-[#fff8ed] border-r border-[#ffe4b3]">→ {t("meters.electricCurrent")}</th>
-                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#d97706] bg-[#fff8ed]">= {t("meters.electricUsage")}</th>
+                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#86868b] bg-[#fff8ed] border-r border-[#ffe4b3]">← {t("meters.electricPrevious")}</th>
+                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-[#86868b] bg-[#fff8ed] border-r border-[#ffe4b3]">→ {t("meters.electricCurrent")}</th>
+                  <th className="text-right px-3 py-2.5 text-[11px] font-medium text-amber-600 bg-[#fff8ed]">= {t("meters.electricUsage")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -277,12 +277,12 @@ export default function MetersPage() {
                   <tr key={reading.id} className="border-b border-divider-soft hover:bg-canvas-parchment/50 transition-colors">
                     <td className="px-4 py-3 font-medium text-ink border-r border-divider-soft whitespace-nowrap">{getMonthName(reading.month)} {reading.year}</td>
                     <td className="px-4 py-3 text-[#86868b] border-r border-divider-soft">{reading.roomNumber}</td>
-                    <td className="px-3 py-3 text-right text-[#6e6e73] bg-[#fafcff] border-r border-[#f0f7ff]">{reading.waterPrevious}</td>
+                    <td className="px-3 py-3 text-right text-[#86868b] bg-[#fafcff] border-r border-[#f0f7ff]">{reading.waterPrevious}</td>
                     <td className="px-3 py-3 text-right font-medium text-ink bg-[#fafcff] border-r border-[#f0f7ff]">{reading.waterCurrent}</td>
                     <td className="px-3 py-3 text-right font-semibold text-primary bg-[#fafcff] border-r border-[#f0f7ff]">{reading.waterUsage}</td>
-                    <td className="px-3 py-3 text-right text-[#6e6e73] bg-[#fffdfa] border-r border-[#fff3d6]">{reading.electricPrevious}</td>
+                    <td className="px-3 py-3 text-right text-[#86868b] bg-[#fffdfa] border-r border-[#fff3d6]">{reading.electricPrevious}</td>
                     <td className="px-3 py-3 text-right font-medium text-ink bg-[#fffdfa] border-r border-[#fff3d6]">{reading.electricCurrent}</td>
-                    <td className="px-3 py-3 text-right font-semibold text-[#d97706] bg-[#fffdfa]">{reading.electricUsage}</td>
+                    <td className="px-3 py-3 text-right font-semibold text-amber-600 bg-[#fffdfa]">{reading.electricUsage}</td>
                   </tr>
                 ))}
               </tbody>
@@ -306,7 +306,7 @@ export default function MetersPage() {
               {/* Room + Period */}
               <div className="flex gap-4">
                 <div className="flex-1">
-                  <label className="block text-[13px] font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[13px] font-medium text-[#86868b] mb-1.5">
                     {t("meters.selectRoom")}
                   </label>
                   <SelectApple
@@ -325,7 +325,7 @@ export default function MetersPage() {
                   />
                 </div>
                 <div className="w-20">
-                  <label className="block text-[13px] font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[13px] font-medium text-[#86868b] mb-1.5">
                     {t("meters.month")}
                   </label>
                   <input
@@ -339,11 +339,11 @@ export default function MetersPage() {
                         month: parseInt(e.target.value) || 1,
                       }))
                     }
-                    className="w-full px-3 py-2.5 rounded-md border border-hairline text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-3 py-2.5 rounded-md border border-hairline text-[13px] focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 <div className="w-24">
-                  <label className="block text-[13px] font-medium text-[#6e6e73] mb-1.5">
+                  <label className="block text-[13px] font-medium text-[#86868b] mb-1.5">
                     {t("meters.year")}
                   </label>
                   <input
@@ -355,7 +355,7 @@ export default function MetersPage() {
                         year: parseInt(e.target.value) || 2026,
                       }))
                     }
-                    className="w-full px-3 py-2.5 rounded-md border border-hairline text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-3 py-2.5 rounded-md border border-hairline text-[13px] focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -377,7 +377,7 @@ export default function MetersPage() {
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="text-[11px] font-medium text-[#6e6e73] mb-1 block">
+                    <label className="text-[11px] font-medium text-[#86868b] mb-1 block">
                       ← {t("meters.waterPrevious")}
                     </label>
                     <input
@@ -389,11 +389,11 @@ export default function MetersPage() {
                           waterPrevious: parseFloat(e.target.value) || 0,
                         }))
                       }
-                      className="w-full px-3 py-2 rounded-md border border-[#cce4ff] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-3 py-2 rounded-md border border-[#cce4ff] bg-white text-[13px] focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-medium text-[#6e6e73] mb-1 block">
+                    <label className="text-[11px] font-medium text-[#86868b] mb-1 block">
                       → {t("meters.waterCurrent")}
                     </label>
                     <input
@@ -405,14 +405,14 @@ export default function MetersPage() {
                           waterCurrent: parseFloat(e.target.value) || 0,
                         }))
                       }
-                      className="w-full px-3 py-2 rounded-md border border-[#cce4ff] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-3 py-2 rounded-md border border-[#cce4ff] bg-white text-[13px] focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-medium text-[#6e6e73] mb-1 block">
+                    <label className="text-[11px] font-medium text-[#86868b] mb-1 block">
                       = {t("meters.waterUsage")}
                     </label>
-                    <div className="w-full px-3 py-2 rounded-md border border-[#cce4ff] bg-[#e6f2ff] text-sm font-semibold text-primary text-center">
+                    <div className="w-full px-3 py-2 rounded-md border border-[#cce4ff] bg-[#e6f2ff] text-[13px] font-semibold text-primary text-center">
                       {calcResult
                         ? `${calcResult.waterUsage} m³`
                         : "—"}
@@ -438,7 +438,7 @@ export default function MetersPage() {
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="text-[11px] font-medium text-[#6e6e73] mb-1 block">
+                    <label className="text-[11px] font-medium text-[#86868b] mb-1 block">
                       ← {t("meters.electricPrevious")}
                     </label>
                     <input
@@ -450,11 +450,11 @@ export default function MetersPage() {
                           electricPrevious: parseFloat(e.target.value) || 0,
                         }))
                       }
-                      className="w-full px-3 py-2 rounded-md border border-[#ffe4b3] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#d97706]"
+                      className="w-full px-3 py-2 rounded-md border border-[#ffe4b3] bg-white text-[13px] focus:outline-none focus:ring-2 focus:ring-[#d97706]"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-medium text-[#6e6e73] mb-1 block">
+                    <label className="text-[11px] font-medium text-[#86868b] mb-1 block">
                       → {t("meters.electricCurrent")}
                     </label>
                     <input
@@ -466,14 +466,14 @@ export default function MetersPage() {
                           electricCurrent: parseFloat(e.target.value) || 0,
                         }))
                       }
-                      className="w-full px-3 py-2 rounded-md border border-[#ffe4b3] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#d97706]"
+                      className="w-full px-3 py-2 rounded-md border border-[#ffe4b3] bg-white text-[13px] focus:outline-none focus:ring-2 focus:ring-[#d97706]"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-medium text-[#6e6e73] mb-1 block">
+                    <label className="text-[11px] font-medium text-[#86868b] mb-1 block">
                       = {t("meters.electricUsage")}
                     </label>
-                    <div className="w-full px-3 py-2 rounded-md border border-[#ffe4b3] bg-[#fff3d6] text-sm font-semibold text-[#d97706] text-center">
+                    <div className="w-full px-3 py-2 rounded-md border border-[#ffe4b3] bg-[#fff3d6] text-[13px] font-semibold text-amber-600 text-center">
                       {calcResult
                         ? `${calcResult.electricUsage} kWh`
                         : "—"}
@@ -489,11 +489,11 @@ export default function MetersPage() {
                     <DollarSign className="w-4 h-4 text-primary" />
                     {t("meters.calculatedCost")}
                   </h4>
-                  <div className="flex justify-between text-sm py-1">
-                    <span className="flex items-center gap-1.5 text-[#6e6e73]">
+                  <div className="flex justify-between text-[13px] py-1">
+                    <span className="flex items-center gap-1.5 text-[#86868b]">
                       <Droplets className="w-3.5 h-3.5 text-primary" />
                       {t("meters.waterCost")}
-                      <span className="text-[11px] text-[#a1a1a6]">
+                      <span className="text-[11px] text-[#86868b]">
                         ({calcResult.waterUsage} m³ × {waterRate} {t("meters.baht")})
                       </span>
                     </span>
@@ -501,37 +501,37 @@ export default function MetersPage() {
                       {formatCurrency(calcResult.waterCost)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm py-1">
-                    <span className="flex items-center gap-1.5 text-[#6e6e73]">
-                      <Zap className="w-3.5 h-3.5 text-[#d97706]" />
+                  <div className="flex justify-between text-[13px] py-1">
+                    <span className="flex items-center gap-1.5 text-[#86868b]">
+                      <Zap className="w-3.5 h-3.5 text-amber-600" />
                       {t("meters.electricCost")}
-                      <span className="text-[11px] text-[#a1a1a6]">
+                      <span className="text-[11px] text-[#86868b]">
                         ({calcResult.electricUsage} kWh × {electricRate} {t("meters.baht")})
                       </span>
                     </span>
-                    <span className="font-medium text-[#d97706]">
+                    <span className="font-medium text-amber-600">
                       {formatCurrency(calcResult.electricCost)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm py-1">
-                    <span className="flex items-center gap-1.5 text-[#6e6e73]">
-                      <Building2 className="w-3.5 h-3.5 text-[#6e6e73]" />
+                  <div className="flex justify-between text-[13px] py-1">
+                    <span className="flex items-center gap-1.5 text-[#86868b]">
+                      <Building2 className="w-3.5 h-3.5 text-[#86868b]" />
                       {t("rates.service")}
                     </span>
                     <span className="font-medium text-ink">
                       {formatCurrency(calcResult.serviceCharge)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm py-1">
-                    <span className="flex items-center gap-1.5 text-[#6e6e73]">
-                      <Home className="w-3.5 h-3.5 text-[#6e6e73]" />
+                  <div className="flex justify-between text-[13px] py-1">
+                    <span className="flex items-center gap-1.5 text-[#86868b]">
+                      <Home className="w-3.5 h-3.5 text-[#86868b]" />
                       {t("meters.rentalCost")}
                     </span>
                     <span className="font-medium text-ink">
                       {formatCurrency(calcResult.rentalCost)}
                     </span>
                   </div>
-                  <div className="border-t border-hairline pt-2 flex justify-between text-sm font-semibold">
+                  <div className="border-t border-hairline pt-2 flex justify-between text-[13px] font-semibold">
                     <span className="text-ink">{t("meters.totalCost")}</span>
                     <span className="text-[15px] text-primary">
                       {formatCurrency(calcResult.totalAmount)}
@@ -544,14 +544,14 @@ export default function MetersPage() {
             <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-divider-soft">
               <button
                 onClick={() => setFormOpen(false)}
-                className="px-5 py-2.5 text-sm font-medium text-[#86868b] bg-white border border-hairline rounded-full hover:bg-canvas-parchment transition-colors"
+                className="px-5 py-2.5 text-[13px] font-medium text-[#86868b] bg-white border border-hairline rounded-full hover:bg-canvas-parchment transition-colors"
               >
                 {t("common.cancel")}
               </button>
               <button
                 onClick={handleSave}
                 disabled={!formData.roomId || !formData.waterCurrent || !formData.electricCurrent}
-                className="px-6 py-2.5 text-sm font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100"
+                className="px-6 py-2.5 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100"
               >
                 {t("common.save")}
               </button>
