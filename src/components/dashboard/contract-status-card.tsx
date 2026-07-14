@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { ClipboardCheck } from "lucide-react";
 
 interface ContractStats {
   active: number;
@@ -26,14 +25,9 @@ export function ContractStatusCard({ stats }: ContractStatusCardProps) {
   return (
     <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-[8px] bg-[#0071e3]/8 flex items-center justify-center">
-            <ClipboardCheck className="w-3.5 h-3.5 text-primary" />
-          </div>
-          <h3 className="text-[13px] font-semibold text-ink">
-            {t("dashboard.contractStatus")}
-          </h3>
-        </div>
+        <h3 className="text-[13px] font-semibold text-ink">
+          {t("dashboard.contractStatus")}
+        </h3>
         <span className="text-[10px] text-[#86868b]">
           {t("dashboard.tenantsTotal", { total })}
         </span>
