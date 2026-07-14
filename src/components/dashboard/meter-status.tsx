@@ -29,7 +29,7 @@ export const MeterStatus = memo(function MeterStatus({
       : 0;
 
   return (
-    <div className="bg-white rounded-[14px] p-5 border border-divider-soft flex-1">
+    <div className="bg-white rounded-[14px] p-4 border border-divider-soft flex-1">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-8 h-8 rounded-[10px] bg-[#0071e3]/8 flex items-center justify-center">
           <Gauge className="w-4 h-4 text-primary" />

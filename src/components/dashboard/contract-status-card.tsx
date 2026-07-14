@@ -18,7 +18,7 @@ export function ContractStatusCard({ stats }: ContractStatusCardProps) {
   const t = useTranslations();
 
   return (
-    <div className="bg-white rounded-[14px] p-5 border border-divider-soft mb-8">
+    <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-[10px] bg-[#0071e3]/8 flex items-center justify-center">

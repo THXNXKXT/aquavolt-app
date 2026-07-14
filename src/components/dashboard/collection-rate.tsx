@@ -22,7 +22,7 @@ export const CollectionRate = memo(function CollectionRate({
   const t = useTranslations();
 
   return (
-    <div className="bg-white rounded-[14px] p-5 border border-divider-soft flex-1">
+    <div className="bg-white rounded-[14px] p-4 border border-divider-soft flex-1">
       <div className="flex items-center gap-2 mb-3">
         <div className="w-8 h-8 rounded-[10px] bg-green-50 flex items-center justify-center">
           <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

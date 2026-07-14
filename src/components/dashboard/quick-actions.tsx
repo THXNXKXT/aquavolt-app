@@ -10,7 +10,7 @@ export const QuickActions = memo(function QuickActions() {
   const router = useRouter();
 
   return (
-    <div className="bg-white rounded-[14px] border border-divider-soft p-5">
+    <div className="bg-white rounded-[14px] border border-divider-soft p-4">
       <p className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider mb-3">
         {t("dashboard.quickActions")}
       </p>

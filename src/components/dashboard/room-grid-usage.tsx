@@ -35,7 +35,7 @@ export function RoomGridUsage({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
-      <div className="lg:col-span-2 bg-white rounded-[14px] p-5 border border-divider-soft">
+      <div className="lg:col-span-2 bg-white rounded-[14px] p-4 border border-divider-soft">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-[10px] bg-[#0071e3]/8 flex items-center justify-center">

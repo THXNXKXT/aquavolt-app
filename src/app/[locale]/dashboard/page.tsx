@@ -158,29 +158,29 @@ export default function DashboardPage() {
 
   return (
     <ErrorBoundary>
-    <div className="max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-10">
-      {/* ── Hero: Welcome ── */}
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-8">
+    <div className="max-w-300 mx-auto px-5 sm:px-8 py-6 sm:py-8">
+      {/* ═══ Row 1: Header ═══ */}
+      <div className="flex items-end justify-between gap-2 mb-6">
         <div>
-          <p className="text-[13px] text-[#86868b] font-medium">{dateStr}</p>
-          <h1 className="text-[32px] sm:text-[40px] font-semibold leading-[1.1] tracking-[-0.4px] text-ink mt-1">
+          <p className="text-[12px] text-[#86868b] font-medium">{dateStr}</p>
+          <h1 className="text-[28px] sm:text-[36px] font-semibold leading-[1.05] tracking-[-0.3px] text-ink mt-1">
             {settings.dormitoryName}
           </h1>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full">
-          <span className="text-[13px] text-[#86868b]">{t("dashboard.occupancyRateLabel")}</span>
-          <span className="text-[15px] font-semibold text-ink">{occupancyRate}%</span>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-full border border-divider-soft">
+          <span className="text-[12px] text-[#86868b]">{t("dashboard.occupancyRateLabel")}</span>
+          <span className="text-[14px] font-semibold text-ink">{occupancyRate}%</span>
         </div>
       </div>
 
-      {/* ── Metric Cards ── */}
+      {/* ═══ Row 2: KPI Strip ═══ */}
       <MetricCards totalRooms={totalRooms} occupiedRooms={occupiedRooms} vacantRooms={vacantRooms}
         maintenanceRooms={maintenanceRooms} totalBuildings={totalBuildings}
         totalTenants={tenantsData.length}
         monthlyRevenue={monthlyRevenue} currentInvoiceCount={currentInvoices.length} />
 
-      {/* ── Featured: Revenue (3-col) + Stats sidebar (1-col) ── */}
-      <Reveal className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-8">
+      {/* ═══ Row 3: Revenue (3-col) + Quick Actions sidebar (1-col) ═══ */}
+      <Reveal className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
         <Reveal.Item className="lg:col-span-3">
           <RevenueCard invoicesData={invoicesData} revenueByMonth={revenueByMonth} maxRevenue={maxRevenue}
             currentMonth={currentMonth} currentYear={currentYear}
@@ -189,7 +189,7 @@ export default function DashboardPage() {
             diffPct={revenueDiffPct}
             loading={loading} />
         </Reveal.Item>
-        <Reveal.Item className="lg:col-span-1 flex flex-col gap-4 h-full">
+        <Reveal.Item className="lg:col-span-1 flex flex-col gap-3 h-full">
           <QuickActions />
           <CollectionRate
             collectionRate={collectionRate}
@@ -204,31 +204,31 @@ export default function DashboardPage() {
         </Reveal.Item>
       </Reveal>
 
-      {/* ── Overdue Alert ── */}
+      {/* ═══ Row 4: Alerts (if any) ═══ */}
       <OverdueAlert overdueInvoices={overdueInvoices} maxDaysOverdue={maxDaysOverdue} />
 
-      {/* ── Contract Status (full width) ── */}
-      <ContractStatusCard stats={useMemo(() => {
-        // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
-        const now = Date.now();
-        const monthMs = MS.DAY * 30;
-        let active = 0, expiring = 0, expired = 0, total = 0;
-        for (const t of tenantsData) {
-          if (!t.isActive) continue;
-          total++;
-          const e = new Date(t.moveInDate);
-          e.setFullYear(e.getFullYear() + Math.floor(t.contractDuration / 12));
-          e.setMonth(e.getMonth() + (t.contractDuration % 12));
-          const endTime = e.getTime();
-          if (endTime <= now) { expired++; }
-          else if (endTime - now <= monthMs) { expiring++; }
-          else { active++; }
-        }
-        return { active, expiring, expired, total };
-      }, [tenantsData])} />
+      {/* ═══ Row 5: Contract + Room Grid (equal split) ═══ */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        <ContractStatusCard stats={useMemo(() => {
+          // eslint-disable-next-line react-hooks/purity -- contract expiry needs current time
+          const now = Date.now();
+          const monthMs = MS.DAY * 30;
+          let active = 0, expiring = 0, expired = 0, total = 0;
+          for (const t of tenantsData) {
+            if (!t.isActive) continue;
+            total++;
+            const e = new Date(t.moveInDate);
+            e.setFullYear(e.getFullYear() + Math.floor(t.contractDuration / 12));
+            e.setMonth(e.getMonth() + (t.contractDuration % 12));
+            const endTime = e.getTime();
+            if (endTime <= now) { expired++; }
+            else if (endTime - now <= monthMs) { expiring++; }
+            else { active++; }
+          }
+          return { active, expiring, expired, total };
+        }, [tenantsData])} />
 
-      {/* ── Room Grid (full width) ── */}
-      <RoomGridUsage
+        <RoomGridUsage
           roomsData={roomsData}
           occupiedRooms={occupiedRooms}
           vacantRooms={vacantRooms}
@@ -239,8 +239,9 @@ export default function DashboardPage() {
           topWater={topWater}
           currentMonth={currentMonth}
         />
+      </div>
 
-      {/* ── Bottom: Activity + Invoices ── */}
+      {/* ═══ Row 6: Activity + Invoices ═══ */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <RecentActivity activities={recentActivities} timeAgo={(ts: string) => timeAgo(ts, locale)} />
         <RecentInvoices invoices={recentInvoices.map((inv) => ({
