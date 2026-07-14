@@ -233,7 +233,7 @@ export default function DashboardPage() {
         currentMonth={currentMonth}
       />
 
-      {/* ═══ Row 6: Activity (2-col) + Invoices (1-col) ═══ */}
+      {/* ═══ Row 6: Activity (2/3) + Invoices (1/3) ═══ */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Reveal.Item className="lg:col-span-2">
           <RecentActivity activities={recentActivities} timeAgo={(ts: string) => timeAgo(ts, locale)} />
