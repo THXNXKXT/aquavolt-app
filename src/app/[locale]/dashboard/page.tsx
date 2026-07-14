@@ -10,7 +10,6 @@ import { RevenueCard } from "@/components/dashboard/revenue-card";
 import { ContractStatusCard } from "@/components/dashboard/contract-status-card";
 import { RoomGridUsage } from "@/components/dashboard/room-grid-usage";
 import { QuickActions } from "@/components/dashboard/quick-actions";
-import { CollectionRate } from "@/components/dashboard/collection-rate";
 import { MeterStatus } from "@/components/dashboard/meter-status";
 import { OverdueAlert } from "@/components/dashboard/overdue-alert";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
@@ -210,11 +209,6 @@ export default function DashboardPage() {
             return { active, expiring, expired, total };
           }, [tenantsData])} />
           <QuickActions />
-          <CollectionRate
-            collectionRate={collectionRate}
-            paidCount={paidCount}
-            totalInvoices={currentInvoices.length}
-          />
           <MeterStatus
             meterReadCount={meterReadCount}
             meterUnreadCount={meterUnreadCount}
@@ -239,15 +233,19 @@ export default function DashboardPage() {
         currentMonth={currentMonth}
       />
 
-      {/* ═══ Row 6: Activity + Invoices ═══ */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <RecentActivity activities={recentActivities} timeAgo={(ts: string) => timeAgo(ts, locale)} />
-        <RecentInvoices invoices={recentInvoices.map((inv) => ({
-          id: inv.id, roomNumber: inv.roomNumber || "", tenantName: inv.tenantName || "",
-          invoiceNumber: inv.invoiceNumber || "",
-          totalAmount: Number(inv.rentalCost || 0) + Number(inv.waterCost || 0) + Number(inv.electricCost || 0) + Number(inv.serviceCharge || 0) + Number(inv.wifiCost || 0),
-          status: inv.status || "pending",
-        }))} />
+      {/* ═══ Row 6: Activity (2-col) + Invoices (1-col) ═══ */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Reveal.Item className="lg:col-span-2">
+          <RecentActivity activities={recentActivities} timeAgo={(ts: string) => timeAgo(ts, locale)} />
+        </Reveal.Item>
+        <Reveal.Item>
+          <RecentInvoices invoices={recentInvoices.map((inv) => ({
+            id: inv.id, roomNumber: inv.roomNumber || "", tenantName: inv.tenantName || "",
+            invoiceNumber: inv.invoiceNumber || "",
+            totalAmount: Number(inv.rentalCost || 0) + Number(inv.waterCost || 0) + Number(inv.electricCost || 0) + Number(inv.serviceCharge || 0) + Number(inv.wifiCost || 0),
+            status: inv.status || "pending",
+          }))} />
+        </Reveal.Item>
       </div>
     </div>
     </ErrorBoundary>
