@@ -27,7 +27,7 @@ export function RoomGridUsage({
   const router = useRouter();
 
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-divider-soft mb-6">
+    <div className="bg-white rounded-[14px] px-4 pt-4 pb-5 border border-divider-soft mb-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-[13px] font-semibold text-[#86868b]">
           {t("dashboard.roomStatus")}
@@ -69,7 +69,7 @@ export function RoomGridUsage({
             : []),
         ].map((s) => (
           <span key={s.label} className="flex items-center gap-1.5">
-            <span className={`w-2 h-2 rounded-full ${s.dot}`} /> {s.count} {s.label}
+            <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} /> {s.count} {s.label}
           </span>
         ))}
       </div>

@@ -23,7 +23,7 @@ export function ContractStatusCard({ stats }: ContractStatusCardProps) {
   const expiredPct = total > 0 ? (expired / total) * 100 : 0;
 
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
+    <div className="bg-white rounded-[14px] px-4 pt-4 pb-5 border border-divider-soft">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-[13px] font-semibold text-[#86868b]">
           {t("dashboard.contractStatus")}
@@ -49,21 +49,21 @@ export function ContractStatusCard({ stats }: ContractStatusCardProps) {
       {/* Legend row */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-green-500" />
-          <span className="text-[18px] font-semibold tabular-nums text-ink leading-none">{active}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+          <span className="text-[18px] font-semibold tabular-nums tracking-[-0.02em] text-ink leading-none">{active}</span>
           <span className="text-[10px] text-[#86868b]">{t("dashboard.contractNormal")}</span>
         </div>
         {expiring > 0 && (
           <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-amber-400" />
-            <span className="text-[18px] font-semibold tabular-nums text-ink leading-none">{expiring}</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+            <span className="text-[18px] font-semibold tabular-nums tracking-[-0.02em] text-ink leading-none">{expiring}</span>
             <span className="text-[10px] text-[#86868b]">{t("dashboard.contractExpiring")}</span>
           </div>
         )}
         {expired > 0 && (
           <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-red-500" />
-            <span className="text-[18px] font-semibold tabular-nums text-ink leading-none">{expired}</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+            <span className="text-[18px] font-semibold tabular-nums tracking-[-0.02em] text-ink leading-none">{expired}</span>
             <span className="text-[10px] text-[#86868b]">{t("dashboard.contractExpired")}</span>
           </div>
         )}

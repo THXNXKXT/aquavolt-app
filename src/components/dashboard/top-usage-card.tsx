@@ -26,7 +26,7 @@ export function TopUsageCard({
   ).toLocaleDateString(locale === "th" ? "th-TH" : "en-US", { month: "long" });
 
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-divider-soft flex-1">
+    <div className="bg-white rounded-[14px] px-4 pt-4 pb-5 border border-divider-soft flex-1">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-[13px] font-semibold text-[#86868b]">
           {t("dashboard.topUsage")}
@@ -40,7 +40,7 @@ export function TopUsageCard({
         <div>
           <div className="flex items-center gap-1.5 mb-3">
             <Zap className="w-3.5 h-3.5 text-amber-600" />
-            <span className="text-[10px] font-medium text-[#86868b] uppercase tracking-wider">
+            <span className="text-[10px] font-medium text-[#86868b] uppercase tracking-[0.08em]">
               {t("dashboard.electric")}
             </span>
           </div>
@@ -82,7 +82,7 @@ export function TopUsageCard({
         <div>
           <div className="flex items-center gap-1.5 mb-3">
             <Droplets className="w-3.5 h-3.5 text-primary" />
-            <span className="text-[10px] font-medium text-[#86868b] uppercase tracking-wider">
+            <span className="text-[10px] font-medium text-[#86868b] uppercase tracking-[0.08em]">
               {t("dashboard.water")}
             </span>
           </div>

@@ -19,8 +19,8 @@ export const CollectionRate = memo(function CollectionRate({
   const t = useTranslations();
 
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-divider-soft flex-1">
-      <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-wider">
+    <div className="bg-white rounded-[14px] px-4 pt-4 pb-5 border border-divider-soft flex-1">
+      <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">
         {t("dashboard.collectionRate")}
       </span>
       <p className="text-[34px] font-semibold tabular-nums tracking-tight text-ink leading-none mt-3">

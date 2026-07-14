@@ -28,7 +28,7 @@ export function OverdueAlert({ overdueInvoices, maxDaysOverdue }: OverdueAlertPr
   );
 
   return (
-    <div className="bg-red-50 rounded-[14px] p-4 border border-red-200 mb-6">
+    <div className="bg-red-50 rounded-[14px] px-4 pt-4 pb-5 border border-red-200 mb-6">
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
           <h3 className="text-[13px] font-semibold text-red-800 mb-0.5">
@@ -42,7 +42,7 @@ export function OverdueAlert({ overdueInvoices, maxDaysOverdue }: OverdueAlertPr
           </p>
         </div>
         <div className="text-right shrink-0">
-          <p className="text-[18px] font-semibold tabular-nums text-red-700 leading-none">
+          <p className="text-[18px] font-semibold tabular-nums tracking-[-0.02em] text-red-700 leading-none">
             {formatCurrency(totalOverdueAmount)}
           </p>
           <button
