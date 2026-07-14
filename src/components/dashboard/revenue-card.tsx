@@ -89,7 +89,7 @@ export function RevenueCard({
   if (grand === 0 && !loading) return null;
 
   return (
-    <div className="bg-white rounded-[14px] border border-divider-soft p-4">
+    <div className="bg-white rounded-[14px] border border-divider-soft px-4 pt-4 pb-5">
       {/* ═══ Header ═══ */}
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -97,7 +97,7 @@ export function RevenueCard({
             {t("dashboard.totalRevenue")}
           </h3>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-[32px] font-semibold tabular-nums tracking-tight text-ink">
+            <span className="text-[32px] font-semibold tabular-nums tracking-[-0.03em] text-ink">
               <AnimatedNumber
                 value={grand}
                 formatter={(v) => formatCurrency(v).replace(/\.00฿/, "฿")}
@@ -237,7 +237,7 @@ export function RevenueCard({
                 <div className="flex items-center justify-between mb-0.5">
                   <span className="flex items-center gap-1.5 text-[11px] text-[#86868b]">
                     <span
-                      className="w-2 h-2 rounded-full shrink-0"
+                      className="w-1.5 h-1.5 rounded-full shrink-0"
                       style={{ backgroundColor: entry.color }}
                     />
                     {entry.label}
