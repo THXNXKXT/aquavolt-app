@@ -190,7 +190,7 @@ export function RevenueCard({
           <div className="flex gap-2">
             <div className="flex-1 bg-[#f0f7ff] rounded-md px-3 py-2 text-center">
               <p className="text-[10px] text-[#86868b]">{t("dashboard.thisMonth")}</p>
-              <p className="text-[13px] font-bold text-primary">
+              <p className="text-[13px] font-semibold text-primary">
                 <AnimatedNumber
                   value={revenueByMonth[revenueByMonth.length - 1].total}
                   formatter={(v) => formatCurrency(v).replace(/\.00฿/, "฿")}
@@ -246,7 +246,7 @@ export function RevenueCard({
                     {Math.round((entry.value / grand) * 100)}%
                   </span>
                 </div>
-                <p className="text-[13px] font-bold text-ink ml-4.5">
+                <p className="text-[13px] font-semibold text-ink ml-4.5">
                   <AnimatedNumber
                     value={entry.value}
                     formatter={(v) => formatCurrency(v).replace(/\.00฿/, "฿")}

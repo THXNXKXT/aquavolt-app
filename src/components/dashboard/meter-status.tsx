@@ -61,7 +61,7 @@ export const MeterStatus = memo(function MeterStatus({
           {t("dashboard.meterRead", { count: meterReadCount })}
         </span>
         {meterUnreadCount > 0 && (
-          <span className="flex items-center gap-1.5 text-[#a1a1a6]">
+          <span className="flex items-center gap-1.5 text-[#86868b]">
             <span className="w-2 h-2 rounded-full bg-surface-chip" />{" "}
             {t("dashboard.meterUnread", { count: meterUnreadCount })}
           </span>

@@ -135,7 +135,7 @@ export function RoomGridUsage({
           ].map((s) => (
             <div key={s.label}>
               <div className="flex items-center justify-between text-[11px] mb-1">
-                <span className="flex items-center gap-1.5 text-[#6e6e73]">
+                <span className="flex items-center gap-1.5 text-[#86868b]">
                   <s.icon className="w-3 h-3" style={{ color: s.color }} />{" "}
                   {s.label}
                 </span>

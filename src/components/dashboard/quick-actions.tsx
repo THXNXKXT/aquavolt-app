@@ -11,7 +11,7 @@ export const QuickActions = memo(function QuickActions() {
 
   return (
     <div className="bg-white rounded-[14px] border border-divider-soft p-4">
-      <p className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider mb-2.5">
+      <p className="text-[11px] font-medium text-[#86868b] uppercase tracking-wider mb-2.5">
         {t("dashboard.quickActions")}
       </p>
       <div className="grid grid-cols-4 gap-2">
@@ -19,7 +19,7 @@ export const QuickActions = memo(function QuickActions() {
           { icon: Gauge, label: t("dashboard.recordMeter"), tile: "bg-[#0071e3]/8", iconColor: "text-primary", path: "/meters" },
           { icon: FileText, label: t("dashboard.createBill"), tile: "bg-amber-50", iconColor: "text-amber-600", path: "/invoices" },
           { icon: Users, label: t("dashboard.tenantsManage"), tile: "bg-green-50", iconColor: "text-green-600", path: "/tenants" },
-          { icon: DoorOpen, label: t("rooms.title"), tile: "bg-[#0071e3]/5", iconColor: "text-[#6e6e73]", path: "/rooms" },
+          { icon: DoorOpen, label: t("rooms.title"), tile: "bg-[#0071e3]/5", iconColor: "text-[#86868b]", path: "/rooms" },
         ].map(({ icon: Icon, label, tile, iconColor, path }) => (
           <button
             key={path}
@@ -29,7 +29,7 @@ export const QuickActions = memo(function QuickActions() {
             <div className={`w-8 h-8 rounded-[10px] ${tile} flex items-center justify-center group-hover:scale-105 transition-transform`}>
               <Icon className={`w-4 h-4 ${iconColor}`} strokeWidth={2} />
             </div>
-            <span className="text-[9px] font-medium text-[#6e6e73] text-center leading-tight">{label}</span>
+            <span className="text-[10px] font-medium text-[#86868b] text-center leading-tight">{label}</span>
           </button>
         ))}
       </div>
