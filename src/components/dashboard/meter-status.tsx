@@ -26,7 +26,7 @@ export const MeterStatus = memo(function MeterStatus({
       : 0;
 
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-divider-soft flex-1">
+    <div className="bg-white rounded-[14px] p-4 border border-divider-soft">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-[13px] font-semibold text-ink">
           {t("dashboard.meterStatus")}
