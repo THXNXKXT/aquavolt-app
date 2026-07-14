@@ -40,10 +40,10 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
         {/* Electric side */}
         <div className="border border-divider-soft rounded-md p-3">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#86868b] uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1 text-[10px] font-medium text-[#86868b] uppercase tracking-wider">
               <Zap className="w-3 h-3 text-[#d97706]" /> {t("dashboard.electric")}
             </span>
-            <span className="text-[9px] text-[#a1a1a6] ml-auto">{t("dashboard.unitKwh")}</span>
+            <span className="text-[10px] text-[#86868b] ml-auto">{t("dashboard.unitKwh")}</span>
           </div>
           {topElectric.length > 0 ? (
             <div className="space-y-2.5">
@@ -85,10 +85,10 @@ export function TopUsageCard({ topElectric, topWater, currentMonth }: TopUsageCa
         {/* Water side */}
         <div className="border border-divider-soft rounded-md p-3">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#86868b] uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1 text-[10px] font-medium text-[#86868b] uppercase tracking-wider">
               <Droplets className="w-3 h-3 text-primary" /> {t("dashboard.water")}
             </span>
-            <span className="text-[9px] text-[#a1a1a6] ml-auto">{t("dashboard.unitM3")}</span>
+            <span className="text-[10px] text-[#86868b] ml-auto">{t("dashboard.unitM3")}</span>
           </div>
           {topWater.length > 0 ? (
             <div className="space-y-2.5">

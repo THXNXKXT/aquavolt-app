@@ -73,7 +73,7 @@ export function RevenueCard({
       {
         label: t("dashboard.revenueService"),
         value: allPaidInvs.reduce((s, inv) => s + Number(inv.serviceCharge || 0), 0),
-        color: "#a1a1a6",
+        color: "#86868b",
       },
       {
         label: t("dashboard.revenueWiFi"),
@@ -93,11 +93,11 @@ export function RevenueCard({
       {/* ═══ Header ═══ */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-[9px] font-semibold text-[#86868b] uppercase tracking-wider">
+          <p className="text-[10px] font-medium text-[#86868b] uppercase tracking-wider">
             {t("dashboard.totalRevenue")}
           </p>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-[30px] font-bold tracking-tight text-ink">
+            <span className="text-[32px] font-semibold tracking-tight text-ink">
               <AnimatedNumber
                 value={grand}
                 formatter={(v) => formatCurrency(v).replace(/\.00฿/, "฿")}
@@ -116,7 +116,7 @@ export function RevenueCard({
           <p className="text-[10px] text-[#86868b]">
             {new Date().toLocaleDateString(locale === "th" ? "th-TH" : "en-US", { month: "short", year: "numeric" })}
           </p>
-          <p className="text-[9px] text-[#86868b] mt-0.5">
+          <p className="text-[10px] text-[#86868b] mt-0.5">
             {t("dashboard.paidSummary", { paid: allPaidInvs.length, total: invoicesData.length })}
           </p>
         </div>
@@ -125,7 +125,7 @@ export function RevenueCard({
       {/* ═══ Top Half: Bar Chart (left) + Donut (right) — 50/50 ═══ */}
       <div className="flex gap-4 mb-4">
         <div className="flex-1 min-w-0">
-          <p className="text-[9px] font-medium text-[#86868b] mb-2">
+          <p className="text-[10px] font-medium text-[#86868b] mb-2">
             {t("dashboard.revenue6Months")}
           </p>
           <ResponsiveContainer width="100%" height={110}>
@@ -189,8 +189,8 @@ export function RevenueCard({
         {revenueByMonth.length >= 2 && (
           <div className="flex gap-2">
             <div className="flex-1 bg-[#f0f7ff] rounded-md px-3 py-2 text-center">
-              <p className="text-[9px] text-[#86868b]">{t("dashboard.thisMonth")}</p>
-              <p className="text-sm font-bold text-primary">
+              <p className="text-[10px] text-[#86868b]">{t("dashboard.thisMonth")}</p>
+              <p className="text-[13px] font-bold text-primary">
                 <AnimatedNumber
                   value={revenueByMonth[revenueByMonth.length - 1].total}
                   formatter={(v) => formatCurrency(v).replace(/\.00฿/, "฿")}
@@ -198,15 +198,15 @@ export function RevenueCard({
               </p>
             </div>
             <div className="flex-1 bg-canvas-parchment rounded-md px-3 py-2 text-center">
-              <p className="text-[9px] text-[#86868b]">{t("dashboard.lastMonth")}</p>
-              <p className="text-sm font-semibold text-ink">
+              <p className="text-[10px] text-[#86868b]">{t("dashboard.lastMonth")}</p>
+              <p className="text-[13px] font-semibold text-ink">
                 <AnimatedNumber
                   value={revenueByMonth[revenueByMonth.length - 2].total}
                   formatter={(v) => formatCurrency(v).replace(/\.00฿/, "฿")}
                 />
               </p>
               <p
-                className={`text-[9px] font-medium ${
+                className={`text-[10px] font-medium ${
                   diff >= 0 ? "text-green-600" : "text-red-500"
                 }`}
               >
@@ -214,8 +214,8 @@ export function RevenueCard({
               </p>
             </div>
             <div className="flex-1 bg-canvas-parchment rounded-md px-3 py-2 text-center">
-              <p className="text-[9px] text-[#86868b]">{t("dashboard.avgPerMonth")}</p>
-              <p className="text-sm font-semibold text-ink">
+              <p className="text-[10px] text-[#86868b]">{t("dashboard.avgPerMonth")}</p>
+              <p className="text-[13px] font-semibold text-ink">
                 <AnimatedNumber
                   value={avg}
                   formatter={(v) => formatCurrency(v).replace(/\.00฿/, "฿")}
@@ -235,7 +235,7 @@ export function RevenueCard({
                 className="bg-[#fafafa] rounded-md px-3 py-2.5 border border-divider-soft"
               >
                 <div className="flex items-center justify-between mb-0.5">
-                  <span className="flex items-center gap-1.5 text-[11px] text-[#6e6e73]">
+                  <span className="flex items-center gap-1.5 text-[11px] text-[#86868b]">
                     <span
                       className="w-2 h-2 rounded-full shrink-0"
                       style={{ backgroundColor: entry.color }}

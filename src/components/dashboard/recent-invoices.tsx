@@ -56,13 +56,13 @@ export function RecentInvoices({ invoices }: RecentInvoicesProps) {
               onClick={() => router.push(`/invoices/${inv.id}`)}
             >
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-ink truncate">
+                <p className="text-[11px] font-medium text-ink truncate">
                   {inv.roomNumber} · {inv.tenantName}
                 </p>
                 <p className="text-[10px] text-[#86868b]">{inv.invoiceNumber}</p>
               </div>
               <div className="text-right">
-                <p className="text-xs font-semibold text-ink">
+                <p className="text-[11px] font-semibold text-ink">
                   {formatCurrency(inv.totalAmount)}
                 </p>
               </div>
@@ -71,7 +71,7 @@ export function RecentInvoices({ invoices }: RecentInvoicesProps) {
           ))}
         </div>
       ) : (
-        <div className="px-4 py-8 text-center text-xs text-[#86868b]">
+        <div className="px-4 py-8 text-center text-[11px] text-[#86868b]">
           {t("invoices.noInvoices")}
         </div>
       )}

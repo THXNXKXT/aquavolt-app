@@ -26,7 +26,7 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
       case "meter": return <Gauge className="w-3.5 h-3.5 text-primary" />;
       case "invoice": return <FileText className="w-3.5 h-3.5 text-amber-600" />;
       case "tenant": return <Users className="w-3.5 h-3.5 text-green-600" />;
-      default: return <Building2 className="w-3.5 h-3.5 text-[#6e6e73]" />;
+      default: return <Building2 className="w-3.5 h-3.5 text-[#86868b]" />;
     }
   };
 
@@ -68,7 +68,7 @@ export function RecentActivity({ activities, timeAgo }: RecentActivityProps) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[11px] text-ink truncate">{act.detail}</p>
-              <p className="text-[9px] text-[#a1a1a6] mt-0.5" suppressHydrationWarning>
+              <p className="text-[10px] text-[#86868b] mt-0.5" suppressHydrationWarning>
                 {timeAgo(act.timestamp || act.createdAt || "")}
               </p>
             </div>
