@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
-import { Droplets, Zap, DoorOpen } from "lucide-react";
+import { Droplets, Zap } from "lucide-react";
 import { TopUsageCard } from "@/components/dashboard/top-usage-card";
 import { AnimatedProgressBar } from "@/components/shared/animated-progress-bar";
 import type { Room, MeterReading } from "@/types";
@@ -37,14 +37,9 @@ export function RoomGridUsage({
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-6">
       <div className="lg:col-span-2 bg-white rounded-[14px] p-4 border border-divider-soft">
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-[10px] bg-[#0071e3]/8 flex items-center justify-center">
-              <DoorOpen className="w-4 h-4 text-primary" />
-            </div>
-            <h3 className="text-[13px] font-semibold text-ink">
-              {t("dashboard.roomStatus")}
-            </h3>
-          </div>
+          <h3 className="text-[13px] font-semibold text-ink">
+            {t("dashboard.roomStatus")}
+          </h3>
           <button
             onClick={() => router.push("/rooms")}
             className="text-[11px] text-primary hover:text-primary-focus transition-colors font-medium"
@@ -73,40 +68,16 @@ export function RoomGridUsage({
         </div>
 
         {/* Legend */}
-        <div className="flex gap-3 text-[11px] mb-3">
+        <div className="flex gap-4 text-[10px] text-[#86868b] mb-3">
           {[
-            {
-              label: t("dashboard.roomsOccupied"),
-              count: occupiedRooms,
-              dot: "bg-green-500",
-              bg: "bg-green-50",
-              txt: "text-green-700",
-            },
-            {
-              label: t("dashboard.roomsVacant"),
-              count: vacantRooms,
-              dot: "bg-blue-400",
-              bg: "bg-blue-50",
-              txt: "text-blue-600",
-            },
+            { label: t("dashboard.roomsOccupied"), count: occupiedRooms, dot: "bg-green-500" },
+            { label: t("dashboard.roomsVacant"), count: vacantRooms, dot: "bg-blue-400" },
             ...(maintenanceRooms > 0
-              ? [
-                  {
-                    label: t("dashboard.roomsMaintenance"),
-                    count: maintenanceRooms,
-                    dot: "bg-amber-400",
-                    bg: "bg-amber-50",
-                    txt: "text-amber-700",
-                  },
-                ]
+              ? [{ label: t("dashboard.roomsMaintenance"), count: maintenanceRooms, dot: "bg-amber-400" }]
               : []),
           ].map((s) => (
-            <span
-              key={s.label}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${s.bg} ${s.txt} font-medium`}
-            >
-              <span className={`w-2 h-2 rounded-full ${s.dot}`} /> {s.count}{" "}
-              {s.label}
+            <span key={s.label} className="flex items-center gap-1.5">
+              <span className={`w-2 h-2 rounded-full ${s.dot}`} /> {s.count} {s.label}
             </span>
           ))}
         </div>
