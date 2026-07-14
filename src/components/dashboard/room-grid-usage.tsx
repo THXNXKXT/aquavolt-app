@@ -59,7 +59,7 @@ export function RoomGridUsage({
             <div
               key={room.id}
               onClick={() => router.push("/rooms")}
-              className={`w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold cursor-pointer hover:scale-105 transition-all border ${
+              className={`w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold cursor-pointer transition-colors border ${
                 room.status === "occupied"
                   ? "bg-green-100 text-green-700 border-green-200"
                   : room.status === "vacant"

@@ -60,7 +60,7 @@ export default function RatesPage() {
           </div>
           <button
             onClick={() => router.push("/settings")}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors"
           >
             <Settings className="w-4 h-4" />
             {t("settings.title")}

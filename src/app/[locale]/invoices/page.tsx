@@ -184,7 +184,7 @@ export default function InvoicesPage() {
           </div>
           <button
             onClick={() => { setCreateForm({ roomId: occupiedRooms[0]?.id || "", month: currentMonth, year: currentYear }); setShowCreate(true); }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors"
           >
             <Plus className="w-4 h-4" />
             {t("invoices.createInvoiceBtn")}
@@ -359,7 +359,7 @@ export default function InvoicesPage() {
                 {t("common.cancel")}
               </button>
               <button onClick={handleCreate} disabled={creating || !selectedRoom || !calcPreview}
-                className="px-5 py-2 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-1.5">
+                className="px-5 py-2 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-1.5">
                 <FileText className="w-3.5 h-3.5" />
                 {creating ? t("invoices.creating") : t("invoices.createInvoiceBtn")}
               </button>

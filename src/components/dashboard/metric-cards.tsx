@@ -46,7 +46,7 @@ export function MetricCards({
             {t("dashboard.totalRooms")}
           </span>
         </div>
-        <p className="text-[32px] font-semibold tracking-tight text-ink leading-none">
+        <p className="text-[32px] font-semibold tabular-nums tracking-tight text-ink leading-none">
           <AnimatedNumber value={totalRooms} formatter={int} />
         </p>
         <div className="flex flex-wrap gap-1.5 mt-3">
@@ -71,7 +71,7 @@ export function MetricCards({
             {t("dashboard.totalTenants")}
           </span>
         </div>
-        <p className="text-[32px] font-semibold tracking-tight text-ink leading-none">
+        <p className="text-[32px] font-semibold tabular-nums tracking-tight text-ink leading-none">
           <AnimatedNumber value={totalTenants} formatter={int} />
         </p>
         <p className="text-[11px] text-[#86868b] mt-3">
@@ -89,7 +89,7 @@ export function MetricCards({
             {t("dashboard.collectionRate")}
           </span>
         </div>
-        <p className="text-[32px] font-semibold tracking-tight text-white leading-none">
+        <p className="text-[32px] font-semibold tabular-nums tracking-tight text-white leading-none">
           <AnimatedNumber value={collectionRate} formatter={(v) => `${Math.round(v)}%`} />
         </p>
         <p className="text-[11px] text-white/60 mt-3">
@@ -107,7 +107,7 @@ export function MetricCards({
             {t("dashboard.allBuildings")}
           </span>
         </div>
-        <p className="text-[32px] font-semibold tracking-tight text-ink leading-none">
+        <p className="text-[32px] font-semibold tabular-nums tracking-tight text-ink leading-none">
           <AnimatedNumber value={totalBuildings} formatter={int} />
         </p>
         <div className="flex gap-1.5 mt-3">

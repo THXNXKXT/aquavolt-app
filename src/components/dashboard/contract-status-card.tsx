@@ -37,7 +37,7 @@ export function ContractStatusCard({ stats }: ContractStatusCardProps) {
           <p className="text-[10px] font-medium text-green-700">
             {t("dashboard.contractNormal")}
           </p>
-          <p className="text-[20px] font-semibold text-green-700 mt-0.5 leading-none">{stats.active}</p>
+          <p className="text-[20px] font-semibold tabular-nums text-green-700 mt-0.5 leading-none">{stats.active}</p>
           <p className="text-[10px] text-green-600 mt-1">
             {t("dashboard.contractNotExpired")}
           </p>
@@ -46,7 +46,7 @@ export function ContractStatusCard({ stats }: ContractStatusCardProps) {
           <p className="text-[10px] font-medium text-amber-700">
             {t("dashboard.contractExpiring")}
           </p>
-          <p className="text-[20px] font-semibold text-amber-700 mt-0.5 leading-none">{stats.expiring}</p>
+          <p className="text-[20px] font-semibold tabular-nums text-amber-700 mt-0.5 leading-none">{stats.expiring}</p>
           <p className="text-[10px] text-amber-600 mt-1">
             {t("dashboard.contractExpiringDesc")}
           </p>
@@ -55,7 +55,7 @@ export function ContractStatusCard({ stats }: ContractStatusCardProps) {
           <p className="text-[10px] font-medium text-red-700">
             {t("dashboard.contractExpired")}
           </p>
-          <p className="text-[20px] font-semibold text-red-700 mt-0.5 leading-none">{stats.expired}</p>
+          <p className="text-[20px] font-semibold tabular-nums text-red-700 mt-0.5 leading-none">{stats.expired}</p>
           <p className="text-[10px] text-red-600 mt-1">
             {t("dashboard.contractExpiredDesc")}
           </p>

@@ -26,7 +26,7 @@ export const QuickActions = memo(function QuickActions() {
             onClick={() => router.push(path)}
             className="flex flex-col items-center gap-1.5 py-2 rounded-[10px] hover:bg-canvas-parchment transition-all group"
           >
-            <div className={`w-8 h-8 rounded-[10px] ${tile} flex items-center justify-center group-hover:scale-105 transition-transform`}>
+            <div className={`w-8 h-8 rounded-[10px] ${tile} flex items-center justify-center group-hover:scale-[1.03] transition-transform`}>
               <Icon className={`w-4 h-4 ${iconColor}`} strokeWidth={2} />
             </div>
             <span className="text-[10px] font-medium text-[#86868b] text-center leading-tight">{label}</span>

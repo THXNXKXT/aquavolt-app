@@ -97,7 +97,7 @@ export function RevenueCard({
             {t("dashboard.totalRevenue")}
           </p>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-[32px] font-semibold tracking-tight text-ink">
+            <span className="text-[32px] font-semibold tabular-nums tracking-tight text-ink">
               <AnimatedNumber
                 value={grand}
                 formatter={(v) => formatCurrency(v).replace(/\.00฿/, "฿")}

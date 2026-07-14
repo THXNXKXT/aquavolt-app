@@ -196,7 +196,7 @@ export default function MetersPage() {
           </div>
           <button
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors"
           >
             <Plus className="w-4 h-4" />
             {t("meters.recordMeter")}
@@ -551,7 +551,7 @@ export default function MetersPage() {
               <button
                 onClick={handleSave}
                 disabled={!formData.roomId || !formData.waterCurrent || !formData.electricCurrent}
-                className="px-6 py-2.5 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100"
+                className="px-6 py-2.5 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100"
               >
                 {t("common.save")}
               </button>

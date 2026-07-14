@@ -166,7 +166,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="p-4 sm:p-5 flex justify-end">
                   <button onClick={handleSaveGeneral}
-                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all">
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors">
                     <Check className="w-4 h-4" /> {t("settings.save")}
                   </button>
                 </div>
@@ -253,7 +253,7 @@ export default function SettingsPage() {
             {/* Save */}
             <div className="flex justify-end">
               <button onClick={handleSavePayment}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all">
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors">
                 {t("settings.save")}
               </button>
             </div>
@@ -354,7 +354,7 @@ export default function SettingsPage() {
 
             <div className="flex justify-end">
               <button onClick={handleSaveRates}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all">
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors">
                 {t("settings.save")}
               </button>
             </div>
@@ -400,7 +400,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="p-4 sm:p-5 flex justify-end">
                   <button onClick={handleChangePassword} disabled={passwordSaving || !currentPassword || !newPassword}
-                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100">
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100">
                     {passwordSaving ? "..." : t("settings.changePassword")}
                   </button>
                 </div>

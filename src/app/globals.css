@@ -235,6 +235,9 @@ button:not(:disabled):active:not(.no-press),
     0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
+/* tabular-nums on all numeric displays — prices, counts, meters align vertically */
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
 /* Respect users who asked for less motion. Applies to both framer-motion
    transitions and any residual CSS transitions/animations. */
 @media (prefers-reduced-motion: reduce) {

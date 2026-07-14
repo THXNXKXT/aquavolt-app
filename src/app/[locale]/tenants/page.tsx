@@ -254,7 +254,7 @@ export default function TenantsPage() {
           </div>
           <button
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-[13px] font-medium rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors"
           >
             <Plus className="w-4 h-4" />
             {t("tenants.addTenant")}
@@ -601,7 +601,7 @@ export default function TenantsPage() {
               <button
                 onClick={handleSave}
                 disabled={formSaving}
-                className="px-6 py-2.5 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-2"
+                className="px-6 py-2.5 text-[13px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 inline-flex items-center gap-2"
               >
                 {formSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                 {formSaving ? t("common.saving") : t("common.save")}

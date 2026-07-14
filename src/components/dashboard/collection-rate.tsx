@@ -33,7 +33,7 @@ export const CollectionRate = memo(function CollectionRate({
           {t("dashboard.collectionRate")}
         </span>
       </div>
-      <p className="text-[32px] font-semibold tracking-tight text-ink leading-none">
+      <p className="text-[32px] font-semibold tabular-nums tracking-tight text-ink leading-none">
         <AnimatedNumber value={collectionRate} formatter={(v) => `${Math.round(v)}%`} />
       </p>
       <p className="text-[11px] text-[#86868b] mt-2">

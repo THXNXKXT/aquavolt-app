@@ -111,19 +111,19 @@ export default function InvoiceDetailPage() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={handlePrint}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-[#86868b] bg-white border border-hairline rounded-full hover:bg-canvas-parchment active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-[#86868b] bg-white border border-hairline rounded-full hover:bg-canvas-parchment active:scale-[0.97] transition-colors"
               >
                 <Printer className="w-3.5 h-3.5" />
                 {t("invoices.print")}
               </button>
-              <button className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-[#06c755] rounded-full hover:bg-[#05b54c] active:scale-[0.97] transition-all">
+              <button className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-[#06c755] rounded-full hover:bg-[#05b54c] active:scale-[0.97] transition-colors">
                 <Send className="w-3.5 h-3.5" />
                 {t("invoices.sendLine")}
               </button>
               {status === "pending" && (
                 <button
                   onClick={handleMarkPaid}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors"
                 >
                   <CheckCircle className="w-3.5 h-3.5" />
                   {t("invoices.markPaid")}
