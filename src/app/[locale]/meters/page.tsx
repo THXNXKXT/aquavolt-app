@@ -254,12 +254,12 @@ export default function MetersPage() {
             <table className="w-full text-[13px] min-w-[700px]">
               <thead>
                 <tr className="border-b border-hairline">
-                  <th rowSpan={2} className="text-left px-4 py-3 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider border-r border-divider-soft">{t("common.month")}</th>
-                  <th rowSpan={2} className="text-left px-4 py-3 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider border-r border-divider-soft">{t("meters.room")}</th>
-                  <th colSpan={3} className="text-center px-2 py-2.5 text-[11px] font-semibold text-primary uppercase tracking-wider bg-[#f0f7ff] border-r border-[#cce4ff]">
+                  <th rowSpan={2} className="text-left px-4 py-3 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em] border-r border-divider-soft">{t("common.month")}</th>
+                  <th rowSpan={2} className="text-left px-4 py-3 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em] border-r border-divider-soft">{t("meters.room")}</th>
+                  <th colSpan={3} className="text-center px-2 py-2.5 text-[11px] font-semibold text-primary uppercase tracking-[0.08em] bg-[#f0f7ff] border-r border-[#cce4ff]">
                     <span className="inline-flex items-center gap-1"><Droplets className="w-3 h-3" />{t("meters.water")}</span>
                   </th>
-                  <th colSpan={3} className="text-center px-2 py-2.5 text-[11px] font-semibold text-amber-600 uppercase tracking-wider bg-[#fff8ed]">
+                  <th colSpan={3} className="text-center px-2 py-2.5 text-[11px] font-semibold text-amber-600 uppercase tracking-[0.08em] bg-[#fff8ed]">
                     <span className="inline-flex items-center gap-1"><Zap className="w-3 h-3" />{t("meters.electric")}</span>
                   </th>
                 </tr>

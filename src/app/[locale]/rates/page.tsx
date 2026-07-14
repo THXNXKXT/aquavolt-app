@@ -81,7 +81,7 @@ export default function RatesPage() {
                   <Icon className={`w-6 h-6 ${item.iconColor}`} />
                 </div>
                 <p className="text-[13px] text-[#86868b] mb-1">{item.name}</p>
-                <p className="text-[28px] font-semibold tracking-tight text-ink">
+                <p className="text-[28px] font-semibold tracking-[-0.03em] text-ink">
                   {formatCurrency(item.rate)}
                 </p>
                 <p className="text-[11px] text-[#86868b] mt-0.5">{item.unit}</p>

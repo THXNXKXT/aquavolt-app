@@ -198,7 +198,7 @@ export default function BuildingsPage() {
             <div className="mb-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-1 h-4 rounded-full bg-primary" />
-                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">{t("buildings.buildingInfo")}</span>
+                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">{t("buildings.buildingInfo")}</span>
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">

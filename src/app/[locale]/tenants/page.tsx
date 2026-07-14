@@ -293,28 +293,28 @@ export default function TenantsPage() {
             <table className="w-full text-[13px] min-w-[700px]">
               <thead>
                 <tr className="border-b border-divider-soft">
-                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">
                     {t("tenants.name")}
                   </th>
-                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">
                     {t("tenants.room")}
                   </th>
-                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">
                     {t("tenants.phone")}
                   </th>
-                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider hidden md:table-cell">
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em] hidden md:table-cell">
                     {t("tenants.lineId")}
                   </th>
-                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider hidden md:table-cell">
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em] hidden md:table-cell">
                     {t("tenants.duration")}
                   </th>
-                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider hidden md:table-cell">
+                  <th className="text-left px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em] hidden md:table-cell">
                     {t("tenants.contractStatus")}
                   </th>
-                  <th className="text-center px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">
+                  <th className="text-center px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">
                     {t("common.status")}
                   </th>
-                  <th className="text-right px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">
+                  <th className="text-right px-5 py-3.5 text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">
                     {t("common.actions")}
                   </th>
                 </tr>
@@ -431,7 +431,7 @@ export default function TenantsPage() {
             <div className="mb-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-1 h-4 rounded-full bg-primary" />
-                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">{t("tenants.personalInfo")}</span>
+                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">{t("tenants.personalInfo")}</span>
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
@@ -488,7 +488,7 @@ export default function TenantsPage() {
             <div className="mb-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-1 h-4 rounded-full bg-amber-400" />
-                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">{t("tenants.roomContract")}</span>
+                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">{t("tenants.roomContract")}</span>
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
@@ -550,7 +550,7 @@ export default function TenantsPage() {
             <div className="mb-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-1 h-4 rounded-full bg-green-500" />
-                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">{t("tenants.additionalServices")}</span>
+                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">{t("tenants.additionalServices")}</span>
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft p-4">
                 <div className="grid grid-cols-2 gap-3">

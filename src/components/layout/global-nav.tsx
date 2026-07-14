@@ -96,7 +96,7 @@ export function GlobalNav() {
           <div className="w-8 h-8 rounded-[9px] bg-gradient-to-br from-[#0071e3] to-[#005bb5] flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
             <Zap className="w-4 h-4 text-white" fill="white" />
           </div>
-          <span className="text-[15px] font-semibold tracking-tight text-ink">AquaVolt</span>
+          <span className="text-[15px] font-semibold tracking-[-0.03em] text-ink">AquaVolt</span>
         </Link>
 
         {/* Desktop nav */}
@@ -219,7 +219,7 @@ export function GlobalNav() {
                 <div key={group.labelKey}>
                   <div className="flex items-center gap-2 px-3 py-2 mt-2 mb-0.5">
                     <GroupIcon className="w-3.5 h-3.5 text-[#86868b]" />
-                    <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t(group.labelKey)}</span>
+                    <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">{t(group.labelKey)}</span>
                   </div>
                   {group.items.map((item) => {
                     const isActive = pathname.startsWith(item.href);

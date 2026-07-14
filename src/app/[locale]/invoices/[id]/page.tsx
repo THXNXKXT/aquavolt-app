@@ -214,8 +214,8 @@ export default function InvoiceDetailPage() {
           {/* ── Charges Breakdown ── */}
           <div className="bg-white rounded-[14px] border border-divider-soft overflow-hidden">
             <div className="px-5 py-3.5 border-b border-divider-soft flex items-center justify-between">
-              <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">{t("invoices.printItem")}</span>
-              <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">{t("invoices.printAmount")}</span>
+              <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.printItem")}</span>
+              <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.printAmount")}</span>
             </div>
             <div className="divide-y divide-[#f0f0f0]">
               <div className="px-5 py-3 flex items-center justify-between">
@@ -308,14 +308,14 @@ export default function InvoiceDetailPage() {
           {/* ── Header ── */}
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h1 className="text-[18px] font-bold text-ink tracking-tight">{settings.dormitoryName}</h1>
+              <h1 className="text-[18px] font-bold text-ink tracking-[-0.03em]">{settings.dormitoryName}</h1>
               <p className="text-[9px] text-[#86868b] mt-0.5">{settings.dormitoryAddress}</p>
               {settings.phone && (
                 <p className="text-[9px] text-[#86868b]">{t("invoices.printTel")} {settings.phone}</p>
               )}
             </div>
             <div className="text-right">
-              <h2 className="text-[20px] font-bold text-ink tracking-tight">{t("invoices.invoiceTitle")}</h2>
+              <h2 className="text-[20px] font-bold text-ink tracking-[-0.03em]">{t("invoices.invoiceTitle")}</h2>
               <p className="text-[10px] text-[#86868b] mt-0.5">
                 {t("invoices.invoiceNumber")}:{" "}
                 <span className="font-semibold text-ink">{invoice.invoiceNumber}</span>
@@ -328,7 +328,7 @@ export default function InvoiceDetailPage() {
           {/* ── Billing Info ── */}
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="bg-canvas-parchment rounded p-2.5">
-              <p className="text-[8px] font-semibold text-[#86868b] uppercase tracking-wider mb-1.5">
+              <p className="text-[8px] font-semibold text-[#86868b] uppercase tracking-[0.08em] mb-1.5">
                 <User className="w-2.5 h-2.5 inline mr-1" />{t("invoices.tenant")}
               </p>
               <table className="w-full text-[10px]">
@@ -340,7 +340,7 @@ export default function InvoiceDetailPage() {
               </table>
             </div>
             <div className="bg-canvas-parchment rounded p-2.5">
-              <p className="text-[8px] font-semibold text-[#86868b] uppercase tracking-wider mb-1.5">
+              <p className="text-[8px] font-semibold text-[#86868b] uppercase tracking-[0.08em] mb-1.5">
                 <Calendar className="w-2.5 h-2.5 inline mr-1" />{t("invoices.printDetails")}
               </p>
               <table className="w-full text-[10px]">
@@ -360,7 +360,7 @@ export default function InvoiceDetailPage() {
               <div className="border border-[#cce4ff] rounded p-2 bg-[#f8fbff]">
                 <div className="flex items-center gap-1 mb-1.5">
                   <Droplets className="w-3 h-3 text-primary" />
-                  <p className="text-[8px] font-semibold text-primary uppercase tracking-wider">{t("invoices.printWaterMeter")}</p>
+                  <p className="text-[8px] font-semibold text-primary uppercase tracking-[0.08em]">{t("invoices.printWaterMeter")}</p>
                 </div>
                 <div className="flex text-[10px] text-center">
                   <div className="flex-1"><p className="text-[#86868b] text-[8px]">{t("invoices.printOld")}</p><p className="font-bold text-ink">{meterReading.waterPrevious}</p></div>
@@ -372,7 +372,7 @@ export default function InvoiceDetailPage() {
               <div className="border border-[#ffe4b3] rounded p-2 bg-[#fffdfa]">
                 <div className="flex items-center gap-1 mb-1.5">
                   <Zap className="w-3 h-3 text-amber-600" />
-                  <p className="text-[8px] font-semibold text-amber-600 uppercase tracking-wider">{t("invoices.printElectricMeter")}</p>
+                  <p className="text-[8px] font-semibold text-amber-600 uppercase tracking-[0.08em]">{t("invoices.printElectricMeter")}</p>
                 </div>
                 <div className="flex text-[10px] text-center">
                   <div className="flex-1"><p className="text-[#86868b] text-[8px]">{t("invoices.printOld")}</p><p className="font-bold text-ink">{meterReading.electricPrevious}</p></div>
@@ -388,10 +388,10 @@ export default function InvoiceDetailPage() {
           <table className="w-full text-[10px] mb-3" style={{ borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ borderBottom: "1.5px solid #1d1d1f" }}>
-                <th className="text-left pb-1.5 font-bold text-ink text-[9px] uppercase tracking-wider" style={{ width: "50%" }}>{t("invoices.printItem")}</th>
-                <th className="text-center pb-1.5 font-bold text-ink text-[9px] uppercase tracking-wider" style={{ width: "15%" }}>{t("invoices.printQty")}</th>
-                <th className="text-right pb-1.5 font-bold text-ink text-[9px] uppercase tracking-wider" style={{ width: "17%" }}>{t("invoices.printRate")}</th>
-                <th className="text-right pb-1.5 font-bold text-ink text-[9px] uppercase tracking-wider" style={{ width: "18%" }}>{t("invoices.printAmount")}</th>
+                <th className="text-left pb-1.5 font-bold text-ink text-[9px] uppercase tracking-[0.08em]" style={{ width: "50%" }}>{t("invoices.printItem")}</th>
+                <th className="text-center pb-1.5 font-bold text-ink text-[9px] uppercase tracking-[0.08em]" style={{ width: "15%" }}>{t("invoices.printQty")}</th>
+                <th className="text-right pb-1.5 font-bold text-ink text-[9px] uppercase tracking-[0.08em]" style={{ width: "17%" }}>{t("invoices.printRate")}</th>
+                <th className="text-right pb-1.5 font-bold text-ink text-[9px] uppercase tracking-[0.08em]" style={{ width: "18%" }}>{t("invoices.printAmount")}</th>
               </tr>
             </thead>
             <tbody>
@@ -438,7 +438,7 @@ export default function InvoiceDetailPage() {
 
           {/* ── Payment Information ── */}
           <div className="bg-canvas-parchment rounded p-2.5 mb-3">
-            <p className="text-[8px] font-semibold text-[#86868b] uppercase tracking-wider mb-1.5 flex items-center gap-1">
+            <p className="text-[8px] font-semibold text-[#86868b] uppercase tracking-[0.08em] mb-1.5 flex items-center gap-1">
               <CreditCard className="w-2.5 h-2.5" />{t("invoices.printPaymentMethods")}
             </p>
             <div className="grid grid-cols-3 gap-3 text-[9px]">

@@ -37,7 +37,7 @@ export default function LoginPage() {
         <div className="max-w-md text-center lg:text-left">
           <div className="flex items-center justify-center lg:justify-start gap-2 mb-4">
             <Grip className="w-5 h-5 text-primary" />
-            <span className="text-[13px] font-semibold tracking-tight text-ink">
+            <span className="text-[13px] font-semibold tracking-[-0.03em] text-ink">
               AquaVolt
             </span>
           </div>
@@ -56,7 +56,7 @@ export default function LoginPage() {
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Grip className="w-5 h-5 text-primary" />
-              <span className="text-[17px] font-semibold tracking-tight text-ink">
+              <span className="text-[17px] font-semibold tracking-[-0.03em] text-ink">
                 AquaVolt
               </span>
             </div>

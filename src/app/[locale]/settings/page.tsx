@@ -323,8 +323,8 @@ export default function SettingsPage() {
                 <h3 className="text-[13px] font-semibold text-ink">{t("invoices.printTotalDue")} / Bill Preview</h3>
               </div>
               <div className="flex items-center justify-between pb-2 border-b border-divider-soft">
-                <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.printItem")}</span>
-                <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.printAmount")}</span>
+                <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.printItem")}</span>
+                <span className="text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.printAmount")}</span>
               </div>
               <div className="py-2.5 flex items-center justify-between text-[13px] border-b border-canvas-parchment">
                 <span className="flex items-center gap-2 text-[#86868b]"><Home className="w-3.5 h-3.5 text-[#86868b]" /> {t("invoices.rentalCharge")}</span>

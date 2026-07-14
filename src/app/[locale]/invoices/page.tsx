@@ -218,12 +218,12 @@ export default function InvoicesPage() {
             <table className="w-full text-[13px] min-w-150">
               <thead>
                 <tr className="border-b border-divider-soft">
-                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.invoiceNumber")}</th>
-                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.room")}</th>
-                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.tenant")}</th>
-                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider hidden md:table-cell">{t("invoices.issueDate")}</th>
-                  <th className="text-right px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.total")}</th>
-                  <th className="text-center px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-wider">{t("invoices.status")}</th>
+                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.invoiceNumber")}</th>
+                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.room")}</th>
+                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.tenant")}</th>
+                  <th className="text-left px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em] hidden md:table-cell">{t("invoices.issueDate")}</th>
+                  <th className="text-right px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.total")}</th>
+                  <th className="text-center px-6 py-3.5 text-[11px] font-medium text-[#86868b] uppercase tracking-[0.08em]">{t("invoices.status")}</th>
                 </tr>
               </thead>
               <tbody>

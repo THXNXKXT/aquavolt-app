@@ -260,7 +260,7 @@ export default function RoomsPage() {
                   <div className="flex items-start justify-between gap-2 mb-1.5">
                     <div className="flex items-center gap-2 min-w-0">
                       <span className={`w-2.5 h-2.5 rounded-full ${statusDot} shrink-0`} />
-                      <h3 className="text-[20px] font-semibold tracking-tight text-ink">
+                      <h3 className="text-[20px] font-semibold tracking-[-0.03em] text-ink">
                         {room.roomNumber}
                       </h3>
                     </div>
@@ -362,7 +362,7 @@ export default function RoomsPage() {
             <div className="mb-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-1 h-4 rounded-full bg-primary" />
-                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">{t("rooms.roomInfo") || "ข้อมูลห้อง"}</span>
+                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">{t("rooms.roomInfo") || "ข้อมูลห้อง"}</span>
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
@@ -421,7 +421,7 @@ export default function RoomsPage() {
             <div className="mb-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-1 h-4 rounded-full bg-green-500" />
-                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">{t("rooms.rentAndStatus") || "ค่าเช่าและสถานะ"}</span>
+                <span className="text-[11px] font-semibold text-[#86868b] uppercase tracking-[0.08em]">{t("rooms.rentAndStatus") || "ค่าเช่าและสถานะ"}</span>
               </div>
               <div className="bg-white rounded-[14px] border border-divider-soft divide-y divide-divider-soft">
                 <div className="p-4">
@@ -464,7 +464,7 @@ export default function RoomsPage() {
                           onChange={() => setFormData((prev) => ({ ...prev, status: s }))}
                           className="sr-only"
                         />
-                        <span className={`w-2 h-2 rounded-full ${
+                        <span className={`w-1.5 h-1.5 rounded-full ${
                           s === "vacant" ? "bg-blue-400" : s === "occupied" ? "bg-green-500" : "bg-amber-400"
                         }`} />
                         {s === "vacant" ? t("rooms.vacant") : s === "occupied" ? t("rooms.occupied") : t("rooms.maintenance")}
