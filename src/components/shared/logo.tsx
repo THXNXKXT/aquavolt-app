@@ -8,13 +8,11 @@ export function Logo({ size = 32, className = "" }: { size?: number; className?:
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      <rect width="512" height="512" rx="112" fill="#0071e3" />
       <path
-        d="M256 104C256 104 160 220 160 310C160 368 203 416 256 416C309 416 352 368 352 310C352 220 256 104 256 104Z"
-        fill="white"
-        fillOpacity="0.15"
+        d="M256 88C256 88 140 220 140 322C140 392 191 448 256 448C321 448 372 392 372 322C372 220 256 88 256 88Z"
+        fill="#0071e3"
       />
-      <path d="M272 180L210 284H252L240 348L302 244H260L272 180Z" fill="white" />
+      <path d="M276 168L200 296H252L236 376L312 248H260L276 168Z" fill="white" />
     </svg>
   );
 }

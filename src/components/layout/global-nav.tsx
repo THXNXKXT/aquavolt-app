@@ -93,7 +93,7 @@ export function GlobalNav() {
         {/* Brand */}
         <Link href="/dashboard"
           className="flex items-center gap-2.5 shrink-0 group">
-          <Logo size={32} className="rounded-[26%] group-hover:shadow-md transition-shadow" />
+          <Logo size={32} className=" group-hover:shadow-md transition-shadow" />
           <span className="text-[15px] font-semibold tracking-[-0.03em] text-ink">AquaVolt</span>
         </Link>
 

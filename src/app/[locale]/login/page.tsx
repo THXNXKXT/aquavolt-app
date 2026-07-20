@@ -43,7 +43,7 @@ export default function LoginPage() {
 
         <div className="relative max-w-md text-center lg:text-left">
           <div className="flex items-center justify-center lg:justify-start gap-2.5 mb-12">
-            <Logo size={44} className="rounded-[26%]" />
+            <Logo size={44} className="" />
             <span className="text-[21px] font-semibold tracking-[-0.03em] text-white">
               AquaVolt
             </span>
@@ -62,7 +62,7 @@ export default function LoginPage() {
         <div className="w-full max-w-sm">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center justify-center gap-2.5 mb-10">
-            <Logo size={36} className="rounded-[26%]" />
+            <Logo size={36} className="" />
             <span className="text-[18px] font-semibold tracking-[-0.03em] text-ink">
               AquaVolt
             </span>
