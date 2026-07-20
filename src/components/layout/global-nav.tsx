@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { LocaleSwitcher } from "@/components/shared/locale-switcher";
+import { Logo } from "@/components/shared/logo";
 import { GlobalSearch } from "@/components/layout/global-search";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/auth-context";
@@ -17,7 +18,6 @@ import {
   FileText,
   Settings,
   LogOut,
-  Zap,
   Menu,
   X,
   ChevronDown,
@@ -93,9 +93,7 @@ export function GlobalNav() {
         {/* Brand */}
         <Link href="/dashboard"
           className="flex items-center gap-2.5 shrink-0 group">
-          <div className="w-8 h-8 rounded-[9px] bg-gradient-to-br from-[#0071e3] to-[#005bb5] flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-            <Zap className="w-4 h-4 text-white" fill="white" />
-          </div>
+          <Logo size={32} className="rounded-[26%] group-hover:shadow-md transition-shadow" />
           <span className="text-[15px] font-semibold tracking-[-0.03em] text-ink">AquaVolt</span>
         </Link>
 
