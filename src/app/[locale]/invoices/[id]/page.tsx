@@ -130,6 +130,7 @@ export default function InvoiceDetailPage() {
                 formatDate={formatDate}
                 waterRate={waterRate}
                 electricRate={electricRate}
+                status={status}
                 t={t}
               />
               <button className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-[#06c755] rounded-full hover:bg-[#05b54c] active:scale-[0.97] transition-colors">

@@ -8,13 +8,14 @@ import type { Invoice, MeterReading } from "@/types";
 interface PDFDownloadProps {
   invoice: Invoice;
   meterReading: MeterReading | null;
-  settings: { dormitoryName: string; dormitoryAddress: string; phone: string };
+  settings: { dormitoryName: string; dormitoryAddress: string; phone: string; bankName?: string; bankAccount?: string; accountName?: string; promptpayNumber?: string };
   locale: "en" | "th";
   getMonthName: (m: number) => string;
   formatCurrency: (n: number) => string;
   formatDate: (d: string, l: string) => string;
   waterRate: number;
   electricRate: number;
+  status: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: (key: string, opts?: any) => string;
 }

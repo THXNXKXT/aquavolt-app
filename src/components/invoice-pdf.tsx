@@ -1,9 +1,8 @@
 "use client";
 
-import { Document, Page, Text, View, StyleSheet, Font, Link } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
 import type { Invoice, MeterReading } from "@/types";
 
-// ponytail: Sukhumvit Set from system — same fonts as the web app
 Font.register({
   family: "Sukhumvit",
   fonts: [
@@ -12,164 +11,197 @@ Font.register({
   ],
 });
 
-const styles = StyleSheet.create({
-  page: { fontFamily: "Sukhumvit", fontSize: 9, color: "#1d1d1f", padding: 30, lineHeight: 1.4 },
-  header: { flexDirection: "row", justifyContent: "space-between", marginBottom: 16 },
-  headerLeft: { flex: 1 },
-  headerRight: { alignItems: "flex-end" },
-  dormName: { fontSize: 16, fontWeight: 700, marginBottom: 2 },
-  dormAddr: { fontSize: 8, color: "#86868b" },
-  invoiceTitle: { fontSize: 14, fontWeight: 700 },
-  invoiceNum: { fontSize: 9, color: "#86868b", marginTop: 2 },
-  divider: { borderBottomWidth: 0.5, borderBottomColor: "#e3e3e6", marginVertical: 10 },
-  section: { marginBottom: 12 },
-  sectionTitle: { fontSize: 8, fontWeight: 700, color: "#0071e3", textTransform: "uppercase", marginBottom: 6, letterSpacing: 0.5 },
-  row: { flexDirection: "row", marginBottom: 3 },
-  label: { width: 60, color: "#86868b" },
-  value: { fontWeight: 700 },
-  twoCol: { flexDirection: "row", justifyContent: "space-between" },
-  rightCol: { width: "45%", alignItems: "flex-end" },
-  meterRow: { flexDirection: "row", gap: 12, marginBottom: 8 },
-  meterCol: { flex: 1 },
-  meterLabel: { fontSize: 7, color: "#86868b", marginBottom: 2 },
-  meterVal: { fontSize: 9, fontWeight: 700 },
-  tableHeader: { flexDirection: "row", borderBottomWidth: 0.5, borderBottomColor: "#e3e3e6", paddingBottom: 4, marginBottom: 4 },
-  tableHeaderCell: { fontSize: 7, fontWeight: 700, color: "#86868b", textTransform: "uppercase" },
-  tableRow: { flexDirection: "row", paddingVertical: 3 },
-  tableCell: { fontSize: 9 },
-  totalRow: { flexDirection: "row", justifyContent: "space-between", borderTopWidth: 1, borderTopColor: "#0071e3", paddingTop: 6, marginTop: 4 },
-  totalLabel: { fontSize: 10, fontWeight: 700 },
-  totalVal: { fontSize: 12, fontWeight: 700, color: "#0071e3" },
-  footer: { position: "absolute", bottom: 20, right: 30, fontSize: 7, color: "#86868b" },
-  paymentSection: { marginTop: 12 },
-  paymentTitle: { fontSize: 8, fontWeight: 700, color: "#0071e3", textTransform: "uppercase", marginBottom: 4 },
-  paymentRow: { flexDirection: "row", gap: 12 },
+// ponytail: mirror print template exactly — same colors, same structure, same spacing
+const s = StyleSheet.create({
+  page: { fontFamily: "Sukhumvit", fontSize: 9, color: "#1d1d1f", padding: "8mm 12mm", lineHeight: 1.4 },
+  accentBar: { height: 2.5, backgroundColor: "#0071e3", marginBottom: 12 },
+  header: { flexDirection: "row", justifyContent: "space-between", marginBottom: 12 },
+  h1: { fontSize: 18, fontWeight: 700, letterSpacing: -0.3 },
+  h2: { fontSize: 20, fontWeight: 700, letterSpacing: -0.3 },
+  muted9: { fontSize: 9, color: "#86868b" },
+  muted8: { fontSize: 8, color: "#86868b" },
+  muted7: { fontSize: 7, color: "#86868b" },
+  bold9: { fontSize: 9, fontWeight: 700 },
+  bold10: { fontSize: 10, fontWeight: 700 },
+  label8: { fontSize: 8, fontWeight: 700, color: "#86868b", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 5 },
+  dashed: { borderBottomWidth: 0.5, borderBottomStyle: "dashed", borderBottomColor: "#d2d2d7", marginBottom: 12 },
+  solid: { borderBottomWidth: 0.5, borderBottomColor: "#e0e0e0" },
+  twoCol: { flexDirection: "row", gap: 12, marginBottom: 12 },
+  panel: { flex: 1, backgroundColor: "#fbfbfd", borderRadius: 3, padding: 8 },
+  row: { flexDirection: "row", marginBottom: 2 },
+  rowLabel: { width: 50, color: "#86868b", fontSize: 10 },
+  rowVal: { fontWeight: 700, fontSize: 10 },
+  meterGrid: { flexDirection: "row", gap: 10, marginBottom: 12 },
+  meterBox: { flex: 1, borderWidth: 1, borderRadius: 3, padding: 6 },
+  meterWater: { borderColor: "#cce4ff", backgroundColor: "#f8fbff" },
+  meterElec: { borderColor: "#ffe4b3", backgroundColor: "#fffdfa" },
+  meterTitle: { fontSize: 8, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 },
+  meterVals: { flexDirection: "row" },
+  meterCol: { flex: 1, alignItems: "center" },
+  meterColLabel: { fontSize: 8, color: "#86868b" },
+  meterColVal: { fontSize: 10, fontWeight: 700 },
+  th: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, paddingBottom: 4 },
+  td: { fontSize: 10, paddingVertical: 3 },
+  tfootLabel: { fontSize: 13, fontWeight: 700 },
+  tfootVal: { fontSize: 15, fontWeight: 700, color: "#0071e3" },
+  totalBorder: { borderTopWidth: 2, borderTopColor: "#0071e3", paddingTop: 4 },
+  payPanel: { backgroundColor: "#fbfbfd", borderRadius: 3, padding: 8, marginBottom: 10 },
+  payGrid: { flexDirection: "row", gap: 12 },
+  payCol: { flex: 1 },
+  payLabel: { fontSize: 9, fontWeight: 700 },
+  payBold: { fontSize: 9, fontWeight: 700, marginTop: 2 },
+  payMuted: { fontSize: 9, color: "#86868b" },
+  notes: { fontSize: 8, color: "#86868b", marginBottom: 10, lineHeight: 1.6 },
+  footer: { flexDirection: "row", justifyContent: "space-between", fontSize: 8, color: "#86868b" },
 });
-
-interface PDFFooterProps {
-  t: (key: string, opts?: any) => string;
-}
 
 interface InvoicePDFProps {
   invoice: Invoice;
   meterReading: MeterReading | null;
-  settings: { dormitoryName: string; dormitoryAddress: string; phone: string };
+  settings: { dormitoryName: string; dormitoryAddress: string; phone: string; bankName?: string; bankAccount?: string; accountName?: string; promptpayNumber?: string };
   locale: "en" | "th";
   getMonthName: (m: number) => string;
   formatCurrency: (n: number) => string;
   formatDate: (d: string, l: string) => string;
   waterRate: number;
   electricRate: number;
+  status: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: (key: string, opts?: any) => string;
 }
 
-export function InvoicePDF({ invoice, meterReading, settings, locale, getMonthName, formatCurrency, formatDate, waterRate, electricRate, t }: InvoicePDFProps) {
-  const items = [
-    { label: t("invoices.rentalCharge"), amount: Number(invoice.rentalCost) || 0 },
-    { label: t("invoices.waterCharge"), amount: Number(invoice.waterCost) || 0 },
-    { label: t("invoices.electricCharge"), amount: Number(invoice.electricCost) || 0 },
-    { label: t("invoices.serviceCharge"), amount: Number(invoice.serviceCharge) || 0 },
-    { label: t("invoices.wifiCharge") || "WiFi", amount: Number(invoice.wifiCost) || 0 },
-  ].filter((i) => i.amount > 0);
+export function InvoicePDF({ invoice, meterReading, settings, locale, getMonthName, formatCurrency, formatDate, waterRate, electricRate, status, t }: InvoicePDFProps) {
+  const rows = [
+    { label: t("invoices.rentalCharge"), qty: t("invoices.printOneMonth"), rate: formatCurrency(Number(invoice.rentalCost) || 0), amount: formatCurrency(Number(invoice.rentalCost) || 0), show: Number(invoice.rentalCost) > 0 },
+    { label: t("invoices.waterCharge"), qty: meterReading?.waterUsage ? `${meterReading.waterUsage} m³` : "-", rate: `${formatCurrency(waterRate)}/m³`, amount: formatCurrency(Number(invoice.waterCost) || 0), show: Number(invoice.waterCost) > 0 },
+    { label: t("invoices.electricCharge"), qty: meterReading?.electricUsage ? `${meterReading.electricUsage} kWh` : "-", rate: `${formatCurrency(electricRate)}/kWh`, amount: formatCurrency(Number(invoice.electricCost) || 0), show: Number(invoice.electricCost) > 0 },
+    { label: t("invoices.serviceCharge"), qty: t("invoices.printOneMonth"), rate: formatCurrency(Number(invoice.serviceCharge) || 0), amount: formatCurrency(Number(invoice.serviceCharge) || 0), show: Number(invoice.serviceCharge) > 0 },
+    { label: t("invoices.wifiCharge") || "WiFi", qty: t("invoices.printOneMonth"), rate: formatCurrency(Number(invoice.wifiCost) || 0), amount: formatCurrency(Number(invoice.wifiCost) || 0), show: Number(invoice.wifiCost) > 0 },
+  ].filter(r => r.show);
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={s.page}>
+        {/* Accent Bar */}
+        <View style={s.accentBar} />
+
         {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <Text style={styles.dormName}>{settings.dormitoryName || "AquaVolt"}</Text>
-            <Text style={styles.dormAddr}>{settings.dormitoryAddress}</Text>
-            {settings.phone && <Text style={styles.dormAddr}>{t("invoices.printTel")} {settings.phone}</Text>}
+        <View style={s.header}>
+          <View>
+            <Text style={s.h1}>{settings.dormitoryName}</Text>
+            <Text style={[s.muted9, { marginTop: 2 }]}>{settings.dormitoryAddress}</Text>
+            {settings.phone && <Text style={s.muted9}>{t("invoices.printTel")} {settings.phone}</Text>}
           </View>
-          <View style={styles.headerRight}>
-            <Text style={styles.invoiceTitle}>{t("invoices.invoiceTitle")}</Text>
-            <Text style={styles.invoiceNum}>{invoice.invoiceNumber}</Text>
-          </View>
-        </View>
-
-        <View style={styles.divider} />
-
-        {/* Bill To + Details */}
-        <View style={styles.twoCol}>
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t("invoices.printBillTo")}</Text>
-            <View style={styles.row}><Text style={styles.label}>{t("invoices.printName")}</Text><Text style={styles.value}>{String(invoice.tenantName || "-")}</Text></View>
-            <View style={styles.row}><Text style={styles.label}>{t("invoices.printRoom")}</Text><Text style={styles.value}>{String(invoice.roomNumber || "-")}</Text></View>
-            <View style={styles.row}><Text style={styles.label}>{t("invoices.printBuilding")}</Text><Text style={styles.value}>{String(invoice.buildingName || "-")}</Text></View>
-          </View>
-          <View style={styles.rightCol}>
-            <Text style={styles.sectionTitle}>{t("invoices.printDetails")}</Text>
-            <View style={styles.row}><Text style={styles.label}>{t("invoices.printMonth")}</Text><Text style={styles.value}>{getMonthName(invoice.month)} {invoice.year}</Text></View>
-            <View style={styles.row}><Text style={styles.label}>{t("invoices.printIssueDate")}</Text><Text style={styles.value}>{formatDate(invoice.issuedDate, locale)}</Text></View>
-            <View style={styles.row}><Text style={styles.label}>{t("invoices.printDueDate")}</Text><Text style={styles.value}>{formatDate(invoice.dueDate, locale)}</Text></View>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={s.h2}>{t("invoices.invoiceTitle")}</Text>
+            <Text style={[s.muted9, { marginTop: 2 }]}>{t("invoices.invoiceNumber")}: <Text style={{ fontWeight: 700, color: "#1d1d1f" }}>{invoice.invoiceNumber}</Text></Text>
           </View>
         </View>
 
-        {/* Meters */}
+        <View style={s.dashed} />
+
+        {/* Billing Info — two panels */}
+        <View style={s.twoCol}>
+          {/* Tenant */}
+          <View style={s.panel}>
+            <Text style={s.label8}>{t("invoices.tenant")}</Text>
+            <View style={s.row}><Text style={s.rowLabel}>{t("invoices.printName")}</Text><Text style={s.rowVal}>{String(invoice.tenantName || "-")}</Text></View>
+            <View style={s.row}><Text style={s.rowLabel}>{t("invoices.printRoom")}</Text><Text style={s.rowVal}>{String(invoice.roomNumber || "-")}</Text></View>
+            <View style={s.row}><Text style={s.rowLabel}>{t("invoices.printBuilding")}</Text><Text style={s.rowVal}>{String(invoice.buildingName || "-")}</Text></View>
+          </View>
+          {/* Details */}
+          <View style={s.panel}>
+            <Text style={s.label8}>{t("invoices.printDetails")}</Text>
+            <View style={s.row}><Text style={s.rowLabel}>{t("invoices.printMonth")}</Text><Text style={s.rowVal}>{getMonthName(invoice.month)} {invoice.year}</Text></View>
+            <View style={s.row}><Text style={s.rowLabel}>{t("invoices.printIssueDate")}</Text><Text style={s.rowVal}>{formatDate(invoice.issuedDate, locale)}</Text></View>
+            <View style={s.row}><Text style={s.rowLabel}>{t("invoices.printDueDate")}</Text><Text style={s.rowVal}>{formatDate(invoice.dueDate, locale)}</Text></View>
+            <View style={s.row}><Text style={s.rowLabel}>{t("invoices.printStatus")}</Text><Text style={[s.rowVal, { color: status === "paid" ? "#15803d" : "#b45309" }]}>{status === "paid" ? t("invoices.printPaid") : t("invoices.printPending")}</Text></View>
+          </View>
+        </View>
+
+        {/* Meter Readings */}
         {meterReading && (
-          <View style={styles.section}>
-            <View style={styles.meterRow}>
-              <View style={styles.meterCol}>
-                <Text style={[styles.sectionTitle, { color: "#0071e3" }]}>{t("invoices.printWaterMeter")}</Text>
-                <View style={styles.meterRow}>
-                  <View style={styles.meterCol}><Text style={styles.meterLabel}>{t("invoices.printOld")}</Text><Text style={styles.meterVal}>{String(meterReading.waterPrevious ?? "-")}</Text></View>
-                  <View style={styles.meterCol}><Text style={styles.meterLabel}>{t("invoices.printNew")}</Text><Text style={styles.meterVal}>{String(meterReading.waterCurrent ?? "-")}</Text></View>
-                  <View style={styles.meterCol}><Text style={styles.meterLabel}>{t("invoices.printUnit")}</Text><Text style={styles.meterVal}>{String(meterReading.waterUsage ?? "-")}</Text></View>
-                  <View style={styles.meterCol}><Text style={styles.meterLabel}>{t("invoices.printRate")}</Text><Text style={styles.meterVal}>{waterRate}฿</Text></View>
-                </View>
+          <View style={s.meterGrid}>
+            {/* Water */}
+            <View style={[s.meterBox, s.meterWater]}>
+              <Text style={[s.meterTitle, { color: "#0071e3" }]}>{t("invoices.printWaterMeter")}</Text>
+              <View style={s.meterVals}>
+                <View style={s.meterCol}><Text style={s.meterColLabel}>{t("invoices.printOld")}</Text><Text style={s.meterColVal}>{String(meterReading.waterPrevious ?? "-")}</Text></View>
+                <View style={s.meterCol}><Text style={s.meterColLabel}>{t("invoices.printNew")}</Text><Text style={s.meterColVal}>{String(meterReading.waterCurrent ?? "-")}</Text></View>
+                <View style={s.meterCol}><Text style={s.meterColLabel}>{t("invoices.printUnit")}</Text><Text style={[s.meterColVal, { color: "#0071e3" }]}>{String(meterReading.waterUsage ?? "-")}</Text></View>
+                <View style={s.meterCol}><Text style={s.meterColLabel}>{t("invoices.printRate")}</Text><Text style={s.meterColVal}>{waterRate}</Text></View>
               </View>
             </View>
-            <View style={styles.meterRow}>
-              <View style={styles.meterCol}>
-                <Text style={[styles.sectionTitle, { color: "#d97706" }]}>{t("invoices.printElectricMeter")}</Text>
-                <View style={styles.meterRow}>
-                  <View style={styles.meterCol}><Text style={styles.meterLabel}>{t("invoices.printOld")}</Text><Text style={styles.meterVal}>{String(meterReading.electricPrevious ?? "-")}</Text></View>
-                  <View style={styles.meterCol}><Text style={styles.meterLabel}>{t("invoices.printNew")}</Text><Text style={styles.meterVal}>{String(meterReading.electricCurrent ?? "-")}</Text></View>
-                  <View style={styles.meterCol}><Text style={styles.meterLabel}>{t("invoices.printUnit")}</Text><Text style={styles.meterVal}>{String(meterReading.electricUsage ?? "-")}</Text></View>
-                  <View style={styles.meterCol}><Text style={styles.meterLabel}>{t("invoices.printRate")}</Text><Text style={styles.meterVal}>{electricRate}฿</Text></View>
-                </View>
+            {/* Electric */}
+            <View style={[s.meterBox, s.meterElec]}>
+              <Text style={[s.meterTitle, { color: "#d97706" }]}>{t("invoices.printElectricMeter")}</Text>
+              <View style={s.meterVals}>
+                <View style={s.meterCol}><Text style={s.meterColLabel}>{t("invoices.printOld")}</Text><Text style={s.meterColVal}>{String(meterReading.electricPrevious ?? "-")}</Text></View>
+                <View style={s.meterCol}><Text style={s.meterColLabel}>{t("invoices.printNew")}</Text><Text style={s.meterColVal}>{String(meterReading.electricCurrent ?? "-")}</Text></View>
+                <View style={s.meterCol}><Text style={s.meterColLabel}>{t("invoices.printUnit")}</Text><Text style={[s.meterColVal, { color: "#d97706" }]}>{String(meterReading.electricUsage ?? "-")}</Text></View>
+                <View style={s.meterCol}><Text style={s.meterColLabel}>{t("invoices.printRate")}</Text><Text style={s.meterColVal}>{electricRate}</Text></View>
               </View>
             </View>
           </View>
         )}
 
-        <View style={styles.divider} />
-
-        {/* Line items */}
-        <View style={styles.tableHeader}>
-          <Text style={[styles.tableHeaderCell, { flex: 2 }]}>{t("invoices.printItem")}</Text>
-          <Text style={[styles.tableHeaderCell, { width: 30, textAlign: "center" }]}>{t("invoices.printQty")}</Text>
-          <Text style={[styles.tableHeaderCell, { width: 60, textAlign: "right" }]}>{t("invoices.printAmount")}</Text>
+        {/* Charges Table */}
+        <View style={[s.solid, { borderBottomWidth: 1.5, borderBottomColor: "#1d1d1f", paddingBottom: 4, marginBottom: 0 }]}>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={[s.th, { flex: 2 }]}>{t("invoices.printItem")}</Text>
+            <Text style={[s.th, { width: 40, textAlign: "center" }]}>{t("invoices.printQty")}</Text>
+            <Text style={[s.th, { width: 50, textAlign: "right" }]}>{t("invoices.printRate")}</Text>
+            <Text style={[s.th, { width: 55, textAlign: "right" }]}>{t("invoices.printAmount")}</Text>
+          </View>
         </View>
-        {items.map((item, i) => (
-          <View key={i} style={styles.tableRow}>
-            <Text style={[styles.tableCell, { flex: 2 }]}>{item.label}</Text>
-            <Text style={[styles.tableCell, { width: 30, textAlign: "center" }]}>1</Text>
-            <Text style={[styles.tableCell, { width: 60, textAlign: "right" }]}>{formatCurrency(item.amount)}</Text>
+        {rows.map((r, i) => (
+          <View key={i} style={[s.solid, { flexDirection: "row" }]}>
+            <Text style={[s.td, { flex: 2 }]}>{r.label}</Text>
+            <Text style={[s.td, { width: 40, textAlign: "center", color: "#86868b" }]}>{r.qty}</Text>
+            <Text style={[s.td, { width: 50, textAlign: "right", color: "#86868b" }]}>{r.rate}</Text>
+            <Text style={[s.td, { width: 55, textAlign: "right", fontWeight: 700 }]}>{r.amount}</Text>
           </View>
         ))}
-
         {/* Total */}
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>{t("invoices.printTotalDue")}</Text>
-          <Text style={styles.totalVal}>{formatCurrency(Number(invoice.totalAmount) || 0)}</Text>
+        <View style={[s.totalBorder, { flexDirection: "row" }]}>
+          <Text style={[s.tfootLabel, { flex: 2.95, textAlign: "right" }]}>{t("invoices.printTotalDue")}</Text>
+          <Text style={[s.tfootVal, { width: 55, textAlign: "right" }]}>{formatCurrency(Number(invoice.totalAmount) || 0)}</Text>
         </View>
 
         {/* Payment */}
-        {(settings.phone || invoice.buildingName) && (
-          <View style={styles.paymentSection}>
-            <Text style={styles.paymentTitle}>{t("invoices.printPaymentMethods")}</Text>
-            <View style={styles.paymentRow}>
-              <View>
-                <Text style={styles.meterLabel}>{t("invoices.printPromptpay")}</Text>
-                <Text style={styles.value}>{settings.phone}</Text>
+        <View style={[s.payPanel, { marginTop: 12 }]}>
+          <Text style={s.label8}>{t("invoices.printPaymentMethods")}</Text>
+          <View style={s.payGrid}>
+            {settings.bankAccount && (
+              <View style={s.payCol}>
+                <Text style={s.payLabel}>{settings.bankName}</Text>
+                <Text style={s.payBold}>{settings.bankAccount}</Text>
+                <Text style={s.payMuted}>{settings.accountName}</Text>
               </View>
-            </View>
+            )}
+            {settings.promptpayNumber && (
+              <View style={s.payCol}>
+                <Text style={s.payLabel}>{t("invoices.printPromptpay")}</Text>
+                <Text style={s.payBold}>{settings.promptpayNumber}</Text>
+                <Text style={s.payMuted}>{t("invoices.printPhoneLabel")}</Text>
+              </View>
+            )}
           </View>
-        )}
+        </View>
 
-        <Text style={styles.footer} fixed>{t("invoices.printAutoGen")}</Text>
+        {/* Notes */}
+        <View style={s.notes}>
+          <Text>{t("invoices.printNote1")}</Text>
+          <Text>{t("invoices.printNote2")}</Text>
+        </View>
+
+        <View style={s.dashed} />
+
+        {/* Footer */}
+        <View style={s.footer}>
+          <Text>{settings.dormitoryName}</Text>
+          <Text>{t("invoices.printAutoGen")}</Text>
+        </View>
       </Page>
     </Document>
   );
