@@ -17,6 +17,7 @@ export function generateInvoicePDF(
   formatDate: (d: string, l: string) => string,
   waterRate: number,
   electricRate: number,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: (key: string, opts?: any) => string,
 ) {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
