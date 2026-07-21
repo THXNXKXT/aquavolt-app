@@ -69,10 +69,16 @@ export default function InvoiceDetailPage() {
     window.print();
   };
 
-  // ponytail: browser print dialog has "Save as PDF" built in — no html2canvas/jspdf needed.
-  // Tailwind v4 uses lab()/oklch() which html2canvas can't parse. Native print = pixel-perfect.
-  const handleDownloadPDF = () => {
-    window.print();
+  const handleDownloadPDF = async () => {
+    if (!invoiceData) return;
+    const { generateInvoicePDF } = await import("@/lib/pdf-generator");
+    const mr = meterReadingsData.length > 0 ? meterReadingsData[0] : null;
+    generateInvoicePDF(
+      invoiceData, mr, settings,
+      locale === "th" ? "th" : "en",
+      getMonthName, formatCurrency, formatDate,
+      waterRate, electricRate, t,
+    );
   };
 
   const handleMarkPaid = async () => {
