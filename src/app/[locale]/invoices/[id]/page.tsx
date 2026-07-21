@@ -69,17 +69,7 @@ export default function InvoiceDetailPage() {
     window.print();
   };
 
-  const handleDownloadPDF = async () => {
-    if (!invoiceData) return;
-    const { generateInvoicePDF } = await import("@/lib/pdf-generator");
-    const mr = meterReadingsData.length > 0 ? meterReadingsData[0] : null;
-    await generateInvoicePDF(
-      invoiceData, mr, settings,
-      locale === "th" ? "th" : "en",
-      getMonthName, formatCurrency, formatDate,
-      waterRate, electricRate, t,
-    );
-  };
+  const handleDownloadPDF = () => window.print();
 
   const handleMarkPaid = async () => {
     setMarkingPaid(true);
