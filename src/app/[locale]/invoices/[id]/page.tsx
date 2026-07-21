@@ -8,7 +8,7 @@ import { SubNav } from "@/components/layout/sub-nav";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { formatCurrency, formatDate } from "@/lib/formatters";
 import { useSettings } from "@/hooks/use-settings";
-import { ArrowLeft, Printer, Send, CheckCircle, Droplets, Zap, Building2, Home, CreditCard, Landmark, User, Calendar, Smartphone, QrCode, Receipt, FileText } from "lucide-react";
+import { ArrowLeft, Printer, Download, Send, CheckCircle, Droplets, Zap, Building2, Home, CreditCard, Landmark, User, Calendar, Smartphone, QrCode, Receipt, FileText } from "lucide-react";
 import toast from "react-hot-toast";
 import { PromptPayQR } from "@/components/shared/promptpay-qr";
 import type { Invoice, MeterReading } from "@/types";
@@ -43,6 +43,7 @@ export default function InvoiceDetailPage() {
 
   const [status, setStatus] = useState("pending");
   const [, setMarkingPaid] = useState(false);
+  const [generatingPDF, setGeneratingPDF] = useState(false);
 
   // Sync local status from loaded invoice data
   useEffect(() => {
@@ -67,6 +68,57 @@ export default function InvoiceDetailPage() {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleDownloadPDF = async () => {
+    const printArea = document.querySelector(".print-only") as HTMLElement;
+    if (!printArea) return;
+
+    setGeneratingPDF(true);
+
+    // Temporarily show print area off-screen for html2canvas capture
+    const originalDisplay = printArea.style.display;
+    const originalPosition = printArea.style.position;
+    const originalLeft = printArea.style.left;
+    const originalTop = printArea.style.top;
+    const originalZIndex = printArea.style.zIndex;
+
+    printArea.style.position = "fixed";
+    printArea.style.left = "0";
+    printArea.style.top = "0";
+    printArea.style.zIndex = "-9999";
+    printArea.style.display = "block";
+
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      const { jsPDF } = await import("jspdf");
+
+      // Wait one frame for render
+      await new Promise((r) => requestAnimationFrame(r));
+
+      const canvas = await html2canvas(printArea, {
+        scale: 2,
+        backgroundColor: "#ffffff",
+        useCORS: true,
+        logging: false,
+      });
+
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save(`${invoice.invoiceNumber}.pdf`);
+    } catch {
+      toast.error("Failed to generate PDF");
+    } finally {
+      // Restore
+      printArea.style.display = originalDisplay;
+      printArea.style.position = originalPosition;
+      printArea.style.left = originalLeft;
+      printArea.style.top = originalTop;
+      printArea.style.zIndex = originalZIndex;
+    }
+    setGeneratingPDF(false);
   };
 
   const handleMarkPaid = async () => {
@@ -115,6 +167,14 @@ export default function InvoiceDetailPage() {
               >
                 <Printer className="w-3.5 h-3.5" />
                 {t("invoices.print")}
+              </button>
+              <button
+                onClick={handleDownloadPDF}
+                disabled={generatingPDF}
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors disabled:opacity-40"
+              >
+                <Download className="w-3.5 h-3.5" />
+                {generatingPDF ? "..." : "PDF"}
               </button>
               <button className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-[#06c755] rounded-full hover:bg-[#05b54c] active:scale-[0.97] transition-colors">
                 <Send className="w-3.5 h-3.5" />
