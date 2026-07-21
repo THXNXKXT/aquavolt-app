@@ -69,7 +69,7 @@ export default function InvoiceDetailPage() {
     window.print();
   };
 
-  const handleDownloadPDF = () => window.print();
+  const handleDownloadPDF = () => { window.open(`/api/invoices/${params.id}/pdf`, "_blank"); };
 
   const handleMarkPaid = async () => {
     setMarkingPaid(true);
