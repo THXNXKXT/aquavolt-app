@@ -43,7 +43,6 @@ export default function InvoiceDetailPage() {
 
   const [status, setStatus] = useState("pending");
   const [, setMarkingPaid] = useState(false);
-  const [generatingPDF, setGeneratingPDF] = useState(false);
 
   // Sync local status from loaded invoice data
   useEffect(() => {
@@ -70,61 +69,10 @@ export default function InvoiceDetailPage() {
     window.print();
   };
 
-  const handleDownloadPDF = async () => {
-    const printArea = document.querySelector(".print-only") as HTMLElement;
-    if (!printArea) return;
-
-    setGeneratingPDF(true);
-
-    const orig = {
-      display: printArea.style.display,
-      position: printArea.style.position,
-      left: printArea.style.left,
-      top: printArea.style.top,
-      zIndex: printArea.style.zIndex,
-    };
-    // ponytail: render off-screen, html2canvas can't see display:none
-    printArea.style.cssText += ";position:fixed;left:-9999px;top:0;display:block;z-index:-1;";
-
-    try {
-      const html2canvas = (await import("html2canvas")).default;
-      const { jsPDF } = await import("jspdf");
-      await new Promise((r) => requestAnimationFrame(r));
-
-      const canvas = await html2canvas(printArea, {
-        scale: 2,
-        backgroundColor: "#ffffff",
-        useCORS: true,
-        logging: false,
-        // ponytail: onclone fixes Tailwind v4 oklch crash — force rgb on every element
-        onclone: (clonedDoc: Document) => {
-          clonedDoc.querySelectorAll("*").forEach((el) => {
-            const cs = window.getComputedStyle(el);
-            const styles = ["color", "backgroundColor", "borderColor", "borderTopColor", "borderBottomColor"];
-            styles.forEach((prop) => {
-              const val = cs.getPropertyValue(prop);
-              if (val) (el as HTMLElement).style.setProperty(prop, val);
-            });
-          });
-        },
-      });
-
-      const imgWidth = 210;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save(`${invoice.invoiceNumber}.pdf`);
-    } catch (e) {
-      console.error("PDF generation failed:", e);
-      toast.error("Failed to generate PDF");
-    } finally {
-      printArea.style.display = orig.display;
-      printArea.style.position = orig.position;
-      printArea.style.left = orig.left;
-      printArea.style.top = orig.top;
-      printArea.style.zIndex = orig.zIndex;
-    }
-    setGeneratingPDF(false);
+  // ponytail: browser print dialog has "Save as PDF" built in — no html2canvas/jspdf needed.
+  // Tailwind v4 uses lab()/oklch() which html2canvas can't parse. Native print = pixel-perfect.
+  const handleDownloadPDF = () => {
+    window.print();
   };
 
   const handleMarkPaid = async () => {
@@ -176,11 +124,10 @@ export default function InvoiceDetailPage() {
               </button>
               <button
                 onClick={handleDownloadPDF}
-                disabled={generatingPDF}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-primary rounded-full hover:bg-primary-focus active:scale-[0.97] transition-colors"
               >
                 <Download className="w-3.5 h-3.5" />
-                {generatingPDF ? "..." : t("invoices.downloadPDF")}
+                {t("invoices.downloadPDF")}
               </button>
               <button className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white bg-[#06c755] rounded-full hover:bg-[#05b54c] active:scale-[0.97] transition-colors">
                 <Send className="w-3.5 h-3.5" />
