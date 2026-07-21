@@ -249,6 +249,7 @@
     "bankTransfer": "Bank Transfer",
     "dueDateLabel": "Due Date",
     "statusLabel": "Status",
+    "printBillTo": "Bill To",
     "printName": "Name",
     "printRoom": "Room",
     "printBuilding": "Building",

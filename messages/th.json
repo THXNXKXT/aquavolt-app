@@ -295,6 +295,7 @@
     "bankTransfer": "โอนเงินผ่านธนาคาร",
     "dueDateLabel": "กำหนดชำระ",
     "statusLabel": "สถานะ",
+    "printBillTo": "เรียน",
     "printName": "ชื่อ",
     "printRoom": "ห้อง",
     "printBuilding": "อาคาร",

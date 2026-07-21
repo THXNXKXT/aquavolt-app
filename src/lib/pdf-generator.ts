@@ -7,7 +7,33 @@ interface PDFSettings {
   phone: string;
 }
 
-export function generateInvoicePDF(
+let fontCache: { regular: string; bold: string } | null = null;
+
+async function loadFonts(): Promise<{ regular: string; bold: string }> {
+  if (fontCache) return fontCache;
+  const [regRes, boldRes] = await Promise.all([
+    fetch("/fonts/Sarabun-Regular.ttf"),
+    fetch("/fonts/Sarabun-Bold.ttf"),
+  ]);
+  const [regBuf, boldBuf] = await Promise.all([regRes.arrayBuffer(), boldRes.arrayBuffer()]);
+  fontCache = {
+    regular: arrayBufferToBase64(regBuf),
+    bold: arrayBufferToBase64(boldBuf),
+  };
+  return fontCache;
+}
+
+function arrayBufferToBase64(buf: ArrayBuffer): string {
+  let binary = "";
+  const bytes = new Uint8Array(buf);
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + chunk)) as unknown as number[]);
+  }
+  return btoa(binary);
+}
+
+export async function generateInvoicePDF(
   invoice: Invoice,
   meterReading: MeterReading | null,
   settings: PDFSettings,
@@ -20,9 +46,18 @@ export function generateInvoicePDF(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: (key: string, opts?: any) => string,
 ) {
+  const fonts = await loadFonts();
   const doc = new jsPDF({ unit: "mm", format: "a4" });
+
+  // Embed Sarabun (supports Thai + Latin)
+  doc.addFileToVFS("Sarabun.ttf", fonts.regular);
+  doc.addFont("Sarabun.ttf", "Sarabun", "normal");
+  doc.addFileToVFS("Sarabun-Bold.ttf", fonts.bold);
+  doc.addFont("Sarabun-Bold.ttf", "Sarabun", "bold");
+  doc.setFont("Sarabun");
+
   const W = 210;
-  const M = 15; // margin
+  const M = 15;
   let y = 0;
 
   const ink: [number, number, number] = [29, 29, 31];
@@ -30,25 +65,24 @@ export function generateInvoicePDF(
   const primary: [number, number, number] = [0, 113, 227];
   const line: [number, number, number] = [227, 227, 230];
 
+  const setFont = (style: "normal" | "bold", size: number, color: [number, number, number] = ink) => {
+    doc.setFont("Sarabun", style);
+    doc.setFontSize(size);
+    doc.setTextColor(...color);
+  };
+
   // ── Header ──
-  doc.setFontSize(18);
-  doc.setTextColor(...ink);
-  doc.setFont("helvetica", "bold");
+  setFont("bold", 18);
   doc.text(settings.dormitoryName || "AquaVolt", M, (y += 18));
 
-  doc.setFontSize(8);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(...muted);
+  setFont("normal", 8, muted);
   doc.text(settings.dormitoryAddress || "", M, (y += 6));
   if (settings.phone) doc.text(`${t("invoices.printTel")} ${settings.phone}`, M, (y += 4));
 
-  doc.setFontSize(14);
-  doc.setTextColor(...ink);
-  doc.setFont("helvetica", "bold");
+  setFont("bold", 14);
   doc.text(t("invoices.invoiceTitle"), W - M, 18, { align: "right" });
 
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
+  setFont("normal", 9);
   doc.text(invoice.invoiceNumber, W - M, 24, { align: "right" });
 
   doc.setDrawColor(...line);
@@ -57,51 +91,39 @@ export function generateInvoicePDF(
 
   // ── Tenant info ──
   y += 8;
-  doc.setFontSize(8);
-  doc.setTextColor(...primary);
-  doc.setFont("helvetica", "bold");
+  setFont("bold", 8, primary);
   doc.text(t("invoices.printBillTo"), M, y);
 
-  const tenantRows = [
-    [t("invoices.printName"), invoice.tenantName || "-"],
-    [t("invoices.printRoom"), invoice.roomNumber || "-"],
-    [t("invoices.printBuilding"), invoice.buildingName || "-"],
+  const tenantRows: [string, string][] = [
+    [t("invoices.printName"), String(invoice.tenantName || "-")],
+    [t("invoices.printRoom"), String(invoice.roomNumber || "-")],
+    [t("invoices.printBuilding"), String(invoice.buildingName || "-")],
   ];
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
   y += 5;
   for (const [label, val] of tenantRows) {
-    doc.setTextColor(...muted);
+    setFont("normal", 9, muted);
     doc.text(label, M, y);
-    doc.setTextColor(...ink);
-    doc.setFont("helvetica", "bold");
-    doc.text(String(val), M + 30, y);
-    doc.setFont("helvetica", "normal");
+    setFont("bold", 9);
+    doc.text(val, M + 30, y);
     y += 5;
   }
 
-  // ── Billing period (right column) ──
+  // ── Billing details (right column) ──
   let yr = y - 15;
-  doc.setFontSize(8);
-  doc.setTextColor(...primary);
-  doc.setFont("helvetica", "bold");
+  setFont("bold", 8, primary);
   doc.text(t("invoices.printDetails"), W - M - 70, yr);
 
-  const detailRows = [
+  const detailRows: [string, string][] = [
     [t("invoices.printMonth"), `${getMonthName(invoice.month)} ${invoice.year}`],
     [t("invoices.printIssueDate"), formatDate(invoice.issuedDate, locale)],
     [t("invoices.printDueDate"), formatDate(invoice.dueDate, locale)],
   ];
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
   yr += 5;
   for (const [label, val] of detailRows) {
-    doc.setTextColor(...muted);
+    setFont("normal", 9, muted);
     doc.text(label, W - M - 70, yr);
-    doc.setTextColor(...ink);
-    doc.setFont("helvetica", "bold");
+    setFont("bold", 9);
     doc.text(val, W - M, yr, { align: "right" });
-    doc.setFont("helvetica", "normal");
     yr += 5;
   }
 
@@ -115,45 +137,39 @@ export function generateInvoicePDF(
     const meters = [
       {
         label: t("invoices.printWaterMeter"),
-        prev: meterReading.waterPrevious,
-        curr: meterReading.waterCurrent,
-        usage: meterReading.waterUsage,
-        rate: waterRate,
+        prev: String(meterReading.waterPrevious ?? "-"),
+        curr: String(meterReading.waterCurrent ?? "-"),
+        usage: String(meterReading.waterUsage ?? "-"),
+        rate: `${waterRate}฿`,
         color: primary,
       },
       {
         label: t("invoices.printElectricMeter"),
-        prev: meterReading.electricPrevious,
-        curr: meterReading.electricCurrent,
-        usage: meterReading.electricUsage,
-        rate: electricRate,
+        prev: String(meterReading.electricPrevious ?? "-"),
+        curr: String(meterReading.electricCurrent ?? "-"),
+        usage: String(meterReading.electricUsage ?? "-"),
+        rate: `${electricRate}฿`,
         color: [217, 119, 6] as [number, number, number],
       },
     ];
 
     for (const m of meters) {
-      doc.setFontSize(8);
-      doc.setTextColor(...m.color);
-      doc.setFont("helvetica", "bold");
+      setFont("bold", 8, m.color);
       doc.text(m.label, M, y);
 
       const cols = [
         { label: t("invoices.printOld"), val: m.prev },
         { label: t("invoices.printNew"), val: m.curr },
         { label: t("invoices.printUnit"), val: m.usage },
-        { label: t("invoices.printRate"), val: `${m.rate}฿` },
+        { label: t("invoices.printRate"), val: m.rate },
       ];
-      doc.setFontSize(9);
-      doc.setFont("helvetica", "normal");
       let x = M;
       const colW = (W - 2 * M) / 4;
       for (const c of cols) {
-        doc.setTextColor(...muted);
+        setFont("normal", 9, muted);
         doc.text(c.label, x + 2, y + 5);
-        doc.setTextColor(...ink);
-        doc.setFont("helvetica", "bold");
-        doc.text(String(c.val), x + 2, y + 10);
-        doc.setFont("helvetica", "normal");
+        setFont("bold", 9);
+        doc.text(c.val, x + 2, y + 10);
         x += colW;
       }
       y += 15;
@@ -167,9 +183,7 @@ export function generateInvoicePDF(
   doc.line(M, y, W - M, y);
   y += 6;
 
-  doc.setFontSize(8);
-  doc.setTextColor(...muted);
-  doc.setFont("helvetica", "bold");
+  setFont("bold", 8, muted);
   doc.text(t("invoices.printItem"), M, y);
   doc.text(t("invoices.printQty"), M + 100, y, { align: "center" });
   doc.text(t("invoices.printRate"), M + 135, y, { align: "right" });
@@ -179,8 +193,7 @@ export function generateInvoicePDF(
   doc.line(M, y, W - M, y);
   y += 6;
 
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(9);
+  setFont("normal", 9);
 
   const items = [
     { label: t("invoices.rentalCharge"), amount: Number(invoice.rentalCost) || 0 },
@@ -192,7 +205,7 @@ export function generateInvoicePDF(
 
   for (const item of items) {
     if (item.amount === 0) continue;
-    doc.setTextColor(...ink);
+    setFont("normal", 9);
     doc.text(item.label, M, y);
     doc.text("1", M + 100, y, { align: "center" });
     doc.text(formatCurrency(item.amount), M + 135, y, { align: "right" });
@@ -207,18 +220,13 @@ export function generateInvoicePDF(
   doc.line(M, y, W - M, y);
   y += 7;
 
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...ink);
+  setFont("bold", 10);
   doc.text(t("invoices.printTotalDue"), W - M - 50, y);
-  doc.setTextColor(...primary);
-  doc.setFontSize(12);
+  setFont("bold", 12, primary);
   doc.text(formatCurrency(Number(invoice.totalAmount) || 0), W - M, y, { align: "right" });
 
-  // ── Footer ──
-  doc.setFontSize(7);
-  doc.setTextColor(...muted);
-  doc.setFont("helvetica", "normal");
+  // Footer
+  setFont("normal", 7, muted);
   doc.text(t("invoices.printAutoGen"), W - M, 285, { align: "right" });
 
   doc.save(`${invoice.invoiceNumber}.pdf`);

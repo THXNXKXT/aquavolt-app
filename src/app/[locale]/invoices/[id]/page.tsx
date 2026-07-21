@@ -73,7 +73,7 @@ export default function InvoiceDetailPage() {
     if (!invoiceData) return;
     const { generateInvoicePDF } = await import("@/lib/pdf-generator");
     const mr = meterReadingsData.length > 0 ? meterReadingsData[0] : null;
-    generateInvoicePDF(
+    await generateInvoicePDF(
       invoiceData, mr, settings,
       locale === "th" ? "th" : "en",
       getMonthName, formatCurrency, formatDate,
